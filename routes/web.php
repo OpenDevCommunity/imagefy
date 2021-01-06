@@ -20,3 +20,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::prefix('account')->group(function () {
+    Route::get('/api', [\App\Http\Controllers\User\APIController::class, 'index'])->name('user.settings.api');
+});
