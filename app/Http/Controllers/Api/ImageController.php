@@ -7,7 +7,6 @@ use App\Models\APIKeys;
 use App\Models\Image;
 use Illuminate\Database\Eloquent\HigherOrderBuilderProxy;
 use Illuminate\Http\JsonResponse;
-use Request;
 use Storage;
 use Validator;
 
@@ -17,12 +16,6 @@ use Validator;
  */
 class ImageController extends Controller
 {
-
-    public function __construct()
-    {
-        $this->middleware(['apikey']);
-    }
-
     /**
      * @param $apiKey
      * @return HigherOrderBuilderProxy|int|mixed

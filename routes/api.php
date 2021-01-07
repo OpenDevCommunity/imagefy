@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,4 +12,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('/test', [\App\Http\Controllers\Api\ImageController::class, 'uploadImage']);
+
+Route::prefix('v1')->middleware(['apikey'])->group(function () {
+    Route::post('/images/upload', [\App\Http\Controllers\Api\ImageController::class, 'uploadImage']);
+});
+
