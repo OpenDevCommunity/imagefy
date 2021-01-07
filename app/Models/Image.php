@@ -11,6 +11,6 @@ class Image extends Model
 
     protected $table = 'images';
     protected $fillable = [
-      'user_id', 'image_del_hash', 'image_name', 'public'
+      'user_id', 'image_del_hash', 'image_name', 'public', 'image_share_hash'
     ];
 }

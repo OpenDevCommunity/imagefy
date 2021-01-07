@@ -17,6 +17,7 @@ class CreateImagesTable extends Migration
             $table->id();
             $table->integer('user_id');
             $table->uuid('image_del_hash')->unique();
+            $table->uuid('image_share_hash')->unique();
             $table->string('image_name')->unique();
             $table->string('title')->nullable();
             $table->text('description')->nullable();

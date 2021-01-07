@@ -19,8 +19,9 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/image/{uuid}', [\App\Http\Controllers\PublicImageController::class, 'showImage'])->name('frontend.show.image');
 
 Route::prefix('account')->middleware(['auth'])->group(function () {
+    Route::get('/', [App\Http\Controllers\User\AccountController::class, 'index'])->name('home');
     Route::get('/api', [\App\Http\Controllers\User\APIController::class, 'index'])->name('user.settings.api');
 });

@@ -55,12 +55,12 @@ class ImageController extends Controller
         $createdImage = Image::create([
            'user_id' => $this->getUserId($request->headers->get('x-api-key')),
            'image_del_hash' => uniqid('img_'),
+           'image_share_hash' => uniqid('sha_'),
            'image_name' => $imageName,
            'public' => true
         ]);
 
         // return file URL
-
 
         if (!$createdImage) {
             return response()->json([
@@ -72,8 +72,8 @@ class ImageController extends Controller
         return response()->json([
             'error' => false,
             'msg' => 'Image uploaded successfully',
-            'url' => '',
-            'deleteUrl' => ''
+            'url' => Storage::disk('spaces')->url('images/' . $imageName),
+            'deleteUrl' => '',
         ], 200);
     }
 }
