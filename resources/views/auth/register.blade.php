@@ -29,7 +29,8 @@
                             <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
 
                             <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
+                                <input id="email" type="email" class="form-control disabled @error('email') is-invalid @enderror" name="email" value="{{ $email }}" disabled required autocomplete="email">
+                                <input id="email" type="hidden" class="form-control disabled" name="email" value="{{ $email }}">
 
                                 @error('email')
                                     <span class="invalid-feedback" role="alert">
