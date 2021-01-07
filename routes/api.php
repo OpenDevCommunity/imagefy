@@ -14,4 +14,4 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/test', [\App\Http\Controllers\Api\ImageController::class, 'uploadImage']);
+Route::post('/test', [\App\Http\Controllers\Api\ImageController::class, 'uploadImage']);

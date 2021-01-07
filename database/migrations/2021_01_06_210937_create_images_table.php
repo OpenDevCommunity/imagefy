@@ -16,7 +16,7 @@ class CreateImagesTable extends Migration
         Schema::create('images', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id');
-            $table->uuid('image_hash')->unique();
+            $table->uuid('image_del_hash')->unique();
             $table->string('image_name')->unique();
             $table->string('title')->nullable();
             $table->text('description')->nullable();
