@@ -1,10 +1,10 @@
 <div>
-    <div class="card">
-        <div class="card-header">
-            <button class="btn btn-success btn-sm float-right" wire:click="storeAPIKey">Generate Key</button>
-            Your API Keys
-        </div>
+    <div class="card shadow-sm">
         <div class="card-body">
+            <button class="btn btn-success btn-sm float-right" wire:click="storeAPIKey">Generate Key</button>
+            <h5>Your API Keys</h5>
+            <br />
+
             @if (!$apiKeys || $apiKeys->count() < 1)
                 <div class="alert alert-warning">
                     Looks like you do not have any API Keys

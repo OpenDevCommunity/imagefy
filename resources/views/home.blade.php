@@ -62,10 +62,10 @@
     <section class="mt-4">
         <div class="container">
             <div class="card shadow-sm">
-                <div class="card-header">
-                    Your Recent Images
-                </div>
                 <div class="card-body">
+                    <a href="#" class="btn btn-success btn-sm float-right">View All</a>
+                    <h5>Your Recently Uploaded Images</h5>
+                    <br />
                     <table class="table">
                         <thead>
                         <tr>
