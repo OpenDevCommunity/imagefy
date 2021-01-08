@@ -29,6 +29,8 @@ class ImageController extends Controller
 
 
     /**
+     * Handle image upload
+     *
      * @return JsonResponse
      */
     public function uploadImage()
@@ -119,6 +121,6 @@ class ImageController extends Controller
         return response()->json([
             'error' => false,
             'msg' => 'Image has been removed'
-        ]);
+        ], 200);
     }
 }

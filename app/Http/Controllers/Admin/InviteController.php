@@ -7,20 +7,39 @@ use App\Mail\InviteAccepted;
 use App\Mail\InviteDeclined;
 use App\Mail\InviteRequested;
 use App\Models\Invitation;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Mail;
-use RealRashid\SweetAlert\Facades\Alert;
 
+/**
+ * Class InviteController
+ * @package App\Http\Controllers\Admin
+ */
 class InviteController extends Controller
 {
 
+    /**
+     * Render pending invitations page
+     *
+     * @return Application|Factory|View
+     */
     public function index()
     {
         $pendingInvites = Invitation::where('accepted', 0)->get();
+
         return view('admin.invites.pending', [
             'pendingInvites' => $pendingInvites
         ]);
     }
 
+    /**
+     * Accept pending invitation
+     *
+     * @param $id
+     * @return RedirectResponse
+     */
     public function acceptInvite($id)
     {
         $invite = Invitation::find($id);
@@ -39,6 +58,11 @@ class InviteController extends Controller
             ->with('success', 'Invite request from ' . $invite->email . ' has been accepted!');
     }
 
+    /**
+     * Store newly created invitation
+     *
+     * @return RedirectResponse
+     */
     public function store()
     {
         // Check if user has an existing invite request
@@ -60,13 +84,12 @@ class InviteController extends Controller
         return redirect()->back();
     }
 
-
-    public function create()
-    {
-        return view('admin.invites.create');
-    }
-
-
+    /**
+     * Deny pending invitation
+     *
+     * @param $id
+     * @return RedirectResponse
+     */
     public function denyInvite($id)
     {
         $invite = Invitation::find($id);

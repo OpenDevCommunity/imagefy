@@ -34,7 +34,7 @@ Route::prefix('account')->middleware(['auth'])->group(function () {
     Route::get('/api', [\App\Http\Controllers\User\APIController::class, 'index'])->name('user.settings.api');
 
     Route::prefix('images')->group(function () {
-        Route::get('/{uuid}/delete', [\App\Http\Controllers\User\AccountController::class, 'deleteImage'])->name('user.image.delete');
+        Route::get('/{uuid}/delete', [\App\Http\Controllers\User\ImageController::class, 'deleteImage'])->name('user.image.delete');
     });
 });
 
