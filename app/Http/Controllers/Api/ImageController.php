@@ -82,7 +82,7 @@ class ImageController extends Controller
         return response()->json([
             'error' => false,
             'msg' => 'Image uploaded successfully',
-            'url' => Storage::disk('spaces')->url('images/' . $imageName),
+            'url' => 'http://localhost:8000/image/' . $createdImage->image_share_hash ,
             'deleteUrl' => '',
         ], 200);
     }
