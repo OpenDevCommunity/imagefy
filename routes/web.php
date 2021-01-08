@@ -38,3 +38,9 @@ Route::prefix('account')->middleware(['auth'])->group(function () {
     });
 });
 
+
+// Administration routes only
+Route::prefix('admin')->middleware(['auth'])->group(function () {
+
+});
+
