@@ -7,18 +7,6 @@
                 <div class="card shadow-sm">
                     <div class="card-body">
 
-                        @if (session('error'))
-                            <div class="alert alert-danger">
-                                <strong>ERROR!</strong> {{ session('error') }}
-                            </div>
-                        @endif
-
-                        @if (session('success'))
-                            <div class="alert alert-success">
-                                <strong>SUCCESS!</strong> {{ session('success') }}
-                            </div>
-                        @endif
-
                         <p class="px-3">{{ config('app.name') }} is a closed project. You must have an invitation link to register. You can request your link below. Please note that
                         we leave the right not to approve your request for many reasons.</p>
 

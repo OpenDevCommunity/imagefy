@@ -32,4 +32,9 @@ Route::get('/image/{uuid}', [\App\Http\Controllers\PublicImageController::class,
 Route::prefix('account')->middleware(['auth'])->group(function () {
     Route::get('/', [App\Http\Controllers\User\AccountController::class, 'index'])->name('home');
     Route::get('/api', [\App\Http\Controllers\User\APIController::class, 'index'])->name('user.settings.api');
+
+    Route::prefix('images')->group(function () {
+        Route::get('/{uuid}/delete', [\App\Http\Controllers\User\AccountController::class, 'deleteImage'])->name('user.image.delete');
+    });
 });
+

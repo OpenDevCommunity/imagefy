@@ -14,6 +14,8 @@
 
 
 Route::prefix('v1')->middleware(['apikey'])->group(function () {
+
     Route::post('/images/upload', [\App\Http\Controllers\Api\ImageController::class, 'uploadImage']);
+    Route::delete('/images/{uuid}', [\App\Http\Controllers\Api\ImageController::class, 'deleteImage']);
 });
 

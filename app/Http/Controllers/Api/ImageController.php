@@ -63,27 +63,62 @@ class ImageController extends Controller
 
         // Store newly uploaded image meta in database
         $createdImage = Image::create([
-           'user_id' => $this->getUserId(request()->headers->get('x-api-key')),
-           'image_del_hash' => uniqid('img_'),
-           'image_share_hash' => uniqid('sha_'),
-           'image_name' => $imageName,
-           'public' => true
+           'user_id'            => $this->getUserId(request()->headers->get('x-api-key')),
+           'image_del_hash'     => uniqid('img_'),
+           'image_share_hash'   => uniqid('sha_'),
+           'image_name'         => $imageName,
+           'public'              => true
         ]);
 
         // Check if meta was added to databse
         if (!$createdImage) {
             return response()->json([
                 'error' => true,
-                'msg' => 'Failed to upload image! Please try again!'
+                'msg'   => 'Failed to upload image! Please try again!'
             ], 500);
         }
 
         // Send json response back with image meta
         return response()->json([
-            'error' => false,
-            'msg' => 'Image uploaded successfully',
-            'url' => 'http://localhost:8000/image/' . $createdImage->image_share_hash ,
+            'error'     => false,
+            'msg'       => 'Image uploaded successfully',
+            'url'       => 'http://localhost:8000/image/' . $createdImage->image_share_hash ,
             'deleteUrl' => '',
         ], 200);
+    }
+
+    /**
+     * @param $uuid
+     * @return JsonResponse
+     */
+    public function deleteImage($uuid)
+    {
+        $image = Image::where('image_del_hash', $uuid)->first();
+
+        $userId = $this->getUserId(request()->headers->get('x-api-key'));
+
+        // Check if image requested exists
+        if (!$image) {
+            return response()->json([
+                'error' => true,
+                'msg' => 'Image does not exist!'
+            ], 404);
+        }
+
+        // User is not a image owner
+        if ($image->user_id !== $userId) {
+            return response()->json([
+                'error' => true,
+                'msg' => 'Image does not exist!'
+            ], 404);
+        }
+
+        Storage::delete('images/' . $image->image_name);
+        Image::destroy($image->id);
+
+        return response()->json([
+            'error' => false,
+            'msg' => 'Image has been removed'
+        ]);
     }
 }

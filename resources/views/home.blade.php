@@ -81,7 +81,9 @@
                                 <th scope="row">{{ $img->id }}</th>
                                 <td><a href="{{ route('frontend.show.image', $img->image_share_hash) }}">{{ $img->image_name }}</a></td>
                                 <td>{{ $img->created_at->diffForHumans() }}</td>
-                                <td>@mdo</td>
+                                <td>
+                                    <a href="{{ route('user.image.delete', $img->image_del_hash) }}" class="btn btn-danger btn-sm">Delete</a>
+                                </td>
                             </tr>
                         @endforeach
                         </tbody>
