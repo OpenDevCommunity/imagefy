@@ -254,10 +254,6 @@ return [
                     'text' => 'Pending Invites',
                     'route'  => 'admin.invites.pending',
                 ],
-                [
-                    'text' => 'Create Invite',
-                    'url'  => '#',
-                ],
             ],
         ],
 
@@ -371,7 +367,7 @@ return [
             ],
         ],
         'Sweetalert2' => [
-            'active' => false,
+            'active' => true,
             'files' => [
                 [
                     'type' => 'js',

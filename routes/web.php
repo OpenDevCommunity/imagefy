@@ -45,6 +45,7 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
 
     Route::prefix('invites')->group(function () {
         Route::get('/', [\App\Http\Controllers\Admin\InviteController::class, 'index'])->name('admin.invites.pending');
+        Route::post('/store', [\App\Http\Controllers\Admin\InviteController::class, 'store'])->name('admin.invites.store');
         Route::get('/{id}/accept', [\App\Http\Controllers\Admin\InviteController::class, 'acceptInvite'])->name('admin.invites.accept');
         Route::get('/{id}/reject', [\App\Http\Controllers\Admin\InviteController::class, 'denyInvite'])->name('admin.invites.deny');
     });

@@ -80,7 +80,7 @@ class RegisterController extends Controller
         $exists = Invitation::where('email', request()->email)->first();
 
         if ($exists) {
-            return redirect()->route('frontend.auth.request')->with('error', 'Invitation to register request has already been submitted!');
+            return redirect()->back()->with('error', 'Invitation to register request has already been submitted!');
         }
 
         $invitation = new Invitation(request()->all());
@@ -89,7 +89,7 @@ class RegisterController extends Controller
 
         Mail::to(request()->get('email'))->send(new InviteRequested(request()->get('email')));
 
-        return redirect()->route('frontend.auth.request')
+        return redirect()->back()
             ->with('success', 'Invitation to register successfully requested. Please wait for registration link.');
     }
 

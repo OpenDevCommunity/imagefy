@@ -21,7 +21,7 @@
                     <tbody>
                     @foreach($apiKeys as $key)
                     <tr>
-                        <td>{{ $key['api_key'] }}</td>
+                        <td><kbd>{{ $key['api_key'] }}</kbd></td>
                         <td>{{ $key['last_used'] ? \Carbon\Carbon::parse($key['last_used'])->diffForHumans() : 'Not Available' }}</td>
                         <td>
                             <button class="btn btn-danger btn-sm" wire:click="delete({{ $key['id'] }})">Delete</button>
