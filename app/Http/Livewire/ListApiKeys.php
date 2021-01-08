@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 class ListApiKeys extends Component
 {
-    public $apiKeys = null;
+    public $apiKeys = [];
     public $error = [];
 
     public function render()
@@ -39,7 +39,7 @@ class ListApiKeys extends Component
             ]);
         }
 
-        unset($this->apiKeys);
+        // unset($this->apiKeys);
         $this->getApiKeys();
     }
 
@@ -47,8 +47,8 @@ class ListApiKeys extends Component
     {
         APIKeys::destroy($id);
 
-        unset($this->apiKeys);
-        $this->apiKeys = $this->getApiKeys();
+        // unset($this->apiKeys);
+        $this->getApiKeys();
     }
 
     public function mount()
