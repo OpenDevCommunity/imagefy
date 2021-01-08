@@ -41,6 +41,12 @@ Route::prefix('account')->middleware(['auth'])->group(function () {
 
 // Administration routes only
 Route::prefix('admin')->middleware(['auth'])->group(function () {
+    Route::get('/dashboard', [\App\Http\Controllers\Admin\AdminController::class, 'index'])->name('admin.dashboard');
 
+    Route::prefix('invites')->group(function () {
+        Route::get('/', [\App\Http\Controllers\Admin\InviteController::class, 'index'])->name('admin.invites.pending');
+        Route::get('/{id}/accept', [\App\Http\Controllers\Admin\InviteController::class, 'acceptInvite'])->name('admin.invites.accept');
+        Route::get('/{id}/reject', [\App\Http\Controllers\Admin\InviteController::class, 'denyInvite'])->name('admin.invites.deny');
+    });
 });
 

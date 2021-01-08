@@ -11,7 +11,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Hash;
 use Mail;
 use Validator;
-use Request;
+use Carbon\Carbon;
 
 class RegisterController extends Controller
 {
@@ -101,6 +101,8 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        Invitation::where('email', $data['email'])->update(['registered_at' => Carbon::now()]);
+
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
