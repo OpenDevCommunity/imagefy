@@ -14,6 +14,15 @@ use Auth;
  */
 class ImageController extends Controller
 {
+    public function index()
+    {
+        $images = Image::orderBy('created_at', 'desc')->where('user_id', Auth::id())->get();
+
+        return view('user.library.index', [
+            'images' => $images
+        ]);
+    }
+
     /**
      * @param $uuid
      * @return RedirectResponse

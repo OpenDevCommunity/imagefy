@@ -5,7 +5,9 @@
     <div class="container">
         <div class="card shadow-sm">
             <div class="card-body text-center">
-                <img src="{{ 'https://md-img-host.fra1.digitaloceanspaces.com/images/'.$image->image_name }}" alt="Image" class="img-responsive" style="max-width: 100%; min-height: 140px;" />
+                <a href="{{ 'https://md-img-host.fra1.digitaloceanspaces.com/images/'.$image->image_name }}" data-toggle="lightbox" data-gallery="gallery">
+                    <img src="{{ 'https://md-img-host.fra1.digitaloceanspaces.com/images/'.$image->image_name }}" class="img-fluid rounded">
+                </a>
             </div>
             <div class="card-footer">
                 <span>Uploaded: {{ $image->created_at->diffForHumans() }}</span>
@@ -41,10 +43,10 @@
 
 @section('js')
     <script>
-
-        $('img').on('click', function(e) {
-            $('#imgViewer').html('').append( $(e.currentTarget).clone().removeClass('img-responsive').removeClass('img-thumbnail') )
-            $('#viewImg').modal('show')
-        })
+        $(document).on("click", '[data-toggle="lightbox"]', function(event) {
+            event.preventDefault();
+            $(this).ekkoLightbox();
+        });
     </script>
 @endsection
+
