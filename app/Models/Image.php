@@ -42,4 +42,11 @@ class Image extends Model
     protected $fillable = [
       'user_id', 'image_del_hash', 'image_name', 'public', 'image_share_hash'
     ];
+
+
+    public function ShortUrls()
+    {
+        return $this->hasMany(ShortUrl::class, 'image_id', 'id')
+            ->orderBy('created_at', 'desc')->take(5);
+    }
 }

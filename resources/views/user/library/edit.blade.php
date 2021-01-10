@@ -92,9 +92,9 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($tempUrls as $tmpUrl)
+                                @foreach($image->shorturls as $tmpUrl)
                                 <tr>
-                                    <td><input type="text" class="form-control" value="{{ $tmpUrl->share_url }}" readonly></td>
+                                    <td><input type="text" class="form-control" value="{{ route('frontend.shorturl', $tmpUrl->short_url_hash)}}" readonly></td>
                                     <td width="350">{{ \Carbon\Carbon::parse($tmpUrl->expiries_at)->isPast() ? 'Expiried' : 'Expiries in ' . \Carbon\Carbon::parse($tmpUrl->expiries_at)->diffForHumans() }}</td>
                                 </tr>
                                 @endforeach

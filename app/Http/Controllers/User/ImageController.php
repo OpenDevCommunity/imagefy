@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\Image;
+use App\Models\ShortUrl;
 use App\Models\TempUrl;
 use Carbon\Carbon;
 use Illuminate\Contracts\Foundation\Application;
@@ -75,7 +76,7 @@ class ImageController extends Controller
      */
     public function imageSettings($uuid)
     {
-        $image = Image::where('image_share_hash', $uuid)->first();
+        $image = Image::where('image_share_hash', $uuid)->with('shorturls')->first();
         $tempUrls = TempUrl::orderBy('id', 'desc')->where('image_id', $image->id)->take(5)->get();
 
         return view('user.library.edit', [
@@ -98,7 +99,15 @@ class ImageController extends Controller
            'expiries_at' => Carbon::now()->addMinutes((int)request()->get('time'))
         ]);
 
-        if (!$tempRecord) {
+        $shortUrl = ShortUrl::create([
+           'user_id' => Auth::id(),
+           'image_id' => $image->id,
+           'original_url' => $tempUrl,
+           'short_url_hash' => uniqid('sh_'),
+           'expiries_at' => Carbon::now()->addMinutes((int)request()->get('time')),
+        ]);
+
+        if (!$tempRecord || !$shortUrl) {
             toast('Failed to generate temporary URL!', 'error');
             return redirect()->back();
         }

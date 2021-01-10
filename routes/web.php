@@ -28,6 +28,9 @@ Route::post('invitations', [\App\Http\Controllers\Auth\RegisterController::class
 // Website Only routes (Guest)
 Route::get('/image/{uuid}', [\App\Http\Controllers\PublicImageController::class, 'showImage'])->name('frontend.show.image');
 
+// Short URLS only routes
+Route::get('/surl/{uuid}', [\App\Http\Controllers\PublicShortUrlController::class, 'redirectToUrl'])->name('frontend.shorturl');
+
 // Account only routes
 Route::prefix('account')->middleware(['auth'])->group(function () {
     Route::get('/', [App\Http\Controllers\User\AccountController::class, 'index'])->name('home');
@@ -41,6 +44,10 @@ Route::prefix('account')->middleware(['auth'])->group(function () {
 
         // Image Settings
         Route::post('/{id}/visibility', [\App\Http\Controllers\User\ImageController::class, 'setImageVisibility'])->name('user.image.settings.visibility');
+    });
+
+    Route::prefix('shorturls')->group(function () {
+         Route::get('/', [\App\Http\Controllers\User\ShortUrlController::class, 'index'])->name('user.short.urls');
     });
 });
 
