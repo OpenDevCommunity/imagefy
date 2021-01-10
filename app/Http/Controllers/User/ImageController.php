@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Helpers\ImageHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Image;
 use App\Models\ShortUrl;
@@ -90,7 +91,7 @@ class ImageController extends Controller
     {
         $image = Image::find($id);
 
-        $tempUrl = Storage::temporaryUrl('images/'. $image->image_name, Carbon::now()->addMinutes((int)request()->get('time')));
+        $tempUrl = ImageHelper::generateTempLink($image->image_name, request()->get('time'));
 
         // Store temp url in databse
         $tempRecord = TempUrl::create([

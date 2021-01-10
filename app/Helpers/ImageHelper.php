@@ -32,7 +32,9 @@ class ImageHelper
 
     public static function generateTempLink($name, $time)
     {
-        return Storage::temporaryUrl('images/' . $name, Carbon::now()->addMinutes((int)$time));
+        $tempUrl = Storage::temporaryUrl('images/' . $name, Carbon::now()->addMinutes($time));
+
+        return str_replace('md-img-host.fra1.digitaloceanspaces.com', 'cdn.imagefy.me', $tempUrl);
     }
 
     public static function getImageFile($name)
