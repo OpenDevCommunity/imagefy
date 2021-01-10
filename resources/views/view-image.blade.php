@@ -3,10 +3,15 @@
 @section('content')
     <div class="container">
 
-        @if (AWSImage::getFileVisibility($image->id) === 'private')
+        @if (AWSImage::getFileVisibility($image->id) === 'private' && $image->user_id === Auth::id())
             <div class="alert alert-warning">
                 <strong>NOTE! </strong> Current image is set to private. You can only see this image when you are logged in and are owner of the image. To make this image public head over to
                 <a href="{{ route('user.image.settings', $image->image_share_hash) }}"><strong>Settings</strong></a> and set visibility to public
+            </div>
+
+        @else
+            <div class="alert alert-warning">
+                <strong>NOTE! </strong> You are accessing this image via private URL. This URL will expire in {{ \Carbon\Carbon::createFromTimestamp(request()->get('expires'))->fromNow() }}
             </div>
        @endif
 

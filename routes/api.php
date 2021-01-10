@@ -15,7 +15,10 @@
 
 Route::prefix('v1')->middleware(['apikey'])->group(function () {
 
-    Route::post('/images/upload', [\App\Http\Controllers\Api\ImageController::class, 'uploadImage']);
-    Route::delete('/images/{uuid}', [\App\Http\Controllers\Api\ImageController::class, 'deleteImage']);
+    Route::prefix('images')->group(function () {
+        Route::post('/upload', [\App\Http\Controllers\Api\ImageController::class, 'uploadImage']);
+        Route::post('/{id}/setvisibility', [\App\Http\Controllers\Api\ImageController::class, 'setImageVisibility']);
+        Route::delete('/{uuid}', [\App\Http\Controllers\Api\ImageController::class, 'deleteImage']);
+    });
 });
 

@@ -86,8 +86,8 @@
                                     </td>
                                     <td>{{ $img->created_at->diffForHumans() }}</td>
                                     <td>
-                                        <i class="text-success fas fa-{{ \App\Helpers\ImageHelper::getFileVisibility($img->id) === 'public' ? 'globe' : 'lock' }}"
-                                           title="{{ \App\Helpers\ImageHelper::getFileVisibility($img->id) === 'public' ? 'Public' : 'Private' }}"></i>
+                                        <i class="text-success fas fa-{{ AWSImage::getFileVisibility($img->id) === 'public' ? 'globe' : 'lock' }}"
+                                           title="{{ AWSImage::getFileVisibility($img->id) === 'public' ? 'Public' : 'Private' }}"></i>
                                     </td>
                                     <td>
                                         <a href="{{ route('user.image.settings', $img->image_share_hash) }}" class="btn btn-primary btn-sm" title="Edit Image">

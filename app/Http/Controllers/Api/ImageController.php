@@ -27,6 +27,61 @@ class ImageController extends Controller
         return $key->user_id;
     }
 
+    /**
+     * @param $visibility
+     * @return string
+     */
+    public function validateVisibility($visibility)
+    {
+        return mb_strtolower($visibility) === 'private' ? 'private' : 'public';
+    }
+
+    /**
+     * @param $id
+     * @return JsonResponse
+     */
+    public function setImageVisibility($id)
+    {
+        // Validate
+        $validator = Validator::make(request()->all(), [
+           'visibility' => 'required|string'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'error' => true,
+                'msg' => $validator->errors()->first()
+            ], 422);
+        }
+
+        // Get image from database
+        $userId = $this->getUserId(request()->headers->get('x-api-key'));
+
+        // Get image from database
+        $image = Image::find($id);
+
+        if (!$image) {
+            return response()->json([
+                'error' => true,
+                'msg' => 'Image with ID: ' . $id. ' was not found!'
+            ], 404);
+        }
+
+        // Check if user is image owner
+        if ($userId !== $image->user_id) {
+            return response()->json([
+                'error' => true,
+                'msg' => 'Image with ID: ' . $id . ' was not found!'
+            ], 404);
+        }
+
+        Storage::setVisibility('images/' . $image->image_name, $this->validateVisibility(request()->get('visibility')));
+
+        return response()->json([
+            'error' => false,
+            'msg' => 'Successfully changed image visibility to: ' . $this->validateVisibility(request()->get('visibility'))
+        ], 200);
+    }
 
     /**
      * Handle image upload
