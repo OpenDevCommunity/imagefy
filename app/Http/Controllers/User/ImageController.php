@@ -93,22 +93,24 @@ class ImageController extends Controller
 
         $tempUrl = ImageHelper::generateTempLink($image->image_name, request()->get('time'));
 
+        $signedURL = \URL::signedRoute('frontend.show.image', ['uuid' => $image->image_share_hash], Carbon::now()->addMinutes((int)request()->get('time')));
+
         // Store temp url in databse
         $tempRecord = TempUrl::create([
            'image_id' => $image->id,
-           'share_url' => $tempUrl,
+           'share_url' => $signedURL,
            'expiries_at' => Carbon::now()->addMinutes((int)request()->get('time'))
         ]);
 
         $shortUrl = ShortUrl::create([
            'user_id' => Auth::id(),
            'image_id' => $image->id,
-           'original_url' => $tempUrl,
+           'original_url' => $signedURL,
            'short_url_hash' => uniqid('sh_'),
            'expiries_at' => Carbon::now()->addMinutes((int)request()->get('time')),
         ]);
 
-        if (!$tempRecord || !$shortUrl) {
+        if (!$tempRecord) {
             toast('Failed to generate temporary URL!', 'error');
             return redirect()->back();
         }

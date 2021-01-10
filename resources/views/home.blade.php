@@ -22,7 +22,7 @@
         <div class="col-lg-3">
             <div class="card shadow-sm">
                 <div class="card-body text-center">
-                    <h1>0</h1>
+                    <h1>{{ $publicImagesCount }}</h1>
                     <p class="text-muted">Public Images</p>
                 </div>
             </div>
@@ -63,7 +63,7 @@
         <div class="container">
             <div class="card shadow-sm">
                 <div class="card-body">
-                    <a href="#" class="btn btn-success btn-sm float-right">View All</a>
+                    <a href="{{ route('user.image.library') }}" class="btn btn-success btn-sm float-right">View All</a>
                     <h5>Your Recently Uploaded Images</h5>
                     <br />
                     <div class="table-responsive">
@@ -79,7 +79,11 @@
                             <tbody>
                             @foreach($recentImages as $img)
                                 <tr>
-                                    <td><a href="{{ route('frontend.show.image', $img->image_share_hash) }}" target="_blank">{{ $img->image_name }}</a></td>
+                                    <td>
+                                        <a href="{{ AWSImage::generateTempLink($img->image_name, 5) }}" data-toggle="lightbox" data-gallery="gallery">
+                                            {{ $img->image_name }}
+                                        </a>
+                                    </td>
                                     <td>{{ $img->created_at->diffForHumans() }}</td>
                                     <td>
                                         <i class="text-success fas fa-{{ \App\Helpers\ImageHelper::getFileVisibility($img->id) === 'public' ? 'globe' : 'lock' }}"
@@ -89,7 +93,7 @@
                                         <a href="{{ route('user.image.settings', $img->image_share_hash) }}" class="btn btn-primary btn-sm" title="Edit Image">
                                             <i class="fas fa-pencil-alt"></i>
                                         </a>
-                                        <a href="{{ route('user.image.delete', $img->image_del_hash) }}" class="btn btn-danger btn-sm" title="Delete Image">
+                                        <a href="{{ route('user.image.delete', $img->image_del_hash) }}" class="btn btn-danger btn-sm delete-confirm" title="Delete Image">
                                             <i class="fas fa-trash"></i>
                                         </a>
                                     </td>
@@ -102,4 +106,30 @@
             </div>
         </div>
     </section>
+@endsection
+
+@section('js')
+    <script>
+        $(document).on("click", '[data-toggle="lightbox"]', function(event) {
+            event.preventDefault();
+            $(this).ekkoLightbox();
+        });
+    </script>
+
+    <script>
+        $('.delete-confirm').on('click', function (event) {
+            event.preventDefault();
+            const url = $(this).attr('href');
+            swal({
+                title: 'Are you sure?',
+                text: 'This image and it`s details will be permanantly deleted!',
+                icon: 'warning',
+                buttons: ["Cancel", "Yes!"],
+            }).then(function(value) {
+                if (value) {
+                    window.location.href = url;
+                }
+            });
+        });
+    </script>
 @endsection

@@ -17,7 +17,7 @@
                 </a>
             </div>
             <div class="card-footer">
-                <span>Uploaded: {{ $image->created_at->diffForHumans() }}</span>
+                <span>Uploaded: {{ $image->created_at->diffForHumans() }}</span> | <span><a target="_blank" href="{{ url()->current().'?'.http_build_query(array_merge(request()->all(),['full' => 'true'])) }}">Original Url</a></span>
             </div>
         </div>
     </div>

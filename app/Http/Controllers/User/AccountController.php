@@ -24,13 +24,14 @@ class AccountController extends Controller
     {
         // Get total images count
         $imagesCount = Image::where('user_id', Auth::user()->id)->count();
-
+        $publicImagesCount = Image::where('user_id', Auth::user()->id)->where('public', true)->count();
 
         $recentImages = Image::orderBy('id', 'desc')->where('user_id', Auth::user()->id)->take(5)->get();
 
         return view('home', [
             'imagesCount' => $imagesCount,
-            'recentImages' => $recentImages
+            'recentImages' => $recentImages,
+            'publicImagesCount' => $publicImagesCount
         ]);
     }
 }

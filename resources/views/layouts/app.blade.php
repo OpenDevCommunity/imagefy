@@ -76,6 +76,11 @@
                                         API Settings
                                     </a>
 
+                                    <a class="dropdown-item" href="{{ route('user.image.library') }}">
+                                        My Images
+                                    </a>
+
+                                    <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -122,6 +127,7 @@
     <script src="https://cdn.datatables.net/responsive/2.2.6/js/responsive.bootstrap4.min.js"></script>
 
     @include('sweetalert::alert', ['cdn' => "https://cdn.jsdelivr.net/npm/sweetalert2@9"])
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
     @yield('js')
 </body>

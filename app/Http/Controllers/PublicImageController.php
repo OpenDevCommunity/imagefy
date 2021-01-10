@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Image;
-use Illuminate\Contracts\Filesystem\FileNotFoundException;
+use Carbon\Carbon;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -18,10 +18,28 @@ use Storage;
  */
 class PublicImageController extends Controller
 {
+
+    public function showFullImage(Image $image)
+    {
+        $fullImg = Storage::get('images/'. $image->image_name);
+
+        $headers = [
+            'Content-Type' => 'image/png'
+        ];
+
+        return response($fullImg, 200, $headers);
+    }
+
+    public function renderImagePage(Image $image)
+    {
+        return view('view-image', [
+            'image' => $image
+        ]);
+    }
+
     /**
      * @param $uuid
      * @return Application|Factory|View|RedirectResponse
-     * @throws FileNotFoundException
      */
     public function showImage($uuid)
     {
@@ -32,25 +50,26 @@ class PublicImageController extends Controller
         }
 
         if (ImageHelper::getFileVisibility($image->id) === 'private') {
+            if (request()->query('expires') && !Carbon::createFromTimestamp(request()->query('expires'))->isPast()) {
+
+                if (request()->query('full')) {
+                    return $this->showFullImage($image);
+                }
+
+                return $this->renderImagePage($image);
+            }
+
             if ($image->user_id !== Auth::id()) {
                 return response()->redirectTo('/');
             }
         }
 
         if (request()->query('full')) {
-            $fullImg = Storage::get('images/'. $image->image_name);
-
-            $headers = [
-                'Content-Type' => 'image/png'
-            ];
-
-            return response($fullImg, 200, $headers);
+            return $this->showFullImage($image);
         }
 
         // TODO: Add 404 page when image was not found
 
-        return view('view-image', [
-            'image' => $image
-        ]);
+        return $this->renderImagePage($image);
     }
 }
