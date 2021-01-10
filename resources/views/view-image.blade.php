@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
 
-        @if (\App\Helpers\ImageHelper::getFileVisibility($image->id) === 'private')
+        @if (AWSImage::getFileVisibility($image->id) === 'private')
             <div class="alert alert-warning">
                 <strong>NOTE! </strong> Current image is set to private. You can only see this image when you are logged in and are owner of the image. To make this image public head over to
                 <a href="{{ route('user.image.settings', $image->image_share_hash) }}"><strong>Settings</strong></a> and set visibility to public
@@ -12,8 +12,8 @@
 
         <div class="card shadow-sm">
             <div class="card-body text-center">
-                <a href="{{ \App\Helpers\ImageHelper::getFileUrl($image->id) }}" data-toggle="lightbox" data-gallery="gallery">
-                    <img src="{{ \App\Helpers\ImageHelper::getFileUrl($image->id) }}" class="img-fluid rounded">
+                <a href="{{ AWSImage::generateTempLink($image->id, 5) }}" data-toggle="lightbox" data-gallery="gallery">
+                    <img src="{{ AWSImage::generateTempLink($image->id, 5) }}" class="img-fluid rounded">
                 </a>
             </div>
             <div class="card-footer">

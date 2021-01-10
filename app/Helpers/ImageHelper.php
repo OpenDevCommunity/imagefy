@@ -34,4 +34,9 @@ class ImageHelper
     {
         return Storage::temporaryUrl('images/' . $name, Carbon::now()->addMinutes($time));
     }
+
+    public static function getImageFile($name)
+    {
+        return Storage::get('images/' . $name);
+    }
 }
