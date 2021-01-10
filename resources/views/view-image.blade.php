@@ -12,8 +12,8 @@
 
         <div class="card shadow-sm">
             <div class="card-body text-center">
-                <a href="{{ AWSImage::generateTempLink($image->id, 5) }}" data-toggle="lightbox" data-gallery="gallery">
-                    <img src="{{ AWSImage::generateTempLink($image->id, 5) }}" class="img-fluid rounded">
+                <a href="{{ AWSImage::generateTempLink($image->image_name, 5) }}" data-toggle="lightbox" data-gallery="gallery">
+                    <img src="{{ AWSImage::generateTempLink($image->image_name, 5) }}" class="img-fluid rounded">
                 </a>
             </div>
             <div class="card-footer">

@@ -32,7 +32,7 @@ class ImageHelper
 
     public static function generateTempLink($name, $time)
     {
-        return Storage::temporaryUrl('images/' . $name, Carbon::now()->addMinutes($time));
+        return Storage::temporaryUrl('images/' . $name, Carbon::now()->addMinutes((int)$time));
     }
 
     public static function getImageFile($name)
