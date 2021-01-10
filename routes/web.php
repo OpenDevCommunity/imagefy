@@ -13,7 +13,7 @@
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('frontend.home');
 
 
 Auth::routes();
@@ -36,6 +36,11 @@ Route::prefix('account')->middleware(['auth'])->group(function () {
     Route::prefix('images')->group(function () {
         Route::get('/', [\App\Http\Controllers\User\ImageController::class, 'index'])->name('user.image.library');
         Route::get('/{uuid}/delete', [\App\Http\Controllers\User\ImageController::class, 'deleteImage'])->name('user.image.delete');
+        Route::get('/{uuid}/edit', [\App\Http\Controllers\User\ImageController::class, 'imageSettings'])->name('user.image.settings');
+        Route::post('/{id}/tempurl', [\App\Http\Controllers\User\ImageController::class, 'generateTemporaryUrl'])->name('user.images.temp');
+
+        // Image Settings
+        Route::post('/{id}/visibility', [\App\Http\Controllers\User\ImageController::class, 'setImageVisibility'])->name('user.image.settings.visibility');
     });
 });
 

@@ -1,12 +1,19 @@
 @extends('layouts.app')
 
 @section('content')
-
     <div class="container">
+
+        @if (\App\Helpers\ImageHelper::getFileVisibility($image->id) === 'private')
+            <div class="alert alert-warning">
+                <strong>NOTE! </strong> Current image is set to private. You can only see this image when you are logged in and are owner of the image. To make this image public head over to
+                <a href="{{ route('user.image.settings', $image->image_share_hash) }}"><strong>Settings</strong></a> and set visibility to public
+            </div>
+       @endif
+
         <div class="card shadow-sm">
             <div class="card-body text-center">
-                <a href="{{ 'https://md-img-host.fra1.digitaloceanspaces.com/images/'.$image->image_name }}" data-toggle="lightbox" data-gallery="gallery">
-                    <img src="{{ 'https://md-img-host.fra1.digitaloceanspaces.com/images/'.$image->image_name }}" class="img-fluid rounded">
+                <a href="{{ \App\Helpers\ImageHelper::getFileUrl($image->id) }}" data-toggle="lightbox" data-gallery="gallery">
+                    <img src="{{ \App\Helpers\ImageHelper::getFileUrl($image->id) }}" class="img-fluid rounded">
                 </a>
             </div>
             <div class="card-footer">

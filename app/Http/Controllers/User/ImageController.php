@@ -4,9 +4,15 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\Image;
+use App\Models\TempUrl;
+use Carbon\Carbon;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Storage;
 use Auth;
+use App\Traits\ImageTrait;
 
 /**
  * Class ImageController
@@ -14,6 +20,13 @@ use Auth;
  */
 class ImageController extends Controller
 {
+    use ImageTrait;
+
+    /**
+     *
+     *
+     * @return Application|Factory|View
+     */
     public function index()
     {
         $images = Image::orderBy('created_at', 'desc')->where('user_id', Auth::id())->get();
@@ -24,6 +37,8 @@ class ImageController extends Controller
     }
 
     /**
+     * Handle image removal
+     *
      * @param $uuid
      * @return RedirectResponse
      */
@@ -33,21 +48,62 @@ class ImageController extends Controller
 
         // Check if image exists
         if (!$image) {
-            return redirect()->route('home')
-                ->with('error', 'Failed to find image with UUID: ' . $uuid);
+            toast('Failed to find image with UUID: ' . $uuid, 'error');
+            return redirect()->route('home');
         }
 
         // Check if user is an owner of image
         if ($image->user_id !== Auth::id()) {
-            return redirect()->route('home')
-                ->with('error', 'Failed to find image with UUID: ' . $uuid);
+            toast('Failed to find image with UUID: ' . $uuid, 'error');
+            return redirect()->route('home');
         }
 
         Storage::delete('images/' . $image->image_name);
         Image::destroy($image->id);
 
-        return redirect()->back()
-            ->with('success', 'Successfully deleted image with UUID: ' . $uuid);
+        toast('Successfully deleted image with UUID: ' . $uuid, 'success');
+        return redirect()->back();
 
+    }
+
+
+    /**
+     * Display image settings view
+     *
+     * @param $uuid
+     * @return Application|Factory|View
+     */
+    public function imageSettings($uuid)
+    {
+        $image = Image::where('image_share_hash', $uuid)->first();
+        $tempUrls = TempUrl::orderBy('id', 'desc')->where('image_id', $image->id)->take(5)->get();
+
+        return view('user.library.edit', [
+            'image' => $image,
+            'tempUrls' => $tempUrls
+        ]);
+    }
+
+
+    public function generateTemporaryUrl($id)
+    {
+        $image = Image::find($id);
+
+        $tempUrl = Storage::temporaryUrl('images/'. $image->image_name, Carbon::now()->addMinutes((int)request()->get('time')));
+
+        // Store temp url in databse
+        $tempRecord = TempUrl::create([
+           'image_id' => $image->id,
+           'share_url' => $tempUrl,
+           'expiries_at' => Carbon::now()->addMinutes((int)request()->get('time'))
+        ]);
+
+        if (!$tempRecord) {
+            toast('Failed to generate temporary URL!', 'error');
+            return redirect()->back();
+        }
+
+        toast('Temporary URL has been generated successfully!', 'success');
+        return redirect()->back();
     }
 }
