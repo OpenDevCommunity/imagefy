@@ -47,6 +47,13 @@ class Image extends Model
     public function ShortUrls()
     {
         return $this->hasMany(ShortUrl::class, 'image_id', 'id')
+            ->where('expiries_at','>', Carbon::now())
             ->orderBy('created_at', 'desc')->take(5);
+    }
+
+
+    public function user()
+    {
+        return $this->hasOne(User::class, 'id', 'user_id');
     }
 }

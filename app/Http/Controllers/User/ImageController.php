@@ -78,28 +78,77 @@ class ImageController extends Controller
     public function imageSettings($uuid)
     {
         $image = Image::where('image_share_hash', $uuid)->with('shorturls')->first();
-        $tempUrls = TempUrl::orderBy('id', 'desc')->where('image_id', $image->id)->take(5)->get();
 
         return view('user.library.edit', [
-            'image' => $image,
-            'tempUrls' => $tempUrls
+            'image' => $image
         ]);
     }
 
+    /**
+     * @param $length
+     * @param $time
+     * @return Carbon
+     */
+    public function generateCarbonTime($length, $time)
+    {
+        switch ($length) {
+            case 'minutes':
+                return Carbon::now()->addMinutes($time);
+                break;
+            case 'hours':
+                return Carbon::now()->addhours($time);
+                break;
+            case 'days':
+                return Carbon::now()->addDays($time);
+                break;
+            default:
+                return Carbon::now()->addMinutes(5);
+        }
+    }
 
+    /**
+     * @param Image $image
+     * @param $length
+     * @param $time
+     * @return string
+     */
+    public function generateCustomTempUrl(Image $image, $length, $time)
+    {
+        switch ($length) {
+            case 'minutes':
+                return \URL::signedRoute('frontend.show.image', ['uuid' => $image->image_share_hash], Carbon::now()->addMinutes($time));
+                break;
+            case 'hours':
+                return \URL::signedRoute('frontend.show.image', ['uuid' => $image->image_share_hash], Carbon::now()->addhours($time));
+                break;
+            case 'days':
+                return \URL::signedRoute('frontend.show.image', ['uuid' => $image->image_share_hash], Carbon::now()->addDays($time));
+                break;
+            default:
+                return \URL::signedRoute('frontend.show.image', ['uuid' => $image->image_share_hash], Carbon::now()->addMinutes(5));
+        }
+    }
+
+    /**
+     * @param $id
+     * @return RedirectResponse
+     */
     public function generateTemporaryUrl($id)
     {
         $image = Image::find($id);
 
-        $tempUrl = ImageHelper::generateTempLink($image->image_name, request()->get('time'));
+        if (!$image) {
+            alert()->error('Not Found', 'Requested image was not found!');
+            return redirect()->back();
+        }
 
-        $signedURL = \URL::signedRoute('frontend.show.image', ['uuid' => $image->image_share_hash], Carbon::now()->addMinutes((int)request()->get('time')));
+        $signedURL = $this->generateCustomTempUrl($image, request()->get('length'), request()->get('time'));
 
         // Store temp url in databse
         $tempRecord = TempUrl::create([
            'image_id' => $image->id,
            'share_url' => $signedURL,
-           'expiries_at' => Carbon::now()->addMinutes((int)request()->get('time'))
+           'expiries_at' => $this->generateCarbonTime(request()->get('length'), request()->get('time'))
         ]);
 
         $shortUrl = ShortUrl::create([
@@ -107,7 +156,7 @@ class ImageController extends Controller
            'image_id' => $image->id,
            'original_url' => $signedURL,
            'short_url_hash' => uniqid('sh_'),
-           'expiries_at' => Carbon::now()->addMinutes((int)request()->get('time')),
+           'expiries_at' => $this->generateCarbonTime(request()->get('length'), request()->get('time')),
         ]);
 
         if (!$tempRecord) {

@@ -43,7 +43,7 @@ class PublicImageController extends Controller
      */
     public function showImage($uuid)
     {
-        $image = Image::where('image_share_hash', $uuid)->first();
+        $image = Image::where('image_share_hash', $uuid)->with('user')->first();
 
         if (!$image) {
             return response()->redirectTo('/');

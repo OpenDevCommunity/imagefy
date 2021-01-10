@@ -4,6 +4,14 @@
 
     <div class="container">
 
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb shadow-sm">
+                <li class="breadcrumb-item"><a href="{{ route('home') }}">Account</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('user.image.library') }}">Library</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Edit Image Settings</li>
+            </ol>
+        </nav>
+
         <div class="row">
 
             <div class="col-lg-6 mx- mt-3">
@@ -123,9 +131,23 @@
                     <form action="{{ route('user.images.temp', $image->id) }}" method="POST">
                         {{ csrf_field() }}
 
-                        <div class="form-group">
-                            <label for="time">Time (Minutes)</label>
-                            <input type="number" name="time" id="time" min="1" value="5" class="form-control">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="time">Time</label>
+                                    <input type="number" name="time" id="time" min="1" value="5" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="length">Length</label>
+                                    <select name="length" id="length" class="form-control">
+                                        <option value="minutes">Minutes</option>
+                                        <option value="hours">Hours</option>
+                                        <option value="days">Days</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="form-group">

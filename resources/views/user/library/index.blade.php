@@ -3,6 +3,14 @@
 @section('content')
 
     <div class="container">
+
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb shadow-sm">
+                <li class="breadcrumb-item"><a href="{{ route('home') }}">Account</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Your Images Library</li>
+            </ol>
+        </nav>
+
         <div class="row">
             @foreach($images as $image)
                 <div class="col-lg-4 col-sm-12 clearfix" style="margin-bottom: 15px !important;">
