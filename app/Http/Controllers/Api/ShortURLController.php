@@ -41,7 +41,6 @@ class ShortURLController extends Controller
     {
         $validatior = Validator::make(request()->all(), [
            'original_url' => 'required|url',
-           'name' => 'required|string|min:3|max:50'
         ]);
 
         if ($validatior->fails()) {
@@ -51,11 +50,13 @@ class ShortURLController extends Controller
             ], 422);
         }
 
+        $originalURLParts = parse_url(request()->get('original_url'));
+
         $shortUrl = ShortUrl::create([
            'user_id' => Helper::getUserId(request()->headers->get('x-api-key')),
            'original_url' => request()->get('original_url'),
            'short_url_hash' => uniqid('sh_', true),
-           'name' => request()->get('name'),
+           'name' => request()->has('name') ? request()->has('name') : $originalURLParts['host'],
            'expiries_at' => request()->has('expires') ? Helper::generateCarbonTime(request()->get('length'), request()->get('time')) : null,
         ]);
 

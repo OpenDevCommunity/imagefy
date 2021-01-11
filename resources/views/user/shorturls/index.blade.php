@@ -13,7 +13,7 @@
                 <div class="card shadow-sm">
                     <div class="card-body text-center">
                         <h1>{{ $shortURLSCount }}</h1>
-                        <p class="text-muted">All URLS</p>
+                        <p class="text-muted">All URLs</p>
                     </div>
                 </div>
             </div>
@@ -37,7 +37,7 @@
                 <div class="card shadow-sm">
                     <div class="card-body text-center">
                         <h1>{{ $expiriedURLS }}</h1>
-                        <p class="text-muted">Expired URLS</p>
+                        <p class="text-muted">Expired URLs</p>
                     </div>
                 </div>
             </div>
@@ -49,7 +49,7 @@
                 <div class="card shadow-sm">
                     <div class="card-body text-center">
                         <h1>0</h1>
-                        <p class="text-muted">URL This Month</p>
+                        <p class="text-muted">URLs This Month</p>
                     </div>
                 </div>
             </div>

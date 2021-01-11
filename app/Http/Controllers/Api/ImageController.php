@@ -128,8 +128,7 @@ class ImageController extends Controller
         return response()->json([
             'error'     => false,
             'msg'       => 'Image uploaded successfully',
-            'url'       => 'http://localhost:8000/image/' . $createdImage->image_share_hash ,
-            'deleteUrl' => '',
+            'url'       => route('frontend.show.image', $createdImage->image_share_hash),
         ], 200);
     }
 
