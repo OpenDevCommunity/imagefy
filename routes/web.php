@@ -34,6 +34,7 @@ Route::get('/surl/{uuid}', [\App\Http\Controllers\PublicShortUrlController::clas
 // Account only routes
 Route::prefix('account')->middleware(['auth'])->group(function () {
     Route::get('/', [App\Http\Controllers\User\AccountController::class, 'index'])->name('home');
+    Route::get('/settings', [\App\Http\Controllers\User\AccountController::class, 'settings'])->name('user.account.settings');
     Route::get('/api', [\App\Http\Controllers\User\APIController::class, 'index'])->name('user.settings.api');
 
     Route::prefix('images')->group(function () {

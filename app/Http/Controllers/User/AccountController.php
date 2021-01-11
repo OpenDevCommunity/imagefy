@@ -34,4 +34,9 @@ class AccountController extends Controller
             'publicImagesCount' => $publicImagesCount
         ]);
     }
+
+    public function settings()
+    {
+        return view('user.account.settings');
+    }
 }

@@ -76,6 +76,10 @@
                                         API Settings
                                     </a>
 
+                                    <a class="dropdown-item" href="{{ route('user.account.settings') }}">
+                                        Account Settings
+                                    </a>
+
                                     <a class="dropdown-item" href="{{ route('user.image.library') }}">
                                         My Images
                                     </a>

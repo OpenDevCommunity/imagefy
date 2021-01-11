@@ -113,7 +113,7 @@ class ImageController extends Controller
            'image_del_hash'     => uniqid('img_'),
            'image_share_hash'   => uniqid('sha_'),
            'image_name'         => $imageName,
-           'public'              => true
+           'public'             => request()->has('visibility') ? request()->get('visibility') : true
         ]);
 
         // Check if meta was added to databse

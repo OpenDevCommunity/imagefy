@@ -1,11 +1,17 @@
 // Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
+@import url('https://fonts.googleapis.com/css?family=Lato:400,700,900&display=swap');
 
 // Variables
 @import 'variables';
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+
+/* Main Styles
+ _______________________*/
+body {
+    font-family: 'Lato', sans-serif;
+}
 
 .card {
     border: none !important;
@@ -31,4 +37,3 @@ a {
 .masonry-grid > div .thumbnail {
     margin: 5px 1px;
 }
-

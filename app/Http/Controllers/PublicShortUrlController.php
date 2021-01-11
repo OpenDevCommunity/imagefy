@@ -16,14 +16,14 @@ class PublicShortUrlController extends Controller
         // Check if short url exists
         // TODO: Add 404
         if (!$shortUrl) {
-            return redirect('/');
+            abort(404);
         }
 
         $hasExpiried = Carbon::parse($shortUrl->expiries_at)->isPast();
 
         // TODO: Add 404
         if ($hasExpiried && $shortUrl->expiries_at !== null) {
-            return redirect('/');
+            abort(404);
         }
 
         return redirect()->away($shortUrl->original_url);
