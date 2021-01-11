@@ -14587,6 +14587,13 @@
         class ImageHelper {
          
     }
+            /**
+     * 
+     *
+     */ 
+        class Helper {
+         
+    }
      
 }
 
@@ -18897,6 +18904,7 @@ namespace  {
             class Validator extends \Illuminate\Support\Facades\Validator {}
             class View extends \Illuminate\Support\Facades\View {}
             class AWSImage extends \App\Helpers\ImageHelper {}
+            class Helper extends \App\Helpers\Helper {}
             class LaRecipe extends \BinaryTorch\LaRecipe\LaRecipe {}
             class Flare extends \Facade\Ignition\Facades\Flare {}
             class Livewire extends \Livewire\Livewire {}

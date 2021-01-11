@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 /**
  * App\Models\ShortUrl
@@ -15,8 +16,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $short_url_hash
  * @property string|null $expiries_at
  * @property int $expiried
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @method static \Illuminate\Database\Eloquent\Builder|ShortUrl newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|ShortUrl newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|ShortUrl query()
@@ -30,6 +31,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|ShortUrl whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ShortUrl whereUserId($value)
  * @mixin \Eloquent
+ * @property string|null $name
+ * @method static \Illuminate\Database\Eloquent\Builder|ShortUrl whereName($value)
  */
 class ShortUrl extends Model
 {
@@ -39,6 +42,6 @@ class ShortUrl extends Model
 
     protected $fillable = [
        'user_id', 'image_id', 'original_url', 'short_url_hash',
-       'expiries_at', 'expiried'
+       'expiries_at', 'expiried', 'name'
     ];
 }

@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
-use App\Models\APIKeys;
 use App\Models\Image;
-use Illuminate\Database\Eloquent\HigherOrderBuilderProxy;
 use Illuminate\Http\JsonResponse;
 use Storage;
 use Validator;
@@ -16,16 +15,6 @@ use Validator;
  */
 class ImageController extends Controller
 {
-    /**
-     * @param $apiKey
-     * @return HigherOrderBuilderProxy|int|mixed
-     */
-    private function getUserId($apiKey)
-    {
-        $key = APIKeys::where('api_key', $apiKey)->first();
-
-        return $key->user_id;
-    }
 
     /**
      * @param $visibility
@@ -55,7 +44,7 @@ class ImageController extends Controller
         }
 
         // Get image from database
-        $userId = $this->getUserId(request()->headers->get('x-api-key'));
+        $userId = Helper::getUserId(request()->headers->get('x-api-key'));
 
         // Get image from database
         $image = Image::find($id);
@@ -120,7 +109,7 @@ class ImageController extends Controller
 
         // Store newly uploaded image meta in database
         $createdImage = Image::create([
-           'user_id'            => $this->getUserId(request()->headers->get('x-api-key')),
+           'user_id'            => Helper::getUserId(request()->headers->get('x-api-key')),
            'image_del_hash'     => uniqid('img_'),
            'image_share_hash'   => uniqid('sha_'),
            'image_name'         => $imageName,
@@ -152,7 +141,7 @@ class ImageController extends Controller
     {
         $image = Image::where('image_del_hash', $uuid)->first();
 
-        $userId = $this->getUserId(request()->headers->get('x-api-key'));
+        $userId = Helper::getUserId(request()->headers->get('x-api-key'));
 
         // Check if image requested exists
         if (!$image) {

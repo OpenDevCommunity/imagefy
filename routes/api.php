@@ -20,5 +20,10 @@ Route::prefix('v1')->middleware(['apikey'])->group(function () {
         Route::post('/{id}/setvisibility', [\App\Http\Controllers\Api\ImageController::class, 'setImageVisibility']);
         Route::delete('/{uuid}', [\App\Http\Controllers\Api\ImageController::class, 'deleteImage']);
     });
+
+    Route::prefix('shorturl')->group(function () {
+        Route::get('/all', [\App\Http\Controllers\Api\ShortURLController::class, 'fetchAllShortUrls']);
+        Route::post('/create', [\App\Http\Controllers\Api\ShortURLController::class, 'createShortURL']);
+    });
 });
 

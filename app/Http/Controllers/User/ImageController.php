@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Helpers\ImageHelper;
+use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\Image;
 use App\Models\ShortUrl;
@@ -85,28 +85,6 @@ class ImageController extends Controller
     }
 
     /**
-     * @param $length
-     * @param $time
-     * @return Carbon
-     */
-    public function generateCarbonTime($length, $time)
-    {
-        switch ($length) {
-            case 'minutes':
-                return Carbon::now()->addMinutes($time);
-                break;
-            case 'hours':
-                return Carbon::now()->addhours($time);
-                break;
-            case 'days':
-                return Carbon::now()->addDays($time);
-                break;
-            default:
-                return Carbon::now()->addMinutes(5);
-        }
-    }
-
-    /**
      * @param Image $image
      * @param $length
      * @param $time
@@ -148,7 +126,7 @@ class ImageController extends Controller
         $tempRecord = TempUrl::create([
            'image_id' => $image->id,
            'share_url' => $signedURL,
-           'expiries_at' => $this->generateCarbonTime(request()->get('length'), request()->get('time'))
+           'expiries_at' => Helper::generateCarbonTime(request()->get('length'), request()->get('time'))
         ]);
 
         $shortUrl = ShortUrl::create([
@@ -156,7 +134,7 @@ class ImageController extends Controller
            'image_id' => $image->id,
            'original_url' => $signedURL,
            'short_url_hash' => uniqid('sh_'),
-           'expiries_at' => $this->generateCarbonTime(request()->get('length'), request()->get('time')),
+           'expiries_at' => Helper::generateCarbonTime(request()->get('length'), request()->get('time')),
         ]);
 
         if (!$tempRecord) {

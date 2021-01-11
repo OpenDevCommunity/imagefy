@@ -80,6 +80,10 @@
                                         My Images
                                     </a>
 
+                                    <a class="dropdown-item" href="{{ route('user.short.urls') }}">
+                                        URL Shortner
+                                    </a>
+
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();

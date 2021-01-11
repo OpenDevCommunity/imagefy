@@ -88,6 +88,7 @@
                 <div class="card shadow-sm">
                     <div class="card-body">
                         <button class="btn btn-success btn-sm float-right" data-toggle="modal" data-target="#tempurlmodal">Generate URL</button>
+                        <a class="btn btn-success btn-sm float-right" style="margin-right: 5px;" href="{{ route('user.short.urls') }}">View All</a>
                         <h4>Temporary Image URLs</h4>
                         <span class="text-muted">You can generate temporary URLs to share this image</span>
                         <hr />

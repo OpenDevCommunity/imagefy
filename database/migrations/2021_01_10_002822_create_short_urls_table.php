@@ -18,6 +18,7 @@ class CreateShortUrlsTable extends Migration
             $table->integer('image_id')->nullable();
             $table->text('original_url');
             $table->uuid('short_url_hash');
+            $table->string('name', 50);
             $table->timestamp('expiries_at')->nullable();
             $table->boolean('expiried')->default(false);
             $table->timestamps();

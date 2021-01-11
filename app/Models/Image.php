@@ -33,6 +33,9 @@ use Illuminate\Support\Carbon;
  * @method static \Illuminate\Database\Eloquent\Builder|Image whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Image whereUserId($value)
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ShortUrl[] $ShortUrls
+ * @property-read int|null $short_urls_count
+ * @property-read \App\Models\User|null $user
  */
 class Image extends Model
 {

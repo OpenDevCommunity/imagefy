@@ -5,17 +5,35 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Models\ShortUrl;
 use Carbon\Carbon;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Auth;
 
 class ShortUrlController extends Controller
 {
 
+    /**
+     * @return Application|Factory|View
+     */
     public function index()
     {
-        return view('user.shorturls.index');
+        $shortUrls = ShortUrl::where('user_id', Auth::id())->orderBy('id', 'desc')->paginate(4);
+        $shortURLSCount = ShortUrl::where('user_id', Auth::id())->count();
+        $expiriedURLS = ShortUrl::where('expiries_at','<', \Illuminate\Support\Carbon::now())->count();
+
+        return view('user.shorturls.index', [
+            'shortUrls' => $shortUrls,
+            'shortURLSCount' => $shortURLSCount,
+            'expiriedURLS' => $expiriedURLS
+        ]);
     }
 
+    /**
+     * @return RedirectResponse
+     */
     public function createShortUrl()
     {
         // TODO: Add validation
