@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Mail\InviteRequested;
 use App\Models\Invitation;
+use App\Models\Role;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -103,10 +104,16 @@ class RegisterController extends Controller
     {
         Invitation::where('email', $data['email'])->update(['registered_at' => Carbon::now()]);
 
-        return User::create([
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+
+        $userRole = Role::where('name', 'user')->first();
+
+        $user->attachRole($userRole);
+
+        return  $user;
     }
 }

@@ -236,11 +236,7 @@ return [
             'submenu' => [
                 [
                     'text' => 'List Users',
-                    'url'  => '#',
-                ],
-                [
-                    'text' => 'Create User',
-                    'url'  => '#',
+                    'route'  => 'admin.users.index',
                 ],
             ],
         ],
@@ -322,7 +318,7 @@ return [
 
     'plugins' => [
         'Datatables' => [
-            'active' => false,
+            'active' => true,
             'files' => [
                 [
                     'type' => 'js',

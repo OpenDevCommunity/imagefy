@@ -20,6 +20,7 @@
     </title>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.13.0/dist/sweetalert2.min.css">
+    <script src="https://kit.fontawesome.com/2d1feb5289.js" crossorigin="anonymous"></script>
 
     {{-- Custom stylesheets (pre AdminLTE) --}}
     @yield('adminlte_css_pre')

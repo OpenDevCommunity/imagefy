@@ -61,5 +61,9 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
         Route::get('/{id}/accept', [\App\Http\Controllers\Admin\InviteController::class, 'acceptInvite'])->name('admin.invites.accept');
         Route::get('/{id}/reject', [\App\Http\Controllers\Admin\InviteController::class, 'denyInvite'])->name('admin.invites.deny');
     });
+
+    Route::prefix('users')->group(function () {
+        Route::get('/', [\App\Http\Controllers\Admin\UsersController::class, 'index'])->name('admin.users.index');
+    });
 });
 
