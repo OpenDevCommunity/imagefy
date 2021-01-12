@@ -16,8 +16,14 @@ define('LARAVEL_START', microtime(true));
 |
 */
 
-if (file_exists(__DIR__.'/../storage/framework/maintenance.php')) {
-    require __DIR__.'/../storage/framework/maintenance.php';
+if ($_SERVER['HTTP_HOST'] === 'marekdev.me') {
+    if (file_exists(__DIR__.'/../mdshare/storage/framework/maintenance.php')) {
+        require __DIR__.'/../mdshare/storage/framework/maintenance.php';
+    }
+} else {
+    if (file_exists(__DIR__.'/../storage/framework/maintenance.php')) {
+        require __DIR__.'/../storage/framework/maintenance.php';
+    }
 }
 
 /*
@@ -30,8 +36,11 @@ if (file_exists(__DIR__.'/../storage/framework/maintenance.php')) {
 | into the script here so we don't need to manually load our classes.
 |
 */
-
-require __DIR__.'/../vendor/autoload.php';
+if ($_SERVER['HTTP_HOST'] === 'marekdev.me') {
+    require __DIR__.'/../mdshare/vendor/autoload.php';
+} else {
+    require __DIR__.'/../vendor/autoload.php';
+}
 
 /*
 |--------------------------------------------------------------------------
@@ -43,8 +52,11 @@ require __DIR__.'/../vendor/autoload.php';
 | to this client's browser, allowing them to enjoy our application.
 |
 */
-
-$app = require_once __DIR__.'/../bootstrap/app.php';
+if ($_SERVER['HTTP_HOST'] === 'marekdev.me') {
+    $app = require_once __DIR__.'/../mdshare/bootstrap/app.php';
+} else {
+    $app = require_once __DIR__.'/../bootstrap/app.php';
+}
 
 $kernel = $app->make(Kernel::class);
 

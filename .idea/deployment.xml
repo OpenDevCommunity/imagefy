@@ -6,12 +6,20 @@
         <serverdata>
           <mappings>
             <mapping deploy="/mdshare" local="$PROJECT_DIR$" web="/" />
-            <mapping deploy="/public_html" local="$PROJECT_DIR$/public" web="/" />
           </mappings>
           <excludedPaths>
             <excludedPath local="true" path="$PROJECT_DIR$/vendor" />
             <excludedPath local="true" path="$PROJECT_DIR$/node_modules" />
+            <excludedPath local="true" path="$PROJECT_DIR$/.env" />
+            <excludedPath local="true" path="$PROJECT_DIR$/public" />
           </excludedPaths>
+        </serverdata>
+      </paths>
+      <paths name="MDSHARE - PUBLIC">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/" local="$PROJECT_DIR$/public" web="/" />
+          </mappings>
         </serverdata>
       </paths>
     </serverData>
