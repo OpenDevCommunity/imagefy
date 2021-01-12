@@ -257,7 +257,7 @@ return [
         ['header' => 'ACL Management'],
         [
             'text'    => 'Permissions',
-            'icon'    => 'fas fa-upload',
+            'icon'    => 'fas fa-fingerprint',
             'submenu' => [
                 [
                     'text' => 'List Permissions',
@@ -267,7 +267,7 @@ return [
         ],
         [
             'text'    => 'Roles',
-            'icon'    => 'fas fa-upload',
+            'icon'    => 'fas fa-user-lock',
             'submenu' => [
                 [
                     'text' => 'List Roles',

@@ -30,6 +30,8 @@
         </div>
         <div class="card-body">
             <div class="tab-content" id="custom-tabs-one-tabContent">
+
+                <!-- User Information -->
                 <div class="tab-pane fade show active" id="information" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab">
                     <h4>User Infomration</h4>
                     <hr>
@@ -45,7 +47,9 @@
                         <label for="reg_date">Registered</label>
                         <input type="text" id="reg_date" name="email" value="{{ $user->created_at->diffForHumans() }}" readonly class="form-control">
                     </div>
-                </div>
+                </div> <!-- User Information -->
+
+                <!-- User Roles -->
                 <div class="tab-pane fade" id="roles" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
                     <h4>User Roles</h4>
                     <hr>
@@ -74,7 +78,9 @@
                         </tr>
                         </tfoot>
                     </table>
-                </div>
+                </div> <!-- ./ User Roles -->
+
+                <!-- User Permissions -->
                 <div class="tab-pane fade" id="permissions" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
                     <h4>User permissions</h4>
                     <hr>
@@ -103,7 +109,9 @@
                         </tr>
                         </tfoot>
                     </table>
-                </div>
+                </div> <!-- User Permissions -->
+
+                <!-- User Images -->
                 <div class="tab-pane fade" id="images" role="tabpanel" aria-labelledby="custom-tabs-one-messages-tab">
                     <h4>User Uploaded Images</h4>
                     <hr>
@@ -145,8 +153,9 @@
                         </tr>
                         </tfoot>
                     </table>
-                </div>
+                </div> <!-- User Images -->
 
+                <!-- User Short URLS -->
                 <div class="tab-pane fade" id="short" role="tabpanel" aria-labelledby="custom-tabs-one-settings-tab">
                     <h4>User Short URLs</h4>
                     <hr>
@@ -169,7 +178,7 @@
                                     <a href="{{ route('frontend.shorturl', $url->short_url_hash) }}" target="_blank">{{ route('frontend.shorturl', $url->short_url_hash) }}</a>
                                 </td>
                                 <td>
-                                    {{ $url->expiried ? \Carbon\Carbon::parse($url->expities_at)->diffForHumans() : 'Expiried' }}
+                                    {{ $url->expiried ? \Carbon\Carbon::parse($url->expities_at)->diffForHumans() : 'Expired' }}
                                 </td>
                                 <td>
                                     <a href="{{ route('admin.user.del.shorturl', $url->id) }}" class="btn btn-danger btn-sm delete-confirm"><i class="fas fa-trash"></i></a>
@@ -186,7 +195,7 @@
                         </tr>
                         </tfoot>
                     </table>
-                </div>
+                </div> <!-- ./ User Short URLS -->
             </div>
         </div>
         <!-- /.card -->
