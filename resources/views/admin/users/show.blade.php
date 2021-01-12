@@ -49,31 +49,60 @@
                 <div class="tab-pane fade" id="roles" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
                     <h4>User Roles</h4>
                     <hr>
-                    {{ csrf_field() }}
-                    @foreach($user->roles as $role)
-                        <div class="form-group clearfix">
-                            <div class="icheck-primary d-inline">
-                                <input type="checkbox" name="roles[]" {{ $user->hasRole($role->name) ? 'checked' : '' }} disabled value="{{ $role->id }}" id="role-{{ $role->id }}">
-                                <label for="role-{{ $role->id }}">
-                                    {{ $role->name }} <small>({{ $role->description }})</small>
-                                </label>
-                            </div>
-                        </div>
-                    @endforeach
+                    <table id="roles-list" class="table table-striped table-bordered" style="width:100%">
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Public Name</th>
+                            <th>Description</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($user->roles as $role)
+                            <tr>
+                                <td>{{ $role->name }}</td>
+                                <td>{{ $role->display_name }}</td>
+                                <td>{{ $role->description }}</td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <th>Name</th>
+                            <th>Public Name</th>
+                            <th>Description</th>
+                        </tr>
+                        </tfoot>
+                    </table>
                 </div>
                 <div class="tab-pane fade" id="permissions" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
                     <h4>User permissions</h4>
                     <hr>
-                    @foreach($user->allPermissions() as $permission)
-                        <div class="form-group clearfix">
-                            <div class="icheck-primary d-inline">
-                                <input type="checkbox" name="roles[]" {{ $user->hasPermission($permission->name) ? 'checked' : '' }} disabled value="{{ $permission->id }}" id="role-{{ $permission->id }}">
-                                <label for="role-{{ $permission->id }}">
-                                    {{ $permission->name }} <small>({{ $permission->description }})</small>
-                                </label>
-                            </div>
-                        </div>
-                    @endforeach
+                    <table id="permissions-list" class="table table-striped table-bordered" style="width:100%">
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Public Name</th>
+                            <th>Description</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($user->allPermissions() as $permission)
+                            <tr>
+                                <td>{{ $permission->name }}</td>
+                                <td>{{ $permission->display_name }}</td>
+                                <td>{{ $permission->description }}</td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <th>Name</th>
+                            <th>Public Name</th>
+                            <th>Description</th>
+                        </tr>
+                        </tfoot>
+                    </table>
                 </div>
                 <div class="tab-pane fade" id="images" role="tabpanel" aria-labelledby="custom-tabs-one-messages-tab">
                     <h4>User Uploaded Images</h4>
@@ -168,15 +197,7 @@
 @section('js')
     <script>
         $(document).ready(function() {
-            $('#user-images').DataTable({
-                "searching": true
-            });
-        } );
-    </script>
-
-    <script>
-        $(document).ready(function() {
-            $('#short-urls').DataTable({
+            $('#user-images, #short-urls, #permissions-list, #roles-list').DataTable({
                 "searching": true
             });
         } );
@@ -201,7 +222,6 @@
                 showCancelButton: true,
                 confirmButtonText: `I Understand`
             }).then((result) => {
-                console.log(result);
                 if (result.value) {
                     window.location.href = url;
                 }
