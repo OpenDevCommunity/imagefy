@@ -18,6 +18,9 @@
                     <a class="nav-link" id="custom-tabs-one-profile-tab" data-toggle="pill" href="#roles" role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false">Roles</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" id="custom-tabs-one-profile-tab" data-toggle="pill" href="#permissions" role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false">Permissions</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" id="custom-tabs-one-messages-tab" data-toggle="pill" href="#images" role="tab" aria-controls="custom-tabs-one-messages" aria-selected="false">Images</a>
                 </li>
                 <li class="nav-item">
@@ -53,6 +56,20 @@
                                 <input type="checkbox" name="roles[]" {{ $user->hasRole($role->name) ? 'checked' : '' }} disabled value="{{ $role->id }}" id="role-{{ $role->id }}">
                                 <label for="role-{{ $role->id }}">
                                     {{ $role->name }} <small>({{ $role->description }})</small>
+                                </label>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+                <div class="tab-pane fade" id="permissions" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
+                    <h4>User permissions</h4>
+                    <hr>
+                    @foreach($user->allPermissions() as $permission)
+                        <div class="form-group clearfix">
+                            <div class="icheck-primary d-inline">
+                                <input type="checkbox" name="roles[]" {{ $user->hasPermission($permission->name) ? 'checked' : '' }} disabled value="{{ $permission->id }}" id="role-{{ $permission->id }}">
+                                <label for="role-{{ $permission->id }}">
+                                    {{ $permission->name }} <small>({{ $permission->description }})</small>
                                 </label>
                             </div>
                         </div>
@@ -100,6 +117,7 @@
                         </tfoot>
                     </table>
                 </div>
+
                 <div class="tab-pane fade" id="short" role="tabpanel" aria-labelledby="custom-tabs-one-settings-tab">
                     <h4>User Short URLs</h4>
                     <hr>

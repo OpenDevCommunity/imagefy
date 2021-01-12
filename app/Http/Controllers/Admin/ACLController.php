@@ -129,7 +129,7 @@ class ACLController extends Controller
 
         $role->syncPermissions(request()->get('permissions'));
 
-        toast($role->display_name . ' has been updated successfully');
+        toast($role->display_name . ' has been updated successfully', 'success');
         return redirect()->back();
     }
 }

@@ -87,7 +87,7 @@ Route::prefix('admin')->middleware(['auth', 'role:administrator|superadministrat
             Route::get('/', [\App\Http\Controllers\Admin\ACLController::class, 'listRoles'])->name('admin.list.roles');
             Route::post('/create', [\App\Http\Controllers\Admin\ACLController::class, 'storeRole'])->name('admin.store.role');
             Route::get('/{roleId}/edit', [\App\Http\Controllers\Admin\ACLController::class, 'editRole'])->name('admin.edit.role');
-            Route::post('/{roleid}/edit', [\App\Http\Controllers\Admin\ACLController::class, 'updateRole'])->name('admin.update.role');
+            Route::post('/{roleId}/edit', [\App\Http\Controllers\Admin\ACLController::class, 'updateRole'])->name('admin.update.role');
         });
     });
 });
