@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Image;
 use App\Models\Role;
+use App\Models\ShortUrl;
 use App\Models\User;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -13,7 +15,7 @@ use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Toaster;
 use Validator;
 
-class UsersController extends Controller
+class UserController extends Controller
 {
     /**
      * @return Application|Factory|View
@@ -88,10 +90,33 @@ class UsersController extends Controller
 
     public function show($userid)
     {
-        $user = User::where('id', $userid)->with('images')->first();
+        $user = User::where('id', $userid)->with('images')
+            ->with('shorturls')->first();
 
         return view('admin.users.show', [
             'user' => $user
         ]);
+    }
+
+
+    public function deleteShortUrl($id)
+    {
+        ShortUrl::destroy($id);
+
+        toast('Short URL was successfully deleted!', 'success');
+
+        return redirect()->back();
+    }
+
+    public function deleteImage($imageId)
+    {
+        $image = Image::find($imageId);
+
+        Storage::delete('images/'. $image->image_name);
+
+        Image::destroy($imageId);
+        toast('Image ' . $image->image_name . ' has been deleted!', 'success');
+
+        return redirect()->back();
     }
 }

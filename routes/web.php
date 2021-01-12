@@ -63,11 +63,16 @@ Route::prefix('admin')->middleware(['auth', 'role:administrator|superadministrat
     });
 
     Route::prefix('users')->group(function () {
-        Route::get('/', [\App\Http\Controllers\Admin\UsersController::class, 'index'])->name('admin.users.index');
-        Route::get('/{id}/edit', [\App\Http\Controllers\Admin\UsersController::class, 'edit'])->name('admin.users.edit');
-        Route::post('/{userid}/edit/syncroles', [\App\Http\Controllers\Admin\UsersController::class, 'assignRoles'])->name('admin.users.sync.roles');
-        Route::post('/{userid}/edit/infomration', [\App\Http\Controllers\Admin\UsersController::class, 'updateInformation'])->name('admin.users.update.information');
-        Route::get('/{userid}/show', [\App\Http\Controllers\Admin\UsersController::class, 'show'])->name('admin.users.show');
+        Route::get('/', [\App\Http\Controllers\Admin\UserController::class, 'index'])->name('admin.users.index');
+        Route::get('/{id}/edit', [\App\Http\Controllers\Admin\UserController::class, 'edit'])->name('admin.users.edit');
+        Route::post('/{userid}/edit/syncroles', [\App\Http\Controllers\Admin\UserController::class, 'assignRoles'])->name('admin.users.sync.roles');
+        Route::post('/{userid}/edit/infomration', [\App\Http\Controllers\Admin\UserController::class, 'updateInformation'])->name('admin.users.update.information');
+        Route::get('/{userid}/show', [\App\Http\Controllers\Admin\UserController::class, 'show'])->name('admin.users.show');
+
+        // Delete short url
+        Route::get('/shorturl/{id}/delete', [\App\Http\Controllers\Admin\UserController::class, 'deleteShortUrl'])->name('admin.user.del.shorturl');
+
+        // Delete image
+        Route::get('/image/{imageId}/delete', [\App\Http\Controllers\Admin\UserController::class, 'deleteImage'])->name('admin.image.delete');
     });
 });
-

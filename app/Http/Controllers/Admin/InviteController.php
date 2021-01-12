@@ -45,8 +45,8 @@ class InviteController extends Controller
         $invite = Invitation::find($id);
 
         if (!$invite) {
-            return redirect()->back()
-                ->with('error', 'Requested invite was not found!');
+            toast('Requested invite was not found!', 'error');
+            return redirect()->back();
         }
 
         $invite->accepted = true;
@@ -54,8 +54,8 @@ class InviteController extends Controller
 
         \Mail::to($invite->email)->send(new InviteAccepted($invite->email, $invite->getLink()));
 
-        return redirect()->back()
-            ->with('success', 'Invite request from ' . $invite->email . ' has been accepted!');
+        toast('Invite request from ' . $invite->email . ' has been accepted!', 'success');
+        return redirect()->back();
     }
 
     /**
@@ -95,8 +95,8 @@ class InviteController extends Controller
         $invite = Invitation::find($id);
 
         if (!$invite) {
-            return redirect()->back()
-                ->with('error', 'Requested invite was not found!');
+            toast('Requested invite was not found!', 'error');
+            return redirect()->back();
         }
 
         // Send an email
@@ -104,7 +104,7 @@ class InviteController extends Controller
 
         Invitation::destroy($invite->id);
 
-        return redirect()->back()
-            ->with('success', 'Invite request from ' . $invite->email . ' has been denied!');
+        toast('Invite request from ' . $invite->email . ' has been denied!', 'success');
+        return redirect()->back();
     }
 }

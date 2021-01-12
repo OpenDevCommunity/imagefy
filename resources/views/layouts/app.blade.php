@@ -90,6 +90,13 @@
                                     </a>
 
                                     <div class="dropdown-divider"></div>
+                                    @role('administrator|superadministrator')
+                                    <a class="dropdown-item" href="{{ route('admin.dashboard') }}">
+                                        Staff Panel
+                                    </a>
+                                    @endrole
+
+                                    <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

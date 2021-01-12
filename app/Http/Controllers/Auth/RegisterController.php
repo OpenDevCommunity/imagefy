@@ -78,10 +78,11 @@ class RegisterController extends Controller
     public function store()
     {
         // Check if user has an existing invite request
-        $exists = Invitation::where('email', request()->email)->first();
+        $exists = Invitation::where('email', request()->email)->where('accepted', '!=', 3)->first();
 
         if ($exists) {
-            return redirect()->back()->with('error', 'Invitation to register request has already been submitted!');
+            alert()->error('Existing Request!', 'Invitation to register request has already been submitted!');
+            return redirect()->back();
         }
 
         $invitation = new Invitation(request()->all());
@@ -90,8 +91,8 @@ class RegisterController extends Controller
 
         Mail::to(request()->get('email'))->send(new InviteRequested(request()->get('email')));
 
-        return redirect()->back()
-            ->with('success', 'Invitation to register successfully requested. Please wait for registration link.');
+        alert()->success('Request Sent', 'Invitation to register successfully requested. Please wait for registration link.');
+        return redirect()->back();
     }
 
     /**
