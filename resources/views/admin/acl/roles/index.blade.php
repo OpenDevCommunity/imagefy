@@ -23,7 +23,9 @@
                     <tbody>
                     @foreach($roles as $role)
                         <tr>
-                            <td>{{ $role->display_name }}</td>
+                            <td>
+                                <a href="{{ route('admin.edit.role', $role->id) }}">{{ $role->display_name }}</a>
+                            </td>
                             <td>{{ $role->name }}</td>
                             <td>{{ $role->description }}</td>
                         </tr>

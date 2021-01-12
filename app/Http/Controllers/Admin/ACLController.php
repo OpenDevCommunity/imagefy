@@ -94,4 +94,42 @@ class ACLController extends Controller
         toast('Role has successfully been created!', 'success');
         return redirect()->back();
     }
+
+
+    public function editRole($roleId)
+    {
+        $role = Role::find($roleId);
+        $permissions = Permission::all();
+
+        return view('admin.acl.roles.edit', [
+            'role' => $role,
+            'permissions' => $permissions
+        ]);
+    }
+
+    public function updateRole($roleId)
+    {
+        $validator = Validator::make(request()->all(), [
+            'pname' => 'required',
+            'description' => 'required',
+            'permissions' => 'required|array'
+        ]);
+
+        if ($validator->fails()) {
+            toast($validator->errors()->first(), 'error');
+            return redirect()->back();
+        }
+
+        $role = Role::find($roleId);
+
+        Role::where('id', $roleId)->update([
+            'display_name' => request()->get('pname'),
+            'description' => request()->get('description')
+        ]);
+
+        $role->syncPermissions(request()->get('permissions'));
+
+        toast($role->display_name . ' has been updated successfully');
+        return redirect()->back();
+    }
 }
