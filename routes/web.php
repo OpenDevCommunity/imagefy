@@ -64,6 +64,10 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
 
     Route::prefix('users')->group(function () {
         Route::get('/', [\App\Http\Controllers\Admin\UsersController::class, 'index'])->name('admin.users.index');
+        Route::get('/{id}/edit', [\App\Http\Controllers\Admin\UsersController::class, 'edit'])->name('admin.users.edit');
+        Route::post('/{userid}/edit/syncroles', [\App\Http\Controllers\Admin\UsersController::class, 'assignRoles'])->name('admin.users.sync.roles');
+        Route::post('/{userid}/edit/infomration', [\App\Http\Controllers\Admin\UsersController::class, 'updateInformation'])->name('admin.users.update.information');
+        Route::get('/{userid}/show', [\App\Http\Controllers\Admin\UsersController::class, 'show'])->name('admin.users.show');
     });
 });
 

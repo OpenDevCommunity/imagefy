@@ -26,8 +26,8 @@
                         <td>{{ $user->email }}</td>
                         <td>{{ $user->created_at->diffForHumans() }}</td>
                         <td>
-                            <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-pencil-alt"></i></a>
-                            <a href="#" class="btn btn-success btn-sm"><i class="fas fa-eye"></i></a>
+                            <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-primary btn-sm"><i class="fas fa-pencil-alt"></i></a>
+                            <a href="{{ route('admin.users.show', $user->id) }}" class="btn btn-success btn-sm"><i class="fas fa-eye"></i></a>
                         </td>
                     </tr>
                     @endforeach
