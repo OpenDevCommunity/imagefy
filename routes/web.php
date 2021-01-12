@@ -52,7 +52,7 @@ Route::prefix('account')->middleware(['auth'])->group(function () {
 
 
 // Administration routes only
-Route::prefix('admin')->middleware(['auth'])->group(function () {
+Route::prefix('admin')->middleware(['auth', 'role:administrator|superadministrator'])->group(function () {
     Route::get('/dashboard', [\App\Http\Controllers\Admin\AdminController::class, 'index'])->name('admin.dashboard');
 
     Route::prefix('invites')->group(function () {
