@@ -241,14 +241,37 @@ return [
             ],
         ],
 
-        ['header' => 'Invite Management'],
+        ['header' => 'Invite Management', 'permission' => 'view-invites'],
         [
             'text'    => 'Invites',
             'icon'    => 'fas fa-envelope',
+            'permission' => 'view-invites',
             'submenu' => [
                 [
                     'text' => 'Pending Invites',
                     'route'  => 'admin.invites.pending',
+                ],
+            ],
+        ],
+
+        ['header' => 'ACL Management'],
+        [
+            'text'    => 'Permissions',
+            'icon'    => 'fas fa-upload',
+            'submenu' => [
+                [
+                    'text' => 'List Permissions',
+                    'route'  => 'admin.list.permissions',
+                ],
+            ],
+        ],
+        [
+            'text'    => 'Roles',
+            'icon'    => 'fas fa-upload',
+            'submenu' => [
+                [
+                    'text' => 'List Roles',
+                    'route'  => 'admin.list.roles',
                 ],
             ],
         ],
@@ -302,6 +325,7 @@ return [
         JeroenNoten\LaravelAdminLte\Menu\Filters\ClassesFilter::class,
         JeroenNoten\LaravelAdminLte\Menu\Filters\LangFilter::class,
         JeroenNoten\LaravelAdminLte\Menu\Filters\DataFilter::class,
+        \App\Filters\AdminMenuFilter::class,
     ],
 
     /*

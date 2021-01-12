@@ -258,7 +258,7 @@ return [
         | Turn this value to false if you don't want to use Laratrust admin panel
         |
         */
-        'register' => true,
+        'register' => false,
 
         /*
         |--------------------------------------------------------------------------
@@ -299,7 +299,7 @@ return [
         | Enable/Disable the permissions assignment to the users.
         |
         */
-        'assign_permissions_to_user' => false,
+        'assign_permissions_to_user' => true,
 
         /*
         |--------------------------------------------------------------------------

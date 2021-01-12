@@ -75,4 +75,17 @@ Route::prefix('admin')->middleware(['auth', 'role:administrator|superadministrat
         // Delete image
         Route::get('/image/{imageId}/delete', [\App\Http\Controllers\Admin\UserController::class, 'deleteImage'])->name('admin.image.delete');
     });
+
+
+    Route::prefix('acl')->group(function () {
+        Route::prefix('permissions')->group(function () {
+            Route::get('/', [\App\Http\Controllers\Admin\ACLController::class, 'listPermissions'])->name('admin.list.permissions');
+            Route::post('/create', [\App\Http\Controllers\Admin\ACLController::class, 'storePermission'])->name('admin.store.permission');
+        });
+
+        Route::prefix('roles')->group(function () {
+            Route::get('/', [\App\Http\Controllers\Admin\ACLController::class, 'listRoles'])->name('admin.list.roles');
+            Route::post('/create', [\App\Http\Controllers\Admin\ACLController::class, 'storeRole'])->name('admin.store.role');
+        });
+    });
 });

@@ -14,6 +14,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Toaster;
 use Validator;
+use Storage;
 
 class UserController extends Controller
 {
