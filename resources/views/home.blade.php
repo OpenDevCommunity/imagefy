@@ -34,8 +34,8 @@
         <div class="col-lg-3">
             <div class="card shadow-sm">
                 <div class="card-body text-center">
-                    <h1>0</h1>
-                    <p class="text-muted">Private Files</p>
+                    <h1>{{ $privateImagesCount }}</h1>
+                    <p class="text-muted">Private Images</p>
                 </div>
             </div>
         </div>
@@ -47,7 +47,7 @@
             <div class="card shadow-sm">
                 <div class="card-body text-center">
                     <h1>0</h1>
-                    <p class="text-muted">Uploaded Files</p>
+                    <p class="text-muted">Short URLS</p>
                 </div>
             </div>
         </div>
@@ -64,8 +64,9 @@
             <div class="card shadow-sm">
                 <div class="card-body">
                     <a href="{{ route('user.image.library') }}" class="btn btn-success btn-sm float-right">View All</a>
-                    <h5>Your Recently Uploaded Images</h5>
-                    <br />
+                    <h5>Your recently uploaded images (5)</h5>
+                    <span class="text-muted">Here you can see your recently uploaded images (5)</span>
+                    <hr>
                     <div class="table-responsive">
                         <table class="table">
                             <thead>

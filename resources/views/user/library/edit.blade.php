@@ -17,7 +17,8 @@
             <div class="col-lg-6 mx- mt-3">
                 <div class="card shadow-sm">
                     <div class="card-body">
-                        <h4>Visibility Settings</h4>
+                        <h5>Image Visibility</h5>
+                        <span class="text-muted">You can set image visibility here</span>
                         <hr>
                         <form action="{{ route('user.image.settings.visibility', $image->id) }}" method="POST">
                             {{ csrf_field() }}
@@ -46,7 +47,8 @@
         <div class="col-lg-12 mx-auto mt-3">
             <div class="card shadow-sm">
                 <div class="card-body">
-                    <h4>Image URLs</h4>
+                    <h5>URL to share your images</h5>
+                    <span class="text-muted">Use bellow URLS to share this image</span>
                     <hr>
                     @if (AWSImage::getFileVisibility($image->id) === 'public')
                         <div class="form-group">
@@ -89,9 +91,9 @@
                     <div class="card-body">
                         <button class="btn btn-success btn-sm float-right" data-toggle="modal" data-target="#tempurlmodal">Generate URL</button>
                         <a class="btn btn-success btn-sm float-right" style="margin-right: 5px;" href="{{ route('user.short.urls') }}">View All</a>
-                        <h4>Temporary Image URLs</h4>
-                        <span class="text-muted">You can generate temporary URLs to share this image</span>
-                        <hr />
+                        <h5>Temporary URLs</h5>
+                        <span class="text-muted">You can generate temporary URLs to share your image</span>
+                        <hr>
                         <div class="table-responsive">
                             <table class="table">
                                 <thead>
@@ -154,7 +156,6 @@
                         <div class="form-group">
                             <button class="btn btn-success btn-block" type="submit">Create Temporary URL</button>
                         </div>
-
                     </form>
                 </div>
             </div>
