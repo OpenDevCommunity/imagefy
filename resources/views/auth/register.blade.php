@@ -6,7 +6,7 @@
             <div class="col-md-6">
                 <div class="card shadow-sm p-3 mb-5 bg-white rounded">
                     <div class="card-body">
-                        <h4 class="text-center">Register at <span class="text-danger">MD</span><span class="text-success"> SHARE</span></h4>
+                        <h4 class="text-center">Register at <span class="text-danger">IMAGE</span><span class="text-success">FY</span></h4>
                         <hr>
                         <form method="POST" action="{{ route('register') }}">
                             @csrf

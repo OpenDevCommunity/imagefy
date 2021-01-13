@@ -94,4 +94,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(ShortUrl::class, 'user_id', 'id');
     }
+
+    public function Settings()
+    {
+        return $this->hasOne(UserSettings::class, 'user_id', 'id');
+    }
 }

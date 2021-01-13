@@ -21,6 +21,10 @@ class PublicImageController extends Controller
 
     public function showFullImage(Image $image)
     {
+        if (!$image->public && Auth::guest() && Auth::id() !== $image->user_id) {
+            return redirect('/');
+        }
+
         $fullImg = Storage::get('images/'. $image->image_name);
 
         $headers = [
@@ -32,6 +36,10 @@ class PublicImageController extends Controller
 
     public function renderImagePage(Image $image)
     {
+        if (!$image->public && Auth::guest() && Auth::id() !== $image->user_id) {
+            return redirect('/');
+        }
+
         return view('view-image', [
             'image' => $image
         ]);
@@ -47,6 +55,10 @@ class PublicImageController extends Controller
 
         if (!$image) {
             return response()->redirectTo('/');
+        }
+
+        if (!$image->public && Auth::guest() && Auth::id() !== $image->user_id) {
+            return redirect('/');
         }
 
         if (ImageHelper::getFileVisibility($image->id) === 'private') {

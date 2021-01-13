@@ -26,7 +26,7 @@ Route::get('register/request', [\App\Http\Controllers\Auth\RegisterController::c
 Route::post('invitations', [\App\Http\Controllers\Auth\RegisterController::class, 'store'])->middleware('guest')->name('storeInvitation');
 
 // Website Only routes (Guest)
-Route::get('/image/{uuid}', [\App\Http\Controllers\PublicImageController::class, 'showImage'])->name('frontend.show.image');
+Route::get('/i/{uuid}', [\App\Http\Controllers\PublicImageController::class, 'showImage'])->name('frontend.show.image');
 
 
 // Account only routes
@@ -34,6 +34,7 @@ Route::prefix('account')->middleware(['auth'])->group(function () {
     Route::get('/', [App\Http\Controllers\User\AccountController::class, 'index'])->name('home');
     Route::get('/settings', [\App\Http\Controllers\User\AccountController::class, 'settings'])->name('user.account.settings');
     Route::get('/api', [\App\Http\Controllers\User\APIController::class, 'index'])->name('user.settings.api');
+    Route::get('/upload-settings', [\App\Http\Controllers\User\AccountController::class, 'uploadSettings'])->name('user.upload.settings');
 
     Route::prefix('images')->group(function () {
         Route::get('/', [\App\Http\Controllers\User\ImageController::class, 'index'])->name('user.image.library');
@@ -43,6 +44,10 @@ Route::prefix('account')->middleware(['auth'])->group(function () {
 
         // Image Settings
         Route::post('/{id}/visibility', [\App\Http\Controllers\User\ImageController::class, 'setImageVisibility'])->name('user.image.settings.visibility');
+    });
+
+    Route::prefix('upload-settings')->group(function () {
+        Route::post('/{id}/default-visibility', [\App\Http\Controllers\User\SettingController::class, 'setDefaultImageVisibility'])->name('user.upload.settings.visibility');
     });
 
     Route::prefix('shorturls')->group(function () {

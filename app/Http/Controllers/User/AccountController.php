@@ -4,6 +4,8 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\Image;
+use App\Models\User;
+use App\Models\UserSettings;
 use Auth;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -37,6 +39,16 @@ class AccountController extends Controller
 
     public function settings()
     {
-        return view('user.account.settings');
+        return view('user.account.settings', [
+            'user' => Auth::user()
+        ]);
+    }
+
+    public function uploadSettings()
+    {
+        $settings = UserSettings::where('user_id', Auth::id())->first();
+        return view('user.library.upload-settings', [
+            'settings' => $settings
+        ]);
     }
 }

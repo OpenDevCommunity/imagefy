@@ -1,7 +1,7 @@
 @component('mail::message')
 # Dear {{ $email }}
 
-We have a great news for you! Your invite request to join MD Share has been approved.
+We have a great news for you! Your invite request to join {{ config('app.name') }} }} has been approved.
 
 You can now register by clicking button bellow.
 

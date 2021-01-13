@@ -2,15 +2,15 @@
 <project version="4">
   <component name="WebServers">
     <option name="servers">
-      <webServer id="7b771cb9-11ad-412e-8f75-51c84a6d63cc" name="MDSHARE" url="https://marekdev.me">
-        <fileTransfer rootFolder="/var/www/domains/marekdev.me" accessType="SFTP" host="192.168.0.90" port="22" sshConfigId="a640494d-3302-47b3-a9ec-23afa9c8b9fe" sshConfig="root@192.168.0.90:22 password">
+      <webServer id="7b771cb9-11ad-412e-8f75-51c84a6d63cc" name="MDSHARE" url="https://imagefy.me">
+        <fileTransfer rootFolder="/var/www/domains/imagefy.me" accessType="SFTP" host="192.168.0.90" port="22" sshConfigId="a640494d-3302-47b3-a9ec-23afa9c8b9fe" sshConfig="root@192.168.0.90:22 password">
           <advancedOptions>
             <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
           </advancedOptions>
         </fileTransfer>
       </webServer>
-      <webServer id="f31ef076-7c9f-41dc-8498-91d10217a75d" name="MDSHARE - PUBLIC" url="https://marekdev.me">
-        <fileTransfer rootFolder="/var/www/domains/marekdev.me/public_html" accessType="SFTP" host="192.168.0.90" port="22" sshConfigId="a640494d-3302-47b3-a9ec-23afa9c8b9fe" sshConfig="root@192.168.0.90:22 password">
+      <webServer id="f31ef076-7c9f-41dc-8498-91d10217a75d" name="MDSHARE - PUBLIC" url="https://imagefy.me">
+        <fileTransfer rootFolder="/var/www/domains/imagefy.me/public_html" accessType="SFTP" host="192.168.0.90" port="22" sshConfigId="a640494d-3302-47b3-a9ec-23afa9c8b9fe" sshConfig="root@192.168.0.90:22 password">
           <advancedOptions>
             <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
           </advancedOptions>

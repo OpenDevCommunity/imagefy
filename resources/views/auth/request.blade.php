@@ -6,8 +6,7 @@
             <div class="col-md-8">
                 <div class="card shadow-sm">
                     <div class="card-body">
-
-                        <h4 class="text-center">Request Invite to join <span class="text-danger">MD</span><span class="text-success"> SHARE</span></h4>
+                        <h4 class="text-center">Request Invite to join <span class="text-danger">IMAGE</span><span class="text-success">FY</span></h4>
                         <hr>
 
                         <p class="px-3">{{ config('app.name') }} is a closed project. You must have an invitation link to register. You can request your link below. Please note that

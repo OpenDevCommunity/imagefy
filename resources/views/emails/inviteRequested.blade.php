@@ -1,7 +1,7 @@
 @component('mail::message')
 # Dear {{ $email }}
 
-Thank You for showing interest in joining MD Share. As this is a private project and not
+Thank You for showing interest in joining {{ config('app.name') }}. As this is a private project and not
 available to general public we do allow for users to request an invite. Please note that
 not all requests are approved and there are many factors that can interfere with your request
 such as we have reached users limit that we have set.
@@ -12,8 +12,6 @@ We will do our best to get back to you within the next 48 hours. Please note tha
 not be met.
 
 If you have any questions then feel free to send us an email to marek@marekdev.me
-
-If you are a team member at Open Dev Community or Multitrucking Mod then make sure to use your staff email to request invite.
 
 Thanks,<br>
 {{ config('app.name') }}

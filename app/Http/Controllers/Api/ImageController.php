@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Api;
 use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\Image;
+use App\Models\UserSettings;
 use Illuminate\Http\JsonResponse;
 use Storage;
 use Validator;
+use Auth;
 
 /**
  * Class ImageController
@@ -72,6 +74,11 @@ class ImageController extends Controller
         ], 200);
     }
 
+    private function convertVisibility($visibilityStr)
+    {
+        return $visibilityStr === 'private' ? false : true;
+    }
+
     /**
      * Handle image upload
      *
@@ -98,6 +105,8 @@ class ImageController extends Controller
             ], 422);
         }
 
+        $settings = UserSettings::where('user_id', Helper::getUserId(request()->headers->get('x-api-key')))->first();
+
         // Get file from request
         $image = request()->file('image');
 
@@ -105,7 +114,7 @@ class ImageController extends Controller
         $imageName = time().'.'.$image->getClientOriginalExtension();
 
         // Store image in Digital Ocean S3 Space
-        Storage::disk('spaces')->putFileAs('images', $image, $imageName, 'public');
+        Storage::disk('spaces')->putFileAs('images', $image, $imageName, request()->has('visibility') ? request()->get('visibility') : $settings->default_image_visibility);
 
         // Store newly uploaded image meta in database
         $createdImage = Image::create([
@@ -113,7 +122,7 @@ class ImageController extends Controller
            'image_del_hash'     => uniqid('img_'),
            'image_share_hash'   => uniqid('sha_'),
            'image_name'         => $imageName,
-           'public'             => request()->has('visibility') ? request()->get('visibility') : true
+           'public'             => request()->has('visibility') ? request()->get('visibility') : $this->convertVisibility($settings->default_image_visibility)
         ]);
 
         // Check if meta was added to databse

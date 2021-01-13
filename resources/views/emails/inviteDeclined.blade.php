@@ -1,7 +1,7 @@
 @component('mail::message')
 # Dear {{ $email  }}
 
-Thank You for your interest in joining MD Share. Unfortuantelly we were unable to accept your request.
+Thank You for your interest in joining {{ config('app.name') }}. Unfortuantelly we were unable to accept your request.
 
 There are many reasons why we are unable to approve your request such as we have reached amount of users
 we can accept at this time.
