@@ -81,7 +81,7 @@
                             @foreach($recentImages as $img)
                                 <tr>
                                     <td>
-                                        <a href="{{ AWSImage::generateTempLink($img->image_name, 5) }}" data-toggle="lightbox" data-gallery="gallery">
+                                        <a href="{{ AWSImage::generateTempLink($img->image_name, 30) }}" data-toggle="lightbox" data-gallery="gallery">
                                             {{ $img->image_name }}
                                         </a>
                                     </td>

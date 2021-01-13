@@ -16,8 +16,8 @@
                 <div class="col-lg-4 col-sm-12 clearfix" style="margin-bottom: 15px !important;">
                     <div class="card shadow-sm">
                         <div class="card-body text-center">
-                            <a href="{{ AWSImage::generateTempLink($image->image_name, 5) }}" data-toggle="lightbox" data-gallery="gallery">
-                                <img src="{{ AWSImage::generateTempLink($image->image_name, 5) }}" class="img-fluid rounded">
+                            <a href="{{ AWSImage::generateTempLink($image->image_name, 30) }}" data-toggle="lightbox" data-gallery="gallery">
+                                <img src="{{ AWSImage::generateTempLink($image->image_name, 30) }}" class="img-fluid rounded">
                             </a>
                             <hr>
                             <p>
