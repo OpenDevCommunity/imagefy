@@ -20,7 +20,7 @@ class Helper
      * @param $apiKey
      * @return HigherOrderBuilderProxy|int|mixed
      */
-    public static function getUserId($apiKey)
+    public static function getUserIdByAPIKey($apiKey)
     {
         $key = APIKeys::where('api_key', $apiKey)->first();
 

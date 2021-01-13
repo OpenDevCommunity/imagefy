@@ -42,7 +42,7 @@ return [
     |
     */
 
-    'asset_url'  => 'https://imagefy.me',
+    'asset_url'  => env('APP_ENV') === 'local' ? '' : 'https://imagefy.me',
 
     /*
     |--------------------------------------------------------------------------

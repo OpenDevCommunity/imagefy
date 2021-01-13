@@ -4,6 +4,14 @@
 
     <div class="container">
 
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb shadow-sm">
+                <li class="breadcrumb-item"><a href="{{ route('home') }}">Account</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('user.image.library') }}">Library</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Upload Settings</li>
+            </ol>
+        </nav>
+
         <div class="row">
             <div class="col-md-6">
                 <div class="card shadow-sm">
@@ -25,7 +33,7 @@
                                 <div class="form-check-inline mt-2">
                                     <label class="form-check-label">
                                         <input type="radio" class="form-check-input" value="public" name="visibility" {{ $settings->default_image_visibility === 'public' ? 'checked' : '' }}>
-                                        Public <span class="text-muted">(Anyone with URL can access it)</span>
+                                        Public <small class="text-muted">(Anyone with URL can access it)</small>
                                     </label>
                                 </div>
                             </div>

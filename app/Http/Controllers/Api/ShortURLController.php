@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\ShortUrl;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Validator;
 
 class ShortURLController extends Controller
@@ -18,9 +19,11 @@ class ShortURLController extends Controller
      */
     public function fetchAllShortUrls()
     {
-        $userId = Helper::getUserId(request()->headers->get('x-api-key'));
+        $apiKey = request()->headers->get('x-api-key');
+        $userId = Helper::getUserIdByAPIKey($apiKey);
 
         if (request()->query->get('active') === 'true') {
+            // Get all active
             $activeUrls = ShortUrl::where('user_id', $userId)->where('expiries_at', '>=', Carbon::now())->get();
 
             return response()->json([

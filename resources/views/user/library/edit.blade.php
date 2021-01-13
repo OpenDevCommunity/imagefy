@@ -25,12 +25,14 @@
                             <div class="form-group">
                                 <div class="form-check-inline">
                                     <label class="form-check-label">
-                                        <input type="radio" class="form-check-input" value="private" {{ AWSImage::getFileVisibility($image->id) === 'private' ? 'checked' : '' }} name="visibility">Private (Only you can see it when logged in)
+                                        <input type="radio" class="form-check-input" value="private" {{ AWSImage::getFileVisibility($image->id) === 'private' ? 'checked' : '' }} name="visibility">
+                                        Private  <small class="text-muted"> (Only you can see it when logged in or shared via temporary URL)</small>
                                     </label>
                                 </div>
                                 <div class="form-check-inline mt-2">
                                     <label class="form-check-label">
-                                        <input type="radio" class="form-check-input" value="public" {{ AWSImage::getFileVisibility($image->id) === 'public' ? 'checked' : '' }} name="visibility">Public (Anyone with URL can access it)
+                                        <input type="radio" class="form-check-input" value="public" {{ AWSImage::getFileVisibility($image->id) === 'public' ? 'checked' : '' }} name="visibility">
+                                        Public <small class="text-muted">(Anyone with URL can access it)</small>
                                     </label>
                                 </div>
                             </div>
