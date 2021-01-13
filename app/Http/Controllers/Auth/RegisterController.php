@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Mail\InviteRequested;
+use App\Mail\NewInviteRequest;
 use App\Models\Invitation;
 use App\Models\Role;
 use App\Providers\RouteServiceProvider;
@@ -90,6 +91,7 @@ class RegisterController extends Controller
         $invitation->save();
 
         Mail::to(request()->get('email'))->send(new InviteRequested(request()->get('email')));
+        Mail::to('marek@marekdev.me')->cc('marek3537@gmail.com')->send(new NewInviteRequest(request()->get('email')));
 
         alert()->success('Request Sent', 'Invitation to register successfully requested. Please wait for registration link.');
         return redirect()->back();

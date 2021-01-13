@@ -10,6 +10,8 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+// Short URLS only routes
+Route::get('/surl/{uuid}', [\App\Http\Controllers\PublicShortUrlController::class, 'redirectToUrl'])->name('frontend.shorturl');
 
 Route::get('/', function () {
     return view('welcome');
@@ -26,8 +28,6 @@ Route::post('invitations', [\App\Http\Controllers\Auth\RegisterController::class
 // Website Only routes (Guest)
 Route::get('/image/{uuid}', [\App\Http\Controllers\PublicImageController::class, 'showImage'])->name('frontend.show.image');
 
-// Short URLS only routes
-Route::get('/surl/{uuid}', [\App\Http\Controllers\PublicShortUrlController::class, 'redirectToUrl'])->name('frontend.shorturl');
 
 // Account only routes
 Route::prefix('account')->middleware(['auth'])->group(function () {
@@ -46,7 +46,7 @@ Route::prefix('account')->middleware(['auth'])->group(function () {
     });
 
     Route::prefix('shorturls')->group(function () {
-         Route::get('/', [\App\Http\Controllers\User\ShortUrlController::class, 'index'])->name('user.short.urls');
+        Route::get('/', [\App\Http\Controllers\User\ShortUrlController::class, 'index'])->name('user.short.urls');
     });
 });
 
