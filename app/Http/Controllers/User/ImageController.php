@@ -133,7 +133,7 @@ class ImageController extends Controller
            'user_id' => Auth::id(),
            'image_id' => $image->id,
            'original_url' => $signedURL,
-           'short_url_hash' => uniqid('sh_'),
+           'short_url_hash' => base_convert(time(), 10, 36),
            'expiries_at' => Helper::generateCarbonTime(request()->get('length'), request()->get('time')),
         ]);
 

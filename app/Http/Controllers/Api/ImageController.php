@@ -88,7 +88,7 @@ class ImageController extends Controller
         $createdImage = Image::create([
            'user_id'            => $userId,
            'image_del_hash'     => uniqid('img_'),
-           'image_share_hash'   => uniqid('sha_'),
+           'image_share_hash'   => base_convert(time(), 10, 36),
            'image_name'         => $imageName,
            'public'             => $request->has('visibility') ? $request->get('visibility') : AWSImage::convertVisibility($settings->default_image_visibility)
         ]);

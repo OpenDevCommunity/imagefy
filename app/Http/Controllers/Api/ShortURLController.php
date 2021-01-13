@@ -56,9 +56,9 @@ class ShortURLController extends Controller
         $originalURLParts = parse_url(request()->get('original_url'));
 
         $shortUrl = ShortUrl::create([
-           'user_id' => Helper::getUserId(request()->headers->get('x-api-key')),
+           'user_id' => Helper::getUserIdByAPIKey(request()->headers->get('x-api-key')),
            'original_url' => request()->get('original_url'),
-           'short_url_hash' => uniqid('sh_', true),
+           'short_url_hash' => base_convert(time(), 10, 36),
            'name' => request()->has('name') ? request()->has('name') : $originalURLParts['host'],
            'expiries_at' => request()->has('expires') ? Helper::generateCarbonTime(request()->get('length'), request()->get('time')) : null,
         ]);
