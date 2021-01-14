@@ -19,10 +19,12 @@
         "laravel/ui": "^3.2",
         "league/flysystem-aws-s3-v3": "^1.0.",
         "livewire/livewire": "^2.3",
+        "pragmarx/version": "^1.2",
         "predis/predis": "^1.1",
         "realrashid/sweet-alert": "^3.2",
         "santigarcor/laratrust": "^6.3",
-        "spatie/laravel-activitylog": "^3.16"
+        "spatie/laravel-activitylog": "^3.16",
+        "ext-json": "*"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.9",

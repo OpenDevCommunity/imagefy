@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3da736b71b6c880ac41300ca05766a5f",
+    "content-hash": "c07cfc6cc58312753452f02ba4d512d3",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -2281,6 +2281,130 @@
                 }
             ],
             "time": "2020-07-20T17:29:33+00:00"
+        },
+        {
+            "name": "pragmarx/version",
+            "version": "v1.2.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/antonioribeiro/version.git",
+                "reference": "691fd35c94eea9d58a9851f8fdb6c2dcee85af9a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/antonioribeiro/version/zipball/691fd35c94eea9d58a9851f8fdb6c2dcee85af9a",
+                "reference": "691fd35c94eea9d58a9851f8fdb6c2dcee85af9a",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": ">=5.5.33",
+                "php": "^7.0",
+                "pragmarx/yaml": "^1.0",
+                "symfony/process": "^3.3|^4.0|^5.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "3.4.*|3.5.*|3.6.*|3.7.*|4.*|5.*",
+                "phpunit/phpunit": "~5|~6|~7|~8|~9"
+            },
+            "type": "library",
+            "extra": {
+                "component": "package",
+                "laravel": {
+                    "providers": [
+                        "PragmaRX\\Version\\Package\\ServiceProvider"
+                    ],
+                    "aliases": {
+                        "Version": "PragmaRX\\Version\\Package\\Facade"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "PragmaRX\\Version\\Package\\": "src/package",
+                    "PragmaRX\\Version\\Tests\\": "tests/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Antonio Carlos Ribeiro",
+                    "email": "acr@antoniocarlosribeiro.com",
+                    "role": "Creator & Designer"
+                }
+            ],
+            "description": "Take control over your Laravel app version",
+            "keywords": [
+                "laravel",
+                "version",
+                "versioning"
+            ],
+            "time": "2020-09-14T10:31:27+00:00"
+        },
+        {
+            "name": "pragmarx/yaml",
+            "version": "v1.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/antonioribeiro/yaml.git",
+                "reference": "9f2b44c4a31f8a71bab77169205aee7184ae3ef4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/antonioribeiro/yaml/zipball/9f2b44c4a31f8a71bab77169205aee7184ae3ef4",
+                "reference": "9f2b44c4a31f8a71bab77169205aee7184ae3ef4",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": ">=5.5.33",
+                "php": ">=7.0",
+                "symfony/yaml": "^3.4|^4.0|^5.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "3.5|^3.6|^4.0|^5.0",
+                "phpunit/phpunit": "^4.0|^6.4|^7.0|^8.0|^9.0"
+            },
+            "suggest": {
+                "ext-yaml": "Required to use the PECL YAML."
+            },
+            "type": "library",
+            "extra": {
+                "component": "package",
+                "laravel": {
+                    "providers": [
+                        "PragmaRX\\Yaml\\Package\\ServiceProvider"
+                    ],
+                    "aliases": {
+                        "Yaml": "PragmaRX\\Yaml\\Package\\Facade"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "PragmaRX\\Yaml\\Package\\": "src/package",
+                    "PragmaRX\\Yaml\\Tests\\": "tests/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Antonio Carlos Ribeiro",
+                    "email": "acr@antoniocarlosribeiro.com",
+                    "role": "Creator & Designer"
+                }
+            ],
+            "description": "Load your Laravel config files using yaml",
+            "keywords": [
+                "config",
+                "laravel",
+                "yaml"
+            ],
+            "time": "2020-05-21T19:46:28+00:00"
         },
         {
             "name": "predis/predis",
@@ -5388,6 +5512,78 @@
                 }
             ],
             "time": "2020-12-16T17:02:19+00:00"
+        },
+        {
+            "name": "symfony/yaml",
+            "version": "v5.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/yaml.git",
+                "reference": "290ea5e03b8cf9b42c783163123f54441fb06939"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/290ea5e03b8cf9b42c783163123f54441fb06939",
+                "reference": "290ea5e03b8cf9b42c783163123f54441fb06939",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2.5",
+                "symfony/deprecation-contracts": "^2.1",
+                "symfony/polyfill-ctype": "~1.8"
+            },
+            "conflict": {
+                "symfony/console": "<4.4"
+            },
+            "require-dev": {
+                "symfony/console": "^4.4|^5.0"
+            },
+            "suggest": {
+                "symfony/console": "For validating YAML files using the lint command"
+            },
+            "bin": [
+                "Resources/bin/yaml-lint"
+            ],
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Yaml\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Yaml Component",
+            "homepage": "https://symfony.com",
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2020-12-08T17:02:38+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",
