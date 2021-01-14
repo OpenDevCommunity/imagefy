@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Notifications\DatabaseNotificationCollection;
@@ -84,17 +86,27 @@ class User extends Authenticatable
     ];
 
 
+    /**
+     * @return HasMany
+     */
     public function Images()
     {
         return $this->hasMany(Image::class, 'user_id', 'id');
     }
 
 
+    /**
+     * @return HasMany
+     */
     public function ShortUrls()
     {
         return $this->hasMany(ShortUrl::class, 'user_id', 'id');
     }
 
+
+    /**
+     * @return HasOne
+     */
     public function Settings()
     {
         return $this->hasOne(UserSettings::class, 'user_id', 'id');
