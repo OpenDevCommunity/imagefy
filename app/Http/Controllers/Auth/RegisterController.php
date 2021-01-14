@@ -90,7 +90,7 @@ class RegisterController extends Controller
         $invitation->generateInvitationToken();
         $invitation->save();
 
-        $admins = User::whereRoleIs('administrator')->orWhereRoleIs('superadministrator')->get();
+        $admins = User::whereRoleIs(['administrator', 'superadministrator'])->get();
 
         Mail::to(request()->get('email'))->send(new InviteRequested(request()->get('email')));
         Mail::to($admins)->send(new NewInviteRequest(request()->get('email')));
