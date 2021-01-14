@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'MD Share - Users List')
+@section('title', env('APP_NAME') . ' - Users List')
 
 @section('content_header')
     <h1>List of Users</h1>

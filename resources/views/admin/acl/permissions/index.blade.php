@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'MD Share - List Permissions')
+@section('title', env('APP_NAME') . ' - List Permissions')
 
 @section('content_header')
     <h1>List Permissions</h1>

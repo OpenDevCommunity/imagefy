@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'MD Share - View User')
+@section('title', env('APP_NAME') . ' - View User')
 
 @section('content_header')
     <h1>View User {{ $user->name }}</h1>

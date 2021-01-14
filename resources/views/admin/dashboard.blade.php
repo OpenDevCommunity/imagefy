@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'MD Share - Administration Dashboard')
+@section('title', env('APP_NAME') . ' - Administration Dashboard')
 
 @section('content_header')
     <h1>Dashboard</h1>

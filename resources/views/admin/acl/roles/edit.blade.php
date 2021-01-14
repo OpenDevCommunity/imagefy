@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'MD Share - Edit Role')
+@section('title', env('APP_NAME') . ' - Edit Role')
 
 @section('content_header')
     <h1>Edit {{ $role->display_name }}</h1>

@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'MD Share - List Roles')
+@section('title', env('APP_NAME') . ' - List Roles')
 
 @section('content_header')
     <h1>List Roles</h1>

@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'MD Share - Pending Invites')
+@section('title', env('APP_NAME') . ' - Pending Invites')
 
 @section('content_header')
     <h1>List Pending Invites</h1>
