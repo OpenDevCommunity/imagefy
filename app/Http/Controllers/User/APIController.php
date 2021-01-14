@@ -17,9 +17,9 @@ class APIController extends Controller
 
     public function generateSharexFile($apikey)
     {
-        $apiKey = APIKeys::where('api_key', $apikey)->where('user_id', Auth::id())->first();
+        $key = APIKeys::where('api_key', $apikey)->where('user_id', Auth::id())->first();
 
-        if (!$apikey) {
+        if (!$key) {
             return redirect()->back();
         }
 
@@ -38,9 +38,11 @@ class APIController extends Controller
         ]);
 
 
-        File::put(public_path('/upload/json/imagefy.me.sxcu'),$config);
+        File::put(public_path('/upload/json/imagefy.' . $key->user_id .  '.me.sxcu'),$config);
 
-        return response()->download(public_path('/upload/json/imagefy.me.sxcu'));
+        File::delete('/upload/json/imagefy.' . $key->user_id .  '.me.sxcu');
+
+        return response()->download(public_path('/upload/json/imagefy.' . $key->user_id .  '.me.sxcu'));
     }
 
 }
