@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\Image;
+use App\Models\ShortUrl;
 use App\Models\User;
 use App\Models\UserSettings;
 use Auth;
@@ -28,6 +29,7 @@ class AccountController extends Controller
         $imagesCount = Image::where('user_id', Auth::user()->id)->count();
         $publicImagesCount = Image::where('user_id', Auth::user()->id)->where('public', true)->count();
         $privateImagesCount = Image::where('user_id', Auth::user()->id)->where('public', false)->count();
+        $shortUrlCount = ShortUrl::where('user_id', Auth::id())->count();
 
         $recentImages = Image::orderBy('id', 'desc')->where('user_id', Auth::user()->id)->take(5)->get();
 
@@ -35,7 +37,8 @@ class AccountController extends Controller
             'imagesCount' => $imagesCount,
             'recentImages' => $recentImages,
             'publicImagesCount' => $publicImagesCount,
-            'privateImagesCount' => $privateImagesCount
+            'privateImagesCount' => $privateImagesCount,
+            'shortUrlCount' => $shortUrlCount
         ]);
     }
 
