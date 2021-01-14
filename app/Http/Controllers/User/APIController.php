@@ -7,6 +7,7 @@ use App\Models\APIKeys;
 use Illuminate\Http\Request;
 use Auth;
 use File;
+use Storage;
 
 class APIController extends Controller
 {
@@ -15,7 +16,8 @@ class APIController extends Controller
         return view('user.account.api');
     }
 
-    public function generateSharexFile($apikey)
+
+    public function generateSharexFile($apikey, $type)
     {
         $key = APIKeys::where('api_key', $apikey)->where('user_id', Auth::id())->first();
 
@@ -23,26 +25,28 @@ class APIController extends Controller
             return redirect()->back();
         }
 
-        $config = json_encode([
+        $configArray = [
             'Version' => '13.1.0',
-            'Name' => 'Imagefy.me',
-            'DestinationType' => 'ImageUploader',
+            'Name' => $type === 'upload' ? 'Imagefy.me' : 's-url.app',
+            'DestinationType' => $type === 'upload' ? 'ImageUploader' : 'URLShortener',
             'RequestMethod' => 'POST',
-            'RequestURL' => 'https://imagefy.me/api/v1/images/upload',
+            'RequestURL' => $type === 'upload' ? 'https://imagefy.me/api/v1/images/upload' : 'https://s-url.app/api/v1/shorturl/create',
             'Headers' => [
                 'x-api-key' => $apikey,
             ],
-            'Body' => 'MultipartFormData',
-            'FileFormName' => 'image',
-            'URL' => '$json:url$'
-        ]);
+            'Body' => $type === 'upload' ? 'MultipartFormData' : 'JSON',
+            'URL' => '$json:shortUrl$'
+        ];
 
+        $configJson = json_encode($configArray);
 
-        File::put(public_path('/upload/json/imagefy.' . $key->user_id .  '.me.sxcu'),$config);
+        $type === 'upload' ?  $configArray['FileFormName'] = 'image' : $configArray['Data'] = '{\n  \"original_url\": \"$input$\"\n}';
 
-        File::delete('/upload/json/imagefy.' . $key->user_id .  '.me.sxcu');
+        $filename = $type === 'upload' ? public_path('/upload/json/imagefy.' . $key->user_id .  '.me.sxcu') : public_path('/upload/json/imagefy.' . $key->user_id .  '.surl.app.sxcu');
 
-        return response()->download(public_path('/upload/json/imagefy.' . $key->user_id .  '.me.sxcu'));
+        File::put($filename,$configJson);
+
+        return response()->download($filename);
     }
 
 }

@@ -1,1 +1,0 @@
-{"Version":"13.1.0","Name":"Imagefy.me","DestinationType":"ImageUploader","RequestMethod":"POST","RequestURL":"https:\/\/imagefy.me\/api\/v1\/images\/upload","Headers":{"x-api-key":"e01e8a-f3c791-9e3796-3f5a85-fb048f"},"Body":"MultipartFormData","FileFormName":"image","URL":"$json:url$"}

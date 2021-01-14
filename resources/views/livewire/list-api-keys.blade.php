@@ -29,7 +29,8 @@
                                     <i class="fas fa-cogs"></i>
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item" href="{{ route('user.api.sharex', $key->api_key) }}"><i class="fas fa-download"></i> Sharex Config</a>
+                                    <a class="dropdown-item" href="{{ route('user.api.sharex',  ['apikey' => $key->api_key, 'type' => 'upload']) }}"><i class="fas fa-download"></i> Sharex Config</a>
+                                    <a class="dropdown-item" href="{{ route('user.api.sharex', ['apikey' => $key->api_key, 'type' => 'surl']) }}"><i class="fas fa-download"></i> Sharex s-url Config</a>
                                     <a class="dropdown-item" href="javascript:void(0)" wire:click.prevent="delete({{ $key['id'] }})"><i class="fas fa-trash"></i> Delete</a>
                                 </div>
                             </div>
