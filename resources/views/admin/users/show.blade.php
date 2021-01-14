@@ -181,7 +181,14 @@
                                     {{ $url->expiries_at !== null  ? \Carbon\Carbon::parse($url->expiries_at)->diffForHumans() : 'Never Expiries' }}
                                 </td>
                                 <td>
-                                    <a href="{{ route('admin.user.del.shorturl', $url->id) }}" class="btn btn-danger btn-sm delete-confirm"><i class="fas fa-trash"></i></a>
+                                    <div class="dropdown">
+                                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-cogs"></i>
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <a class="dropdown-item delete-confirm" href="{{ route('admin.user.del.shorturl', $url->id) }}"><i class="fas fa-trash"></i> Delete</a>
+                                        </div>
+                                    </div>
                                 </td>
                             </tr>
                         @endforeach

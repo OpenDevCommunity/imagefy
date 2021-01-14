@@ -96,11 +96,11 @@
                                                 <i class="fas fa-cogs"></i>
                                             </button>
                                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                <a href="{{ route('user.image.settings', $img->image_share_hash) }}" class="dropdown-item" title="Edit Image">
+                                                <a href="{{ route('user.image.settings', $img->image_share_hash) }}" class="dropdown-item delete-confirm" title="Edit Image">
                                                     <i class="fas fa-pencil-alt"></i> Edit
                                                 </a>
 
-                                                <a href="{{ route('user.image.delete', $img->image_del_hash) }}" class="dropdown-item" title="Delete Image">
+                                                <a href="{{ route('user.image.delete', $img->image_del_hash) }}" class="dropdown-item delete-confirm" title="Delete Image">
                                                     <i class="fas fa-trash"></i> Delete
                                                 </a>
                                             </div>
