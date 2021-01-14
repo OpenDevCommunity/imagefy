@@ -53,7 +53,7 @@
                 <div class="tab-pane fade" id="roles" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
                     <h4>User Roles</h4>
                     <hr>
-                    <table id="roles-list" class="table table-striped table-bordered" style="width:100%">
+                    <table id="roles-list" class="table table-striped table-bordered dt-responsive" style="width:100%">
                         <thead>
                         <tr>
                             <th>Name</th>
@@ -84,7 +84,7 @@
                 <div class="tab-pane fade" id="permissions" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
                     <h4>User permissions</h4>
                     <hr>
-                    <table id="permissions-list" class="table table-striped table-bordered" style="width:100%">
+                    <table id="permissions-list" class="table table-striped table-bordered dt-responsive" style="width:100%">
                         <thead>
                         <tr>
                             <th>Name</th>
@@ -115,7 +115,7 @@
                 <div class="tab-pane fade" id="images" role="tabpanel" aria-labelledby="custom-tabs-one-messages-tab">
                     <h4>User Uploaded Images</h4>
                     <hr>
-                    <table id="user-images" class="table table-striped table-bordered" style="width:100%">
+                    <table id="user-images" class="table table-striped table-bordered dt-responsive" style="width:100%">
                         <thead>
                         <tr>
                             <th>Image</th>
@@ -159,7 +159,7 @@
                 <div class="tab-pane fade" id="short" role="tabpanel" aria-labelledby="custom-tabs-one-settings-tab">
                     <h4>User Short URLs</h4>
                     <hr>
-                    <table id="short-urls" class="table table-striped table-bordered" style="width:100%">
+                    <table id="short-urls" class="table table-striped table-bordered dt-responsive" style="width:100%">
                         <thead>
                         <tr>
                             <th>Original Url</th>
@@ -178,7 +178,7 @@
                                     <a href="{{ route('frontend.shorturl', $url->short_url_hash) }}" target="_blank">{{ route('frontend.shorturl', $url->short_url_hash) }}</a>
                                 </td>
                                 <td>
-                                    {{ $url->expiried ? \Carbon\Carbon::parse($url->expities_at)->diffForHumans() : 'Expired' }}
+                                    {{ $url->expiries_at !== null  ? \Carbon\Carbon::parse($url->expiries_at)->diffForHumans() : 'Never Expiries' }}
                                 </td>
                                 <td>
                                     <a href="{{ route('admin.user.del.shorturl', $url->id) }}" class="btn btn-danger btn-sm delete-confirm"><i class="fas fa-trash"></i></a>
