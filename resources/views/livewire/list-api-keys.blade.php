@@ -24,7 +24,14 @@
                         <td><kbd>{{ $key['api_key'] }}</kbd></td>
                         <td>{{ $key['last_used'] ? \Carbon\Carbon::parse($key['last_used'])->diffForHumans() : 'Not Available' }}</td>
                         <td>
-                            <button class="btn btn-danger btn-sm" wire:click="delete({{ $key['id'] }})">Delete</button>
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-cogs"></i>
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="javascript:void(0)" wire:click.prevent="delete({{ $key['id'] }})"><i class="fas fa-trash"></i> Delete</a>
+                                </div>
+                            </div>
                         </td>
                     </tr>
                     @endforeach

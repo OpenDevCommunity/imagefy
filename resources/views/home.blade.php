@@ -91,12 +91,20 @@
                                            title="{{ AWSImage::getFileVisibility($img->id) === 'public' ? 'Public' : 'Private' }}"></i>
                                     </td>
                                     <td>
-                                        <a href="{{ route('user.image.settings', $img->image_share_hash) }}" class="btn btn-primary btn-sm" title="Edit Image">
-                                            <i class="fas fa-pencil-alt"></i>
-                                        </a>
-                                        <a href="{{ route('user.image.delete', $img->image_del_hash) }}" class="btn btn-danger btn-sm delete-confirm" title="Delete Image">
-                                            <i class="fas fa-trash"></i>
-                                        </a>
+                                        <div class="dropdown">
+                                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="fas fa-cogs"></i>
+                                            </button>
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                <a href="{{ route('user.image.settings', $img->image_share_hash) }}" class="dropdown-item" title="Edit Image">
+                                                    <i class="fas fa-pencil-alt"></i> Edit
+                                                </a>
+
+                                                <a href="{{ route('user.image.delete', $img->image_del_hash) }}" class="dropdown-item" title="Delete Image">
+                                                    <i class="fas fa-trash"></i> Delete
+                                                </a>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                             @endforeach
