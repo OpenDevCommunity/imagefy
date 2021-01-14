@@ -46,7 +46,7 @@
         <div class="col-lg-3">
             <div class="card shadow-sm">
                 <div class="card-body text-center">
-                    <h1>0</h1>
+                    <h1>{{ $shortUrlCount }}</h1>
                     <p class="text-muted">Short URLS</p>
                 </div>
             </div>
