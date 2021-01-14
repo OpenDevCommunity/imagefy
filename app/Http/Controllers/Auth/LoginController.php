@@ -42,5 +42,7 @@ class LoginController extends Controller
     protected function authenticated(Request $request, $user)
     {
         UserSettings::firstOrCreate(['user_id' => $user->id], ['user_id' => $user->id]);
+
+        activity()->causedBy($user)->log('Logged in');
     }
 }

@@ -133,6 +133,7 @@
       <path value="$PROJECT_DIR$/vendor/realrashid/sweet-alert" />
       <path value="$PROJECT_DIR$/vendor/livewire/livewire" />
       <path value="$PROJECT_DIR$/vendor/predis/predis" />
+      <path value="$PROJECT_DIR$/vendor/spatie/laravel-activitylog" />
     </include_path>
   </component>
   <component name="PhpUnit">

@@ -26,6 +26,9 @@
                 <li class="nav-item">
                     <a class="nav-link" id="custom-tabs-one-settings-tab" data-toggle="pill" href="#short" role="tab" aria-controls="custom-tabs-one-settings" aria-selected="false">Short URLs</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="custom-tabs-one-settings-tab" data-toggle="pill" href="#activity" role="tab" aria-controls="custom-tabs-one-settings" aria-selected="false">Activity</a>
+                </li>
             </ul>
         </div>
         <div class="card-body">
@@ -203,6 +206,55 @@
                         </tfoot>
                     </table>
                 </div> <!-- ./ User Short URLS -->
+
+                <!-- User Activity -->
+                <div class="tab-pane fade" id="activity" role="tabpanel" aria-labelledby="custom-tabs-one-settings-tab">
+                    <h4>User Short URLs</h4>
+                    <hr>
+                    <table id="user-activity" class="table table-striped table-bordered dt-responsive" style="width:100%">
+                        <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Activity</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($user->activity as $activity)
+                            <tr>
+                                <td>
+                                    {{ $user->name }}
+                                </td>
+                                <td>
+                                    {{ $activity->description }}
+                                </td>
+                                <td>
+                                    {{ $activity->created_at->diffForHumans() }}
+                                </td>
+                                <td>
+                                    <div class="dropdown">
+                                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-cogs"></i>
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <a class="dropdown-item delete-confirm" href="#"><i class="fas fa-trash"></i> Delete</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <th>Username</th>
+                            <th>Activity</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                        </tfoot>
+                    </table>
+                </div> <!-- ./ User Activity -->
             </div>
         </div>
         <!-- /.card -->
@@ -213,7 +265,7 @@
 @section('js')
     <script>
         $(document).ready(function() {
-            $('#user-images, #short-urls, #permissions-list, #roles-list').DataTable({
+            $('#user-images, #short-urls, #permissions-list, #roles-list, #user-activity').DataTable({
                 "searching": true
             });
         } );

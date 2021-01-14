@@ -13,6 +13,7 @@ use Illuminate\Notifications\DatabaseNotificationCollection;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
 use Laratrust\Traits\LaratrustUserTrait;
+use Spatie\Activitylog\Models\Activity;
 
 /**
  * App\Models\User
@@ -110,5 +111,11 @@ class User extends Authenticatable
     public function Settings()
     {
         return $this->hasOne(UserSettings::class, 'user_id', 'id');
+    }
+
+
+    public function Activity()
+    {
+        return $this->hasMany(Activity::class, 'causer_id', 'id')->orderBy('created_at', 'desc');
     }
 }

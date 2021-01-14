@@ -97,7 +97,7 @@ class UserController extends Controller
      */
     public function show($userid)
     {
-        $user = User::where('id', $userid)->with('images')
+        $user = User::where('id', $userid)->with('images')->with('activity')
             ->with('shorturls')->first();
 
         return view('admin.users.show', [
