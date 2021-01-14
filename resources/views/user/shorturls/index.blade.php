@@ -77,7 +77,7 @@
                                 <p><a id="link" href="{{ route('frontend.shorturl', $sh->short_url_hash) }}">{{ route('frontend.shorturl', $sh->short_url_hash) }}</a></p>
                             </div>
 
-                            @if (\Carbon\Carbon::parse($sh->expiries_at)->isPast() && $sh->expiries_at !== null)
+                            @if ($sh->expiried)
                             <div class="alert alert-warning">
                                 This short URL has expired and will no longer redirect to required page! This URL expired {{ \Carbon\Carbon::parse($sh->expiries_at)->fromNow() }}
                             </div>

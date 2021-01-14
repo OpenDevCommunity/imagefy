@@ -36,6 +36,11 @@ class Invitation extends Model
       'email', 'invitation_token', 'registered_at'
     ];
 
+    protected $casts = [
+      'registered_at' => 'datetime',
+      'accepted' => 'boolean'
+    ];
+
     public function getLink() {
         return urldecode(route('register') . '?invitation_token=' . $this->invitation_token);
     }

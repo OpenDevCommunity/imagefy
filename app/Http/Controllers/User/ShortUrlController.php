@@ -38,11 +38,14 @@ class ShortUrlController extends Controller
     {
         // TODO: Add validation
 
+        $originalURLParts = parse_url(request()->get('original_url'));
+
         $shortUrl = ShortUrl::create([
+           'name' => request()->has('name') ? request()->has('name') : $originalURLParts['host'],
            'user_id' => Auth::id(),
            'image_id' => request()->has('image_id') ? request()->has('image_id') : null,
            'original_url' => request()->get('original_url'),
-           'short_url_hash' => uniqid('sh_'),
+           'short_url_hash' => base_convert(time(), 10, 36),
            'expiries_at' => request()->has('expiries_at') ? Carbon::now()->addDays(request()->get('expiries_at')) : null,
         ]);
 

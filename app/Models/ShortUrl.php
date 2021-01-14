@@ -44,4 +44,9 @@ class ShortUrl extends Model
        'user_id', 'image_id', 'original_url', 'short_url_hash',
        'expiries_at', 'expiried', 'name'
     ];
+
+    protected $casts = [
+      'expiries_at' => 'datetime',
+      'expiried' => 'boolean'
+    ];
 }

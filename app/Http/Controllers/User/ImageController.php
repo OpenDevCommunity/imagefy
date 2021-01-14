@@ -122,6 +122,8 @@ class ImageController extends Controller
 
         $signedURL = $this->generateCustomTempUrl($image, request()->get('length'), request()->get('time'));
 
+        $originalURLParts = parse_url($signedURL);
+
         // Store temp url in databse
         $tempRecord = TempUrl::create([
            'image_id' => $image->id,
@@ -129,7 +131,9 @@ class ImageController extends Controller
            'expiries_at' => Helper::generateCarbonTime(request()->get('length'), request()->get('time'))
         ]);
 
+
         $shortUrl = ShortUrl::create([
+           'name' => $originalURLParts['host'],
            'user_id' => Auth::id(),
            'image_id' => $image->id,
            'original_url' => $signedURL,
