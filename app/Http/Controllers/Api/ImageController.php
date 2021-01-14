@@ -12,6 +12,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Storage;
 use AWSImage;
+use App\Models\User;
 /**
  * Class ImageController
  * @package App\Http\Controllers\Api
@@ -100,6 +101,9 @@ class ImageController extends Controller
                 'msg'   => 'Failed to upload image! Please try again!'
             ], 500);
         }
+
+        $user = User::find($userId);
+        activity()->performedOn($createdImage)->causedBy($user)->log('Uploaded image via API');
 
         // Send json response back with image meta
         return response()->json([

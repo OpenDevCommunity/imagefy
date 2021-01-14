@@ -54,6 +54,8 @@ class ShortUrlController extends Controller
             return redirect()->back();
         }
 
+        activity()->performedOn($shortUrl)->causedBy(Auth::user())->log('Created new short URL: ' . route('frontend.shorturl', $shortUrl->short_url_hash));
+
         toast('Short URL generated successfully', 'success');
         return redirect()->back();
     }

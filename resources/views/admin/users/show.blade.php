@@ -141,8 +141,14 @@
                                        title="{{ AWSImage::getFileVisibility($img->id) === 'public' ? 'Public' : 'Private' }}"></i>
                                 </td>
                                 <td>
-                                    <!--<a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-primary btn-sm"><i class="fas fa-pencil-alt"></i></a> -->
-                                    <a href="{{ route('admin.image.delete', $img->id) }}" class="btn btn-danger delete-confirm btn-sm"><i class="fas fa-trash"></i></a>
+                                    <div class="dropdown">
+                                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-cogs"></i>
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <a class="dropdown-item delete-confirm" href="{{ route('admin.image.delete', $img->id) }}"><i class="fas fa-trash"></i> Delete</a>
+                                        </div>
+                                    </div>
                                 </td>
                             </tr>
                         @endforeach
