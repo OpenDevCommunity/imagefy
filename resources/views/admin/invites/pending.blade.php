@@ -8,38 +8,44 @@
 
 @section('content')
 
-
-    <div class="conatiner">
-        <div class="card">
-            <div class="card-body table-responsive">
+    <section class="mt-4">
+        <div class="card shadow-sm">
+            <div class="card-body">
                 <button class="btn btn-success btn-sm float-right" data-toggle="modal" data-target="#newInvite">Send New Invite</button>
-                <table class="table table-hover text-nowrap">
+                <table id="pendingInvites" class="table table-striped table-bordered dt-responsive" style="width:100%">
                     <thead>
                     <tr>
                         <th>ID</th>
                         <th>Email</th>
-                        <th>Date</th>
+                        <th>Requested</th>
                         <th>Action</th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach($pendingInvites as $invite)
-                    <tr>
-                        <td>{{ $invite->id }}</td>
-                        <td>{{ $invite->email }}</td>
-                        <td>{{ $invite->created_at->diffForHumans() }}</td>
-                        <td>
-                            <a href="{{ route('admin.invites.accept', $invite->id) }}" class="btn btn-success btn-sm">Accept</a>
-                            <a href="{{ route('admin.invites.deny', $invite->id) }}" class="btn btn-danger btn-sm">Deny</a>
-                        </td>
-                    </tr>
+                        <tr>
+                            <td>{{ $invite->id }}</td>
+                            <td>{{ $invite->email }}</td>
+                            <td>{{ $invite->created_at->diffForHumans() }}</td>
+                            <td>
+                                <a href="{{ route('admin.invites.accept', $invite->id) }}" class="btn btn-success btn-sm">Accept</a>
+                                <a href="{{ route('admin.invites.deny', $invite->id) }}" class="btn btn-danger btn-sm">Deny</a>
+                            </td>
+                        </tr>
                     @endforeach
                     </tbody>
+                    <tfoot>
+                    <tr>
+                        <th>ID</th>
+                        <th>Email</th>
+                        <th>Requested</th>
+                        <th>Action</th>
+                    </tr>
+                    </tfoot>
                 </table>
             </div>
         </div>
-    </div>
-
+    </section>
 
     <!-- Modal -->
     <div class="modal fade" id="newInvite" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -68,3 +74,13 @@
         </div>
     </div>
 @stop
+
+@section('js')
+    <script>
+        $(document).ready(function() {
+            $('#pendingInvites').DataTable({
+                "searching": true
+            });
+        } );
+    </script>
+@endsection
