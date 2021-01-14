@@ -28,8 +28,15 @@
                             <td>{{ $invite->email }}</td>
                             <td>{{ $invite->created_at->diffForHumans() }}</td>
                             <td>
-                                <a href="{{ route('admin.invites.accept', $invite->id) }}" class="btn btn-success btn-sm">Accept</a>
-                                <a href="{{ route('admin.invites.deny', $invite->id) }}" class="btn btn-danger btn-sm">Deny</a>
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fas fa-cogs"></i>
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <a class="dropdown-item" href="{{ route('admin.invites.accept', $invite->id) }}"><i class="fas fa-check"></i> Accept</a>
+                                        <a class="dropdown-item" href="{{ route('admin.invites.deny', $invite->id) }}"><i class="fas fa-times"></i> Reject</a>
+                                    </div>
+                                </div>
                             </td>
                         </tr>
                     @endforeach

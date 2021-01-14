@@ -10,7 +10,7 @@
     <section class="mt-4">
         <div class="card shadow-sm">
             <div class="card-body">
-                <table id="users" class="table table-striped table-bordered" style="width:100%">
+                <table id="users" class="table table-striped table-bordered dt-responsive" style="width:100%">
                     <thead>
                     <tr>
                         <th>Name</th>
@@ -26,8 +26,15 @@
                         <td>{{ $user->email }}</td>
                         <td>{{ $user->created_at->diffForHumans() }}</td>
                         <td>
-                            <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-primary btn-sm"><i class="fas fa-pencil-alt"></i></a>
-                            <a href="{{ route('admin.users.show', $user->id) }}" class="btn btn-success btn-sm"><i class="fas fa-eye"></i></a>
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-cogs"></i>
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="{{ route('admin.users.edit', $user->id) }}"><i class="fas fa-pencil-alt"></i> Edit</a>
+                                    <a class="dropdown-item" href="{{ route('admin.users.show', $user->id) }}"><i class="fas fa-eye"></i> View</a>
+                                </div>
+                            </div>
                         </td>
                     </tr>
                     @endforeach

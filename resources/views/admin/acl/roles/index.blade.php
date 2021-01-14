@@ -12,7 +12,7 @@
         <div class="card shadow-sm">
             <div class="card-body">
                 <button class="btn btn-success btn-sm float-right" data-toggle="modal" data-target="#newRole">Create Role</button>
-                <table id="roles" class="table table-striped table-bordered" style="width:100%">
+                <table id="roles" class="table table-striped table-bordered dt-responsive" style="width:100%">
                     <thead>
                     <tr>
                         <th>Public Name</th>
