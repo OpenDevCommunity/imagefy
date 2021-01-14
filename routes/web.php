@@ -14,9 +14,7 @@
 // Short URLS only routes
 Route::get('/surl/{uuid}', [\App\Http\Controllers\PublicShortUrlController::class, 'redirectToUrl'])->name('frontend.shorturl');
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('frontend.home');
+Route::get('/', [\App\Http\Controllers\PageController::class, 'index'])->name('frontend.home');
 
 
 Auth::routes();
@@ -97,6 +95,7 @@ Route::prefix('admin')->middleware(['auth', 'role:administrator|superadministrat
         });
     });
 });
+
 
 Route::group(array('domain' => 's-url.app'), function () {
 

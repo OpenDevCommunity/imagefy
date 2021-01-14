@@ -14,8 +14,6 @@ use Illuminate\Contracts\View\View;
 class AdminController extends Controller
 {
     /**
-     * Render Administrator dashboard
-     *
      * @return Application|Factory|View
      */
     public function index()

@@ -22,6 +22,7 @@ class ShortURLController extends Controller
         $apiKey = request()->headers->get('x-api-key');
         $userId = Helper::getUserIdByAPIKey($apiKey);
 
+        // TODO: Add proper filtering
         if (request()->query->get('active') === 'true') {
             // Get all active
             $activeUrls = ShortUrl::where('user_id', $userId)->where('expiries_at', '>=', Carbon::now())->get();
@@ -40,8 +41,12 @@ class ShortURLController extends Controller
         ], 200);
     }
 
+    /**
+     * @return JsonResponse
+     */
     public function createShortURL()
     {
+        // Validate request
         $validatior = Validator::make(request()->all(), [
            'original_url' => 'required|url',
         ]);
@@ -53,14 +58,15 @@ class ShortURLController extends Controller
             ], 422);
         }
 
+        $userId = Helper::getUserIdByAPIKey(request()->headers->get('x-api-key'));
         $originalURLParts = parse_url(request()->get('original_url'));
 
         $shortUrl = ShortUrl::create([
-           'user_id' => Helper::getUserIdByAPIKey(request()->headers->get('x-api-key')),
+           'user_id' => $userId,
            'original_url' => request()->get('original_url'),
-           'short_url_hash' => base_convert(time(), 10, 36),
+           'short_url_hash' => Helper::generateHash(),
            'name' => request()->has('name') ? request()->has('name') : $originalURLParts['host'],
-           'expiries_at' => request()->has('expires') ? Helper::generateCarbonTime(request()->get('length'), request()->get('time')) : null,
+           'expiries_at' => request()->has('expires') ? Helper::generateCarbonTime(request()->get('length'), request()->get('time')) : null, // NULL => Never expires
         ]);
 
         if (!$shortUrl) {

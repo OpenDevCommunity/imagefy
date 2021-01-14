@@ -27,6 +27,11 @@ class Helper
         return $key->user_id;
     }
 
+    public static function generateHash()
+    {
+        return base_convert(time(), 10, 36);
+    }
+
 
     /**
      * @param $length
