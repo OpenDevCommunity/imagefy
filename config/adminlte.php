@@ -229,8 +229,9 @@ return [
             'route'  => 'admin.dashboard',
             'icon' => 'fas fa-home'
         ],
-        ['header' => 'User Management'],
+        ['header' => 'User Management', 'permission' => 'manage-users'],
         [
+            'permission' => 'manage-users',
             'text'    => 'Users',
             'icon'    => 'fas fa-users',
             'submenu' => [

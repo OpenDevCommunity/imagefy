@@ -4,17 +4,17 @@ current:
   label: v
   major: 1
   minor: 1
-  patch: 1
+  patch: 2
   prerelease: null
   buildmetadata: null
-  commit: f14615
+  commit: cdd642
   timestamp:
     year: 2021
     month: 1
-    day: 14
-    hour: 22
-    minute: 10
-    second: 58
+    day: 15
+    hour: 15
+    minute: 25
+    second: 11
     timezone: UTC
 commit:
   mode: absorb

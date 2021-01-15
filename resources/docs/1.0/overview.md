@@ -10,13 +10,13 @@
 <a name="section-1"></a>
 ## What is Imagefy
 
-Imagefy is a simple image hosting platform for screenshots, images & gifs. The idea begind Imagefy is to allow users to 
+Imagefy is a simple hosting platform for screenshots, images & gifs. The idea begind Imagefy is to allow users to 
 take full control over how media content is shared. Imagefy allows you to share your media via unique URL or by generating
 temporary URL that will expire after specified time.
 
 <a name="section-2"></a>
 ## Can I join Imagefy?
-At the time of writing this documentation Imagefy is still a closed project which means that users wo want to join Imagefy
+At the time of writing this documentation Imagefy is still a closed project which means that users who want to join Imagefy
 will need to request an invite to be sent to them. All invites are being manually reviewed. At this stage we cannot accept
 too many people as it's still in active development and lacks important features that are being worked on
 
