@@ -8,3 +8,4 @@
 - ## API Docs
     - [Authentication](/{{route}}/{{version}}/api/authentication)
     - [Upload Image](/{{route}}/{{version}}/api/upload)
+    - [Update Visibility](/{{route}}/{{version}}/api/visibility)
