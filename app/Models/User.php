@@ -114,8 +114,17 @@ class User extends Authenticatable
     }
 
 
+    /**
+     * @return HasMany
+     */
     public function Activity()
     {
         return $this->hasMany(Activity::class, 'causer_id', 'id')->orderBy('created_at', 'desc');
+    }
+
+
+    public function adminlte_profile_url()
+    {
+        return 'home';
     }
 }
