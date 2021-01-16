@@ -14,6 +14,7 @@ use Illuminate\Http\RedirectResponse;
 use Auth;
 use Illuminate\Http\Response;
 use Storage;
+use AWSImage;
 
 /**
  * Class PublicImageController
@@ -40,6 +41,7 @@ class PublicImageController extends Controller
 
     /**
      * @param Image $image
+     * @param $url
      * @return Application|Factory|View
      */
     public function renderImagePage(Image $image)

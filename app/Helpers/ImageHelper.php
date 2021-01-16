@@ -12,6 +12,7 @@ namespace App\Helpers;
 
 use App\Models\Image;
 use Carbon\Carbon;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Storage;
 
 class ImageHelper
@@ -47,12 +48,21 @@ class ImageHelper
     {
         $tempUrl = Storage::temporaryUrl('images/' . $name, Carbon::now()->addMinutes($time));
 
-        return str_replace('md-img-host.fra1.digitaloceanspaces.com', 'cdn.imagefy.me', $tempUrl);
+        $urlParts = parse_url($tempUrl);
+
+        if (env('DO_SPACES_URL') !== '') {
+            $spaceUrlParts = parse_url(env('DO_SPACES_URL'));
+
+            return str_replace($urlParts['host'], $spaceUrlParts['host'], $tempUrl);
+        }
+
+        return $tempUrl;
     }
 
     /**
      * @param $name
      * @return string
+     * @throws FileNotFoundException
      */
     public static function getImageFile($name)
     {
