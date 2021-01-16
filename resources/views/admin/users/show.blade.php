@@ -146,7 +146,12 @@
                                             <i class="fas fa-cogs"></i>
                                         </button>
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            <a class="dropdown-item delete-confirm" href="{{ route('admin.image.delete', $img->id) }}"><i class="fas fa-trash"></i> Delete</a>
+                                            <a
+                                                data-text="Image {{ $img->image_name }} will be deleted permanently"
+                                                class="dropdown-item delete-confirm"
+                                                href="{{ route('admin.image.delete', $img->id) }}">
+                                                <i class="fas fa-trash"></i> Delete
+                                            </a>
                                         </div>
                                     </div>
                                 </td>
@@ -195,7 +200,12 @@
                                             <i class="fas fa-cogs"></i>
                                         </button>
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            <a class="dropdown-item delete-confirm" href="{{ route('admin.user.del.shorturl', $url->id) }}"><i class="fas fa-trash"></i> Delete</a>
+                                            <a
+                                                data-text="Short URL {{ route('frontend.shorturl', $url->short_url_hash) }} will be deleted permanently!"
+                                                class="dropdown-item delete-confirm"
+                                                href="{{ route('admin.user.del.shorturl', $url->id) }}">
+                                                <i class="fas fa-trash"></i> Delete
+                                            </a>
                                         </div>
                                     </div>
                                 </td>
@@ -244,7 +254,7 @@
                                             <i class="fas fa-cogs"></i>
                                         </button>
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            <a class="dropdown-item delete-confirm" href="#"><i class="fas fa-trash"></i> Delete</a>
+                                            <a class="dropdown-item delete-confirm" data-text="This user activity will be deleted permamently" href="#"><i class="fas fa-trash"></i> Delete</a>
                                         </div>
                                     </div>
                                 </td>
@@ -285,21 +295,3 @@
             });
         });
     </script>
-
-    <script>
-        $('.delete-confirm').on('click', function (event) {
-            event.preventDefault();
-            const url = $(this).attr('href');
-            Swal.fire({
-                title: 'Are you sure?',
-                text: 'This record and it`s details will be permanantly deleted!',
-                showCancelButton: true,
-                confirmButtonText: `I Understand`
-            }).then((result) => {
-                if (result.value) {
-                    window.location.href = url;
-                }
-            });
-        });
-    </script>
-@endsection

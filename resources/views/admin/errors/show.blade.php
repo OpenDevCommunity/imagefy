@@ -23,7 +23,7 @@
                                 <p><strong>Occured: </strong>{{ $error->created_at->diffForHumans() }}</p>
                             </div>
                             <div class="col-md-4">
-                                <a href="{{ route('admin.errors.delete', $error->id) }}" class="btn btn-danger">
+                                <a href="{{ route('admin.errors.delete', $error->id) }}" data-text="This error log will be permanently deleted" class="btn btn-danger delete-confirm">
                                     <i class="fas fa-trash"></i>
                                 </a>
                             </div>
@@ -61,6 +61,5 @@
 
 
 @stop
-
 
 

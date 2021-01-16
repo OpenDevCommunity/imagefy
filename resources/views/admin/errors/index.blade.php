@@ -37,6 +37,7 @@
                                                 </button>
                                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                                     <a class="dropdown-item" href="{{ route('admin.errors.show', $error->id) }}"><i class="fas fa-eye"></i> View</a>
+                                                    <a class="dropdown-item delete-confirm" data-text="This error log will be permanently deleted" href="{{ route('admin.errors.delete', $error->id) }}"><i class="fas fa-trash"></i> Delete</a>
                                                 </div>
                                             </div>
                                         </td>
@@ -71,4 +72,5 @@
             });
         } );
     </script>
+
 @endsection
