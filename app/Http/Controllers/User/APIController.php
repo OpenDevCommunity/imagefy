@@ -19,10 +19,10 @@ class APIController extends Controller
 
     public function generateSharexFile($apikey, $type)
     {
-        $key = APIKeys::where('api_key', $apikey)->where('user_id', Auth::id())->first();
+        $key = APIKeys::where('api_key', $apikey)->first();
 
-        if (!$key) {
-            return redirect()->back();
+        if (!$key || $key->user_id !== Auth::id()) {
+            return redirect()->route('user.settings.api');
         }
 
         $configArray = [
