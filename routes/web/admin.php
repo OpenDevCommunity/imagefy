@@ -43,6 +43,12 @@ $adminRoutes = function () {
                 Route::post('/{roleId}/edit', [\App\Http\Controllers\Admin\ACLController::class, 'updateRole'])->name('admin.update.role');
             });
         });
+
+        Route::prefix('errors')->group(function () {
+            Route::get('/', [\App\Http\Controllers\Admin\ErrorController::class, 'index'])->name('admin.errors.index');
+            Route::get('/{id}/show', [\App\Http\Controllers\Admin\ErrorController::class, 'show'])->name('admin.errors.show');
+            Route::get('/{id}/delete', [\App\Http\Controllers\Admin\ErrorController::class, 'delete'])->name('admin.errors.delete');
+        });
     });
 };
 

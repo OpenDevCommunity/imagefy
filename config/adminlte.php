@@ -304,6 +304,13 @@ return [
                 ],
             ],
         ],
+
+        ['header' => 'Debug'],
+        [
+            'text' => 'Error Logs',
+            'route'  => 'admin.errors.index',
+            'icon' => 'fas fa-bug'
+        ],
     ],
 
     /*
