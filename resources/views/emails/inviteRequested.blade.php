@@ -11,7 +11,7 @@ All requests are being reviewed from Monday - Friday @ 8:00 am - 10:00 pm (GMT) 
 We will do our best to get back to you within the next 48 hours. Please note that this is an estimated timeframe and might
 not be met.
 
-If you have any questions then feel free to send us an email to marek@marekdev.me
+If you have any questions then feel free to send us an email to support@imagefy.me
 
 Thanks,<br>
 {{ config('app.name') }}

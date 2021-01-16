@@ -96,7 +96,7 @@
                                                 <i class="fas fa-cogs"></i>
                                             </button>
                                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                <a href="{{ route('user.image.settings', $img->image_share_hash) }}" class="dropdown-item delete-confirm" title="Edit Image">
+                                                <a href="{{ route('user.image.settings', $img->image_share_hash) }}" class="dropdown-item" title="Edit Image">
                                                     <i class="fas fa-pencil-alt"></i> Edit
                                                 </a>
 
