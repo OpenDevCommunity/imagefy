@@ -8,7 +8,7 @@ we can accept at this time.
 
 Not to worry! You can always request invite again at later date and we might be able to accept your request.
 
-If you have any questions then feel free to contact us at marek@marekdev.me.
+If you have any questions then feel free to contact us at support@imagefy.me
 
 Thanks,<br>
 {{ config('app.name') }}

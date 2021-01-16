@@ -63,6 +63,8 @@ class ImageController extends Controller
         Storage::delete('images/' . $image->image_name);
         Image::destroy($image->id);
 
+        activity()->performedOn($image)->causedBy(Auth::user())->log('Deleted image with UUID: ' . $image->image_share_hash);
+
         toast('Successfully deleted image with UUID: ' . $uuid, 'success');
         return redirect()->back();
 
@@ -124,14 +126,6 @@ class ImageController extends Controller
 
         $originalURLParts = parse_url($signedURL);
 
-        // Store temp url in databse
-        $tempRecord = TempUrl::create([
-           'image_id' => $image->id,
-           'share_url' => $signedURL,
-           'expiries_at' => Helper::generateCarbonTime(request()->get('length'), request()->get('time'))
-        ]);
-
-
         $shortUrl = ShortUrl::create([
            'name' => $originalURLParts['host'],
            'user_id' => Auth::id(),
@@ -141,11 +135,12 @@ class ImageController extends Controller
            'expiries_at' => Helper::generateCarbonTime(request()->get('length'), request()->get('time')),
         ]);
 
-        if (!$tempRecord) {
+        if (!$shortUrl) {
             toast('Failed to generate temporary URL!', 'error');
             return redirect()->back();
         }
 
+        activity()->causedBy(Auth::user())->performedOn($shortUrl)->log('Generated temporary URL');
         toast('Temporary URL has been generated successfully!', 'success');
         return redirect()->back();
     }

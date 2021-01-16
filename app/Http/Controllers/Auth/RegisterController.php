@@ -90,8 +90,10 @@ class RegisterController extends Controller
         $invitation->generateInvitationToken();
         $invitation->save();
 
+        $admins = User::whereRoleIs(['administrator', 'superadministrator'])->get();
+
         Mail::to(request()->get('email'))->send(new InviteRequested(request()->get('email')));
-        Mail::to('marek@marekdev.me')->cc('marek3537@gmail.com')->send(new NewInviteRequest(request()->get('email')));
+        Mail::to($admins)->send(new NewInviteRequest(request()->get('email')));
 
         alert()->success('Request Sent', 'Invitation to register successfully requested. Please wait for registration link.');
         return redirect()->back();

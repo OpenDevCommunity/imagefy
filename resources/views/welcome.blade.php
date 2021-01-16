@@ -13,7 +13,10 @@
                    why not to give it a try.
                </p>
 
-               <p>
+               <p><strong>Current Version: </strong> @version</p>
+               <p><strong>Released: </strong> {{ \Carbon\Carbon::parse(Version::format('timestamp-full'))->fromNow() }}</p>
+
+               <p class="text-danger">
                    This project is in early alpha which means that you might find some nasty bugs that can be reported in your dashboard.
                </p>
                <a class="btn btn-lg btn-primary mt-2" href="{{ route('frontend.auth.request') }}" role="button">Request Invite &raquo;</a>

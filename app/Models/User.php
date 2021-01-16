@@ -5,12 +5,15 @@ namespace App\Models;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Notifications\DatabaseNotificationCollection;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
 use Laratrust\Traits\LaratrustUserTrait;
+use Spatie\Activitylog\Models\Activity;
 
 /**
  * App\Models\User
@@ -84,19 +87,44 @@ class User extends Authenticatable
     ];
 
 
+    /**
+     * @return HasMany
+     */
     public function Images()
     {
         return $this->hasMany(Image::class, 'user_id', 'id');
     }
 
 
+    /**
+     * @return HasMany
+     */
     public function ShortUrls()
     {
         return $this->hasMany(ShortUrl::class, 'user_id', 'id');
     }
 
+
+    /**
+     * @return HasOne
+     */
     public function Settings()
     {
         return $this->hasOne(UserSettings::class, 'user_id', 'id');
+    }
+
+
+    /**
+     * @return HasMany
+     */
+    public function Activity()
+    {
+        return $this->hasMany(Activity::class, 'causer_id', 'id')->orderBy('created_at', 'desc');
+    }
+
+
+    public function adminlte_profile_url()
+    {
+        return 'home';
     }
 }

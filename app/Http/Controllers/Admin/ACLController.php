@@ -95,7 +95,10 @@ class ACLController extends Controller
         return redirect()->back();
     }
 
-
+    /**
+     * @param $roleId
+     * @return Application|Factory|View
+     */
     public function editRole($roleId)
     {
         $role = Role::find($roleId);
@@ -107,6 +110,10 @@ class ACLController extends Controller
         ]);
     }
 
+    /**
+     * @param $roleId
+     * @return RedirectResponse
+     */
     public function updateRole($roleId)
     {
         $validator = Validator::make(request()->all(), [

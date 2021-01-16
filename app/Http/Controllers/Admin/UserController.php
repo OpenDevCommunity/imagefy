@@ -69,7 +69,10 @@ class UserController extends Controller
        return redirect()->back();
     }
 
-
+    /**
+     * @param $userid
+     * @return Application|RedirectResponse|mixed|Toaster|void
+     */
     public function updateInformation($userid)
     {
         $validator = Validator::make(request()->all(), [
@@ -88,10 +91,13 @@ class UserController extends Controller
         return redirect()->back();
     }
 
-
+    /**
+     * @param $userid
+     * @return Application|Factory|View
+     */
     public function show($userid)
     {
-        $user = User::where('id', $userid)->with('images')
+        $user = User::where('id', $userid)->with('images')->with('activity')
             ->with('shorturls')->first();
 
         return view('admin.users.show', [
@@ -99,7 +105,10 @@ class UserController extends Controller
         ]);
     }
 
-
+    /**
+     * @param $id
+     * @return RedirectResponse
+     */
     public function deleteShortUrl($id)
     {
         ShortUrl::destroy($id);
@@ -109,6 +118,10 @@ class UserController extends Controller
         return redirect()->back();
     }
 
+    /**
+     * @param $imageId
+     * @return RedirectResponse
+     */
     public function deleteImage($imageId)
     {
         $image = Image::find($imageId);

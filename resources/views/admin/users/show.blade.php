@@ -26,6 +26,9 @@
                 <li class="nav-item">
                     <a class="nav-link" id="custom-tabs-one-settings-tab" data-toggle="pill" href="#short" role="tab" aria-controls="custom-tabs-one-settings" aria-selected="false">Short URLs</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="custom-tabs-one-settings-tab" data-toggle="pill" href="#activity" role="tab" aria-controls="custom-tabs-one-settings" aria-selected="false">Activity</a>
+                </li>
             </ul>
         </div>
         <div class="card-body">
@@ -53,7 +56,7 @@
                 <div class="tab-pane fade" id="roles" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
                     <h4>User Roles</h4>
                     <hr>
-                    <table id="roles-list" class="table table-striped table-bordered" style="width:100%">
+                    <table id="roles-list" class="table table-striped table-bordered dt-responsive" style="width:100%">
                         <thead>
                         <tr>
                             <th>Name</th>
@@ -84,7 +87,7 @@
                 <div class="tab-pane fade" id="permissions" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
                     <h4>User permissions</h4>
                     <hr>
-                    <table id="permissions-list" class="table table-striped table-bordered" style="width:100%">
+                    <table id="permissions-list" class="table table-striped table-bordered dt-responsive" style="width:100%">
                         <thead>
                         <tr>
                             <th>Name</th>
@@ -115,7 +118,7 @@
                 <div class="tab-pane fade" id="images" role="tabpanel" aria-labelledby="custom-tabs-one-messages-tab">
                     <h4>User Uploaded Images</h4>
                     <hr>
-                    <table id="user-images" class="table table-striped table-bordered" style="width:100%">
+                    <table id="user-images" class="table table-striped table-bordered dt-responsive" style="width:100%">
                         <thead>
                         <tr>
                             <th>Image</th>
@@ -138,8 +141,14 @@
                                        title="{{ AWSImage::getFileVisibility($img->id) === 'public' ? 'Public' : 'Private' }}"></i>
                                 </td>
                                 <td>
-                                    <!--<a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-primary btn-sm"><i class="fas fa-pencil-alt"></i></a> -->
-                                    <a href="{{ route('admin.image.delete', $img->id) }}" class="btn btn-danger delete-confirm btn-sm"><i class="fas fa-trash"></i></a>
+                                    <div class="dropdown">
+                                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-cogs"></i>
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <a class="dropdown-item delete-confirm" href="{{ route('admin.image.delete', $img->id) }}"><i class="fas fa-trash"></i> Delete</a>
+                                        </div>
+                                    </div>
                                 </td>
                             </tr>
                         @endforeach
@@ -159,7 +168,7 @@
                 <div class="tab-pane fade" id="short" role="tabpanel" aria-labelledby="custom-tabs-one-settings-tab">
                     <h4>User Short URLs</h4>
                     <hr>
-                    <table id="short-urls" class="table table-striped table-bordered" style="width:100%">
+                    <table id="short-urls" class="table table-striped table-bordered dt-responsive" style="width:100%">
                         <thead>
                         <tr>
                             <th>Original Url</th>
@@ -178,10 +187,17 @@
                                     <a href="{{ route('frontend.shorturl', $url->short_url_hash) }}" target="_blank">{{ route('frontend.shorturl', $url->short_url_hash) }}</a>
                                 </td>
                                 <td>
-                                    {{ $url->expiried ? \Carbon\Carbon::parse($url->expities_at)->diffForHumans() : 'Expired' }}
+                                    {{ $url->expiries_at !== null  ? \Carbon\Carbon::parse($url->expiries_at)->diffForHumans() : 'Never Expiries' }}
                                 </td>
                                 <td>
-                                    <a href="{{ route('admin.user.del.shorturl', $url->id) }}" class="btn btn-danger btn-sm delete-confirm"><i class="fas fa-trash"></i></a>
+                                    <div class="dropdown">
+                                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-cogs"></i>
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <a class="dropdown-item delete-confirm" href="{{ route('admin.user.del.shorturl', $url->id) }}"><i class="fas fa-trash"></i> Delete</a>
+                                        </div>
+                                    </div>
                                 </td>
                             </tr>
                         @endforeach
@@ -196,6 +212,55 @@
                         </tfoot>
                     </table>
                 </div> <!-- ./ User Short URLS -->
+
+                <!-- User Activity -->
+                <div class="tab-pane fade" id="activity" role="tabpanel" aria-labelledby="custom-tabs-one-settings-tab">
+                    <h4>User Short URLs</h4>
+                    <hr>
+                    <table id="user-activity" class="table table-striped table-bordered dt-responsive" style="width:100%">
+                        <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Activity</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($user->activity as $activity)
+                            <tr>
+                                <td>
+                                    {{ $user->name }}
+                                </td>
+                                <td>
+                                    {{ $activity->description }}
+                                </td>
+                                <td>
+                                    {{ $activity->created_at->diffForHumans() }}
+                                </td>
+                                <td>
+                                    <div class="dropdown">
+                                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-cogs"></i>
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <a class="dropdown-item delete-confirm" href="#"><i class="fas fa-trash"></i> Delete</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <th>Username</th>
+                            <th>Activity</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                        </tfoot>
+                    </table>
+                </div> <!-- ./ User Activity -->
             </div>
         </div>
         <!-- /.card -->
@@ -206,7 +271,7 @@
 @section('js')
     <script>
         $(document).ready(function() {
-            $('#user-images, #short-urls, #permissions-list, #roles-list').DataTable({
+            $('#user-images, #short-urls, #permissions-list, #roles-list, #user-activity').DataTable({
                 "searching": true
             });
         } );

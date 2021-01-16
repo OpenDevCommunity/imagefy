@@ -5,9 +5,14 @@ namespace App\Http\Controllers;
 
 use App\Models\ShortUrl;
 use Carbon\Carbon;
+use Illuminate\Http\RedirectResponse;
 
 class PublicShortUrlController extends Controller
 {
+    /**
+     * @param $uuid
+     * @return RedirectResponse
+     */
     public function redirectToUrl($uuid)
     {
         // Get short url from database

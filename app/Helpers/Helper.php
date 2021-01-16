@@ -11,6 +11,7 @@ namespace App\Helpers;
 
 
 use App\Models\APIKeys;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\HigherOrderBuilderProxy;
 
@@ -27,6 +28,15 @@ class Helper
         return $key->user_id;
     }
 
+    public static function generateHash()
+    {
+        return base_convert(time(), 10, 36);
+    }
+
+    public static function getUserById($id)
+    {
+        return User::find($id);
+    }
 
     /**
      * @param $length
