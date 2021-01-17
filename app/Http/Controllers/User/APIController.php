@@ -3,28 +3,35 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
-use App\Models\APIKeys;
+use App\Models\APIKey;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Auth;
 use File;
 use Storage;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class APIController extends Controller
 {
+    /**
+     * @return Application|Factory|View
+     */
     public function index()
     {
         return view('user.account.api');
     }
 
 
-    public function generateSharexFile($apikey, $type)
+    /**
+     * @param $apikey
+     * @param $type
+     * @return false|string
+     */
+    private function configToJson($apikey, $type)
     {
-        $key = APIKeys::where('api_key', $apikey)->first();
-
-        if (!$key || $key->user_id !== Auth::id()) {
-            return redirect()->route('user.settings.api');
-        }
-
         $configArray = [
             'Version' => '13.1.0',
             'Name' => $type === 'upload' ? 'Imagefy.me' : 's-url.app',
@@ -40,11 +47,29 @@ class APIController extends Controller
 
         $type === 'upload' ?  $configArray['FileFormName'] = 'image' : $configArray['Data'] = '{"original_url": "$input$"}';
 
-        $configJson = json_encode($configArray, JSON_PRETTY_PRINT);
+        return json_encode($configArray, JSON_PRETTY_PRINT);
+    }
 
-        $filename = $type === 'upload' ? public_path('/upload/json/imagefy.' . $key->user_id .  '.me.sxcu') : public_path('/upload/json/imagefy.' . $key->user_id .  '.surl.app.sxcu');
 
-        File::put($filename,$configJson);
+    /**
+     * @param $id
+     * @param $type
+     * @return RedirectResponse|BinaryFileResponse
+     */
+    public function generateSharexFile($id, $type)
+    {
+        // Get API Key data from
+        $key = APIKey::find($id);
+
+        // Check if user owns API Key provided
+        if (!$key || $key->user_id !== Auth::id()) {
+            return redirect()->route('user.settings.api');
+        }
+
+        $filename = $type === 'upload' ? public_path('/upload/json/imagefy.' . $key->user_id .  '.me.sxcu')
+            : public_path('/upload/json/imagefy.' . $key->user_id .  '.surl.app.sxcu');
+
+        File::put($filename,$this->configToJson($key->api_key, $type));
 
         return response()->download($filename);
     }

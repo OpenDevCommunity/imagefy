@@ -7,10 +7,10 @@ $userRoutes = function () {
     // Account only routes
     Route::prefix('account')->middleware(['auth'])->group(function () {
         Route::get('/', [App\Http\Controllers\User\AccountController::class, 'index'])->name('home');
-        Route::get('/settings', [\App\Http\Controllers\User\AccountController::class, 'settings'])->name('user.account.settings');
+        Route::get('/settings', [\App\Http\Controllers\User\AccountController::class, 'showSettingsPage'])->name('user.account.settings');
         Route::get('/api', [\App\Http\Controllers\User\APIController::class, 'index'])->name('user.settings.api');
-        Route::get('/api/{apikey}/{type}/sharex', [\App\Http\Controllers\User\APIController::class, 'generateSharexFile'])->name('user.api.sharex');
-        Route::get('/upload-settings', [\App\Http\Controllers\User\AccountController::class, 'uploadSettings'])->name('user.upload.settings');
+        Route::get('/api/{id}/{type}/sharex', [\App\Http\Controllers\User\APIController::class, 'generateSharexFile'])->name('user.api.sharex');
+        Route::get('/upload-settings', [\App\Http\Controllers\User\AccountController::class, 'showUploadSettingsPage'])->name('user.upload.settings');
 
         Route::prefix('images')->group(function () {
             Route::get('/', [\App\Http\Controllers\User\ImageController::class, 'index'])->name('user.image.library');

@@ -7,6 +7,10 @@ use App\Models\ShortUrl;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 
+/**
+ * Class PublicShortUrlController
+ * @package App\Http\Controllers
+ */
 class PublicShortUrlController extends Controller
 {
     /**

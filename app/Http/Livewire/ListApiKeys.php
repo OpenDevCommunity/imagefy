@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\APIKeys;
+use App\Models\APIKey;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -44,7 +44,7 @@ class ListApiKeys extends Component
      */
     public function getApiKeys()
     {
-        $this->apiKeys = APIKeys::where('user_id', Auth::user()->id)->get();
+        $this->apiKeys = APIKey::where('user_id', Auth::user()->id)->get();
     }
 
 
@@ -63,7 +63,7 @@ class ListApiKeys extends Component
     public function storeAPIKey()
     {
         // Store new API key in database
-        $key = APIKeys::create([
+        $key = APIKey::create([
            'user_id' => Auth::user()->id,
            'api_key' => $this->generateAPIKey(),
         ]);
@@ -85,7 +85,7 @@ class ListApiKeys extends Component
      */
     public function delete($id)
     {
-        APIKeys::destroy($id);
+        APIKey::destroy($id);
 
         $this->getApiKeys();
     }

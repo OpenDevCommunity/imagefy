@@ -10,7 +10,7 @@
 namespace App\Helpers;
 
 
-use App\Models\APIKeys;
+use App\Models\APIKey;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\HigherOrderBuilderProxy;
@@ -23,7 +23,7 @@ class Helper
      */
     public static function getUserIdByAPIKey($apiKey)
     {
-        $key = APIKeys::where('api_key', $apiKey)->first();
+        $key = APIKey::where('api_key', $apiKey)->first();
 
         return $key->user_id;
     }

@@ -54,7 +54,7 @@ use Spatie\Activitylog\Models\Activity;
  * @property-read int|null $activity_count
  * @property-read Collection|\App\Models\Image[] $Images
  * @property-read int|null $images_count
- * @property-read \App\Models\UserSettings|null $Settings
+ * @property-read \App\Models\UserSetting|null $Settings
  * @property-read Collection|\App\Models\ShortUrl[] $ShortUrls
  * @property-read int|null $short_urls_count
  */
@@ -117,7 +117,7 @@ class User extends Authenticatable
      */
     public function Settings()
     {
-        return $this->hasOne(UserSettings::class, 'user_id', 'id');
+        return $this->hasOne(UserSetting::class, 'user_id', 'id');
     }
 
 

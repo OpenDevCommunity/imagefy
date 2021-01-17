@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\UserSettings;
+use App\Models\UserSetting;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
@@ -41,7 +41,7 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request, $user)
     {
-        UserSettings::firstOrCreate(['user_id' => $user->id], ['user_id' => $user->id]);
+        UserSetting::firstOrCreate(['user_id' => $user->id], ['user_id' => $user->id]);
 
         activity()->causedBy($user)->log('Logged in');
     }

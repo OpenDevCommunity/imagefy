@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\CreateShortUrlRequest;
 use App\Models\ShortUrl;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
@@ -42,38 +43,30 @@ class ShortURLController extends Controller
     }
 
     /**
+     * @param CreateShortUrlRequest $request
      * @return JsonResponse
      */
-    public function createShortURL()
+    public function createShortURL(CreateShortUrlRequest $request)
     {
-        // Validate request
-        $validatior = Validator::make(request()->all(), [
-           'original_url' => 'required|url',
-        ]);
+        $data = $request->validated();
 
-        if ($validatior->fails()) {
-            return response()->json([
-                'error' => true,
-                'msg' => $validatior->errors()->first()
-            ], 422);
-        }
+        $userId = Helper::getUserIdByAPIKey($request->headers->get('x-api-key'));
 
-        $userId = Helper::getUserIdByAPIKey(request()->headers->get('x-api-key'));
         $originalURLParts = parse_url(request()->get('original_url'));
 
         $shortUrl = ShortUrl::create([
            'user_id' => $userId,
-           'original_url' => request()->get('original_url'),
+           'original_url' => $data['original_url'],
            'short_url_hash' => Helper::generateHash(),
-           'name' => request()->has('name') ? request()->has('name') : $originalURLParts['host'],
-           'expiries_at' => request()->has('expires') ? Helper::generateCarbonTime(request()->get('length'), request()->get('time')) : null, // NULL => Never expires
+           'name' => $request->has('name') ? $data['name'] : $originalURLParts['host'],
+           'expiries_at' => $request->has('expires') ? Helper::generateCarbonTime($data['length'], $data['time']) : null,
         ]);
 
         if (!$shortUrl) {
             return response()->json([
                 'error' => false,
                 'msg' => 'Failed to generate short URL! Please try again!'
-            ], 500);
+            ], 422);
         }
 
         return response()->json([

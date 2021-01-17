@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\APIKeys;
+use App\Models\APIKey;
 use Carbon\Carbon;
 use Closure;
 use Illuminate\Http\Request;
@@ -17,7 +17,7 @@ class APIKeyMiddleware
      */
     private function keyExists($apiKey)
     {
-        $apiKey = APIKeys::where('api_key', $apiKey)->first();
+        $apiKey = APIKey::where('api_key', $apiKey)->first();
 
         return $apiKey ? true : false;
     }
@@ -52,7 +52,7 @@ class APIKeyMiddleware
         }
 
         // Update API Key last used date
-        APIKeys::where('api_key', $apiKey)->update(['last_used' => Carbon::now()]);
+        APIKey::where('api_key', $apiKey)->update(['last_used' => Carbon::now()]);
 
         return $next($request);
     }

@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Image;
 use App\Models\ShortUrl;
 use App\Models\User;
-use App\Models\UserSettings;
+use App\Models\UserSetting;
 use Auth;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -26,6 +26,7 @@ class AccountController extends Controller
     public function index()
     {
         // Get total images count
+        // TODO: Refactor this
         $imagesCount = Image::where('user_id', Auth::user()->id)->count();
         $publicImagesCount = Image::where('user_id', Auth::user()->id)->where('public', true)->count();
         $privateImagesCount = Image::where('user_id', Auth::user()->id)->where('public', false)->count();
@@ -42,16 +43,23 @@ class AccountController extends Controller
         ]);
     }
 
-    public function settings()
+    /**
+     * @return Application|Factory|View
+     */
+    public function showSettingsPage()
     {
         return view('user.account.settings', [
             'user' => Auth::user()
         ]);
     }
 
-    public function uploadSettings()
+
+    /**
+     * @return Application|Factory|View
+     */
+    public function showUploadSettingsPage()
     {
-        $settings = UserSettings::where('user_id', Auth::id())->first();
+        $settings = UserSetting::where('user_id', Auth::id())->first();
         return view('user.library.upload-settings', [
             'settings' => $settings
         ]);
