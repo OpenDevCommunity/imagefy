@@ -9,8 +9,12 @@ use App\Models\Invitation;
 use App\Models\Role;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Hash;
+use Illuminate\Http\RedirectResponse;
 use Mail;
 use Validator;
 use Carbon\Carbon;
@@ -62,6 +66,9 @@ class RegisterController extends Controller
         ]);
     }
 
+    /**
+     * @return Application|Factory|View
+     */
     public function showRegistrationForm()
     {
         $invitation_token = request()->get('invitation_token');
@@ -71,11 +78,17 @@ class RegisterController extends Controller
         return view('auth.register', compact('email'));
     }
 
+    /**
+     * @return Application|Factory|View
+     */
     public function requestInvintation()
     {
         return view('auth.request');
     }
 
+    /**
+     * @return RedirectResponse
+     */
     public function store()
     {
         // Check if user has an existing invite request
@@ -118,6 +131,8 @@ class RegisterController extends Controller
         $userRole = Role::where('name', 'user')->first();
 
         $user->attachRole($userRole);
+
+        activity('registration')->performedOn($user)->causedBy($user)->log('Registered an account');
 
         return  $user;
     }

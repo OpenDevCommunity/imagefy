@@ -52,6 +52,8 @@
     @yield('adminlte_css')
 
 
+
+
     {{-- Favicon --}}
     @if(config('adminlte.use_ico_only'))
         <link rel="shortcut icon" href="{{ asset('favicons/favicon.ico') }}" />
@@ -74,6 +76,8 @@
         <meta name="msapplication-TileColor" content="#ffffff">
         <meta name="msapplication-TileImage" content="{{ asset('favicon/ms-icon-144x144.png') }}">
     @endif
+
+    <link rel="stylesheet" href="{{ asset('vendor/adminlte/dist/css/admin.css')  }}">
 
 </head>
 
@@ -109,6 +113,8 @@
 
     @include('sweetalert::alert', ['cdn' => "https://cdn.jsdelivr.net/npm/sweetalert2@9"])
 
+
+    <script src="{{ asset('/vendor/adminlte/dist/js/admin.js') }}"></script>
 </body>
 
 </html>
