@@ -97,7 +97,7 @@ class User extends Authenticatable
     /**
      * @return HasMany
      */
-    public function Images()
+    public function Image()
     {
         return $this->hasMany(Image::class, 'user_id', 'id');
     }
@@ -106,7 +106,7 @@ class User extends Authenticatable
     /**
      * @return HasMany
      */
-    public function ShortUrls()
+    public function ShortUrl()
     {
         return $this->hasMany(ShortUrl::class, 'user_id', 'id');
     }
@@ -115,7 +115,7 @@ class User extends Authenticatable
     /**
      * @return HasOne
      */
-    public function Settings()
+    public function Setting()
     {
         return $this->hasOne(UserSetting::class, 'user_id', 'id');
     }
@@ -130,6 +130,9 @@ class User extends Authenticatable
     }
 
 
+    /**
+     * @return string
+     */
     public function adminlte_profile_url()
     {
         return 'home';

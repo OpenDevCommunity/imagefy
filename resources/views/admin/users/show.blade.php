@@ -128,7 +128,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($user->images as $img)
+                        @foreach($user->image as $img)
                             <tr>
                                 <td>
                                     <a href="{{ AWSImage::generateTempLink($img->image_name, 5) }}" data-toggle="lightbox" data-title="{{ $img->image_name }}">
@@ -183,7 +183,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($user->shorturls as $url)
+                        @foreach($user->shorturl as $url)
                             <tr>
                                 <td>
                                     <a href="{{ $url->original_url }}" target="_blank">{{ Str::limit($url->original_url, 50) }}</a>

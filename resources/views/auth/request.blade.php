@@ -12,7 +12,7 @@
                         <p class="px-3">{{ config('app.name') }} is a closed project. You must have an invitation link to register. You can request your link below. Please note that
                         we leave the right not to approve your request for many reasons.</p>
 
-                        <form class="form-horizontal" method="POST" action="{{ route('storeInvitation') }}">
+                        <form class="form-horizontal" method="POST" action="{{ route('frontend.store.request') }}">
                             {{ csrf_field() }}
 
                             <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">

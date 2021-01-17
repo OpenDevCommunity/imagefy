@@ -11,7 +11,7 @@ $publicRoutes = function () {
     Route::get('register', [App\Http\Controllers\Auth\RegisterController::class, 'showRegistrationForm'])->middleware(['hasInvitation'])->name('register');
 
     Route::get('register/request', [\App\Http\Controllers\Auth\RegisterController::class, 'requestInvintation'])->name('frontend.auth.request');
-    Route::post('invitations', [\App\Http\Controllers\Auth\RegisterController::class, 'store'])->middleware('guest')->name('storeInvitation');
+    Route::post('invitations', [\App\Http\Controllers\Auth\RegisterController::class, 'store'])->middleware('guest')->name('frontend.store.request');
 
     Route::get('/lang/{lang}', [\App\Http\Controllers\PageController::class, 'setLanguage'])->name('frontend.setlang');
 
