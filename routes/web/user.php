@@ -7,9 +7,17 @@ $userRoutes = function () {
     // Account only routes
     Route::prefix('account')->middleware(['auth'])->group(function () {
         Route::get('/', [App\Http\Controllers\User\AccountController::class, 'index'])->name('home');
-        Route::get('/settings', [\App\Http\Controllers\User\AccountController::class, 'showSettingsPage'])->name('user.account.settings');
-        Route::get('/api', [\App\Http\Controllers\User\APIController::class, 'index'])->name('user.settings.api');
-        Route::get('/api/{id}/{type}/sharex', [\App\Http\Controllers\User\APIController::class, 'generateSharexFile'])->name('user.api.sharex');
+
+        Route::prefix('settings')->group(function () {
+            Route::get('/', [\App\Http\Controllers\User\AccountController::class, 'showSettingsPage'])->name('user.account.settings');
+
+            Route::prefix('api')->group(function () {
+                Route::get('/', [\App\Http\Controllers\User\APIController::class, 'index'])->name('user.settings.api');
+                Route::get('/{id}/edit', [\App\Http\Controllers\User\APIController::class, 'showAPISettings'])->name('user.settings.api.edit');
+                Route::post('/{id}/edit', [\App\Http\Controllers\User\APIController::class, 'updateAPISettings'])->name('user.settings.api.update');
+                Route::get('/{id}/{type}/sharex', [\App\Http\Controllers\User\APIController::class, 'generateSharexFile'])->name('user.api.sharex');
+            });
+        });
 
         // Account library functions
         Route::prefix('images')->group(function () {

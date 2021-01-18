@@ -12,7 +12,7 @@
             @else
                 <table class="table">
                     <thead>
-                    <tr>
+                    <tr
                         <th scope="col">API Key</th>
                         <th scope="col">Last Used</th>
                         <th scope="col">Action</th>
@@ -29,6 +29,7 @@
                                     <i class="fas fa-cogs"></i>
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="{{ route('user.settings.api.edit', $key->id) }}"><i class="fas fa-cog"></i>Settings</a>
                                     <a class="dropdown-item" href="{{ route('user.api.sharex',  ['id' => $key->id, 'type' => 'upload']) }}"><i class="fas fa-download"></i> Sharex Config</a>
                                     <a class="dropdown-item" href="{{ route('user.api.sharex', ['id' => $key->id, 'type' => 'surl']) }}"><i class="fas fa-download"></i> Sharex s-url Config</a>
                                     <a class="dropdown-item" href="javascript:void(0)" wire:click.prevent="delete({{ $key['id'] }})"><i class="fas fa-trash"></i> Delete</a>

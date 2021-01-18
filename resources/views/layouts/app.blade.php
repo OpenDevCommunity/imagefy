@@ -83,10 +83,10 @@
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('home') }}">
-                                        Account Home
+                                       <i class="fas fa-user"></i> &ensp; Account
                                     </a>
                                     <a class="dropdown-item" href="{{ route('user.settings.api') }}">
-                                        API Settings
+                                        <i class="fas fa-terminal"></i> &ensp; API Keys
                                     </a>
 
                                     <!-- <a class="dropdown-item" href="{{ route('user.account.settings') }}">
@@ -94,21 +94,21 @@
                                     </a> -->
 
                                     <a class="dropdown-item" href="{{ route('user.upload.settings') }}">
-                                        Upload Settings
+                                      <i class="fas fa-upload"></i> &ensp; Upload Settings
                                     </a>
 
                                     <a class="dropdown-item" href="{{ route('user.image.library') }}">
-                                        My Images
+                                        <i class="far fa-images"></i> &ensp; My Images
                                     </a>
 
                                     <a class="dropdown-item" href="{{ route('user.short.urls') }}">
-                                        URL Shortner
+                                        <i class="fas fa-link"></i> &ensp;  URL Shortner <span class="badge badge-success">Beta</span>
                                     </a>
 
                                     <div class="dropdown-divider"></div>
                                     @role('administrator|superadministrator')
                                     <a class="dropdown-item" href="{{ route('admin.dashboard') }}">
-                                        Staff Panel
+                                        <i class="fas fa-lock"></i> &ensp; Administration
                                     </a>
                                     @endrole
 
@@ -116,7 +116,7 @@
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
+                                       <i class="fas fa-sign-out-alt"></i> &ensp; {{ __('Logout') }}
                                     </a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">

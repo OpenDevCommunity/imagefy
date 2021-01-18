@@ -35,4 +35,8 @@ class APIKey extends Model
     ];
 
     protected $table = 'api_keys';
+
+    protected $casts = [
+      'last_used' => 'datetime'
+    ];
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ApiSettingsRequest;
 use App\Models\APIKey;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -21,7 +22,58 @@ class APIController extends Controller
      */
     public function index()
     {
-        return view('user.account.api');
+        return view('user.account.api-keys.api');
+    }
+
+
+    public function showAPISettings($id)
+    {
+        $apiKey = APIKey::find($id);
+
+        if (!$apiKey) {
+            return abort(404);
+        }
+
+        if ($apiKey->user_id !== Auth::id())
+        {
+            return abort(401);
+        }
+
+        return view('user.account.api-keys.edit', [
+            'apikey' => $apiKey
+        ]);
+    }
+
+
+    public function updateAPISettings(Request $request, $id)
+    {
+
+        $validator = \Validator::make($request->all(), [
+            'name' => 'required|min:3|max:25'
+        ]);
+
+        if ($validator->fails())
+        {
+            return abort(422);
+        }
+
+        $apiKey = APIKey::find($id);
+
+        if (!$apiKey) {
+            return abort(404);
+        }
+
+        APIKey::where('id', $id)->update([
+           'name' => $request->get('name'),
+           'enabled' => $request->has('enabled'),
+           'logs_enabled' => $request->has('logs_enabled'),
+           'allowed_origin' => $request->get('allowed_origin') ,
+           'can_read' => $request->has('can_read'),
+           'can_wite' => $request->has('can_wite')
+        ]);
+
+        toast('API Settings updated successfully!', 'success');
+        return redirect()->back();
     }
 
 
