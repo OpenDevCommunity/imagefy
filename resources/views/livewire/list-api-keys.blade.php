@@ -12,7 +12,7 @@
             @else
                 <table class="table">
                     <thead>
-                    <tr
+                    <tr>
                         <th scope="col">API Key</th>
                         <th scope="col">Last Used</th>
                         <th scope="col">Action</th>
