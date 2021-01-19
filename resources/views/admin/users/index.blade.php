@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', env('APP_NAME') . ' - Users List')
+@section('title', config('app.name') . ' - Users List')
 
 @section('content_header')
     <h1>List of Users</h1>

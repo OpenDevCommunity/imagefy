@@ -51,6 +51,25 @@ class APIKeyMiddleware
             ], 401);
         }
 
+
+        $key = APIKey::where('api_key', $apiKey)->first();
+
+        // Check if API Key is enabled
+        if (!$key->enabled || $key->blocked) {
+            return response()->json([
+                'error' => true,
+                'msg' => "API Key is disabled or blocked!"
+            ]);
+        }
+
+        if ($_SERVER['HTTP_HOST'] !== $key->allowed_origin && $key->allowed_origin !== '*') {
+            return response()->json([
+                'error' => true,
+                'msg' => "HTTP_HOST mismach in allowed origin"
+            ]);
+        }
+
+
         // Update API Key last used date
         APIKey::where('api_key', $apiKey)->update(['last_used' => Carbon::now()]);
 

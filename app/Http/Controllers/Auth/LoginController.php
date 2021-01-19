@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\UserSetting;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Str;
 
 class LoginController extends Controller
 {
@@ -42,6 +44,8 @@ class LoginController extends Controller
     protected function authenticated(Request $request, $user)
     {
         UserSetting::firstOrCreate(['user_id' => $user->id], ['user_id' => $user->id]);
+
+        User::where('id', $user->id)->where('api_token', null)->update(['api_token' => Str::random(60)]);
 
         activity()->causedBy($user)->log('Logged in');
     }

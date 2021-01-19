@@ -18,6 +18,7 @@ use Illuminate\Http\RedirectResponse;
 use Mail;
 use Validator;
 use Carbon\Carbon;
+use Str;
 
 class RegisterController extends Controller
 {
@@ -126,6 +127,7 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'api_token' => Str::random(60),
         ]);
 
         $userRole = Role::where('name', 'user')->first();

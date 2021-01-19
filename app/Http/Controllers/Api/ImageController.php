@@ -19,6 +19,18 @@ use App\Models\User;
  */
 class ImageController extends Controller
 {
+    private $apiKey;
+
+    public function __construct()
+    {
+        $this->apiKey = request()->headers->has('x-api-key') ? request()->headers->get('x-api-key') : null;
+    }
+
+    public function getAllImages()
+    {
+        // TODO:
+    }
+
     /**
      * Handle image visibility update
      *
@@ -31,11 +43,8 @@ class ImageController extends Controller
         // Validate request
         $data = $request->validated();
 
-        // Get api key from request headers
-        $apiKey = $request->headers->get('x-api-key');
-
         // Get user id via API key
-        $userId = Helper::getUserIdByAPIKey($apiKey);
+        $userId = Helper::getUserIdByAPIKey($this->apiKey);
 
         // Get image from database
         $image = Image::find($id);
@@ -72,10 +81,7 @@ class ImageController extends Controller
         $data = $request->validated();
 
         //
-        $apiKey = $request->headers->get('x-api-key');
-
-        //
-        $userId = Helper::getUserIdByAPIKey($apiKey);
+        $userId = Helper::getUserIdByAPIKey($this->apiKey);
 
         // Fetch user settings
         $settings = UserSetting::where('user_id', $userId)->first();
@@ -128,7 +134,7 @@ class ImageController extends Controller
     public function deleteImage(Request $request, $uuid)
     {
         // Get User ID via API Key
-        $userId = Helper::getUserIdByAPIKey($request->headers->get('x-api-key'));
+        $userId = Helper::getUserIdByAPIKey($this->apiKey);
 
         // Get image by delete hash
         $image = Image::where('image_del_hash', $uuid)->first();

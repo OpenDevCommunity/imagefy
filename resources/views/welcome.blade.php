@@ -6,9 +6,9 @@
 
        <main role="main">
            <div class="jumbotron shadow-sm">
-               <h1>Welcome to {{ env('APP_NAME') }}</h1>
+               <h1>Welcome to {{ config('app.name') }}</h1>
                <p class="py-3">
-                   {{ env('APP_NAME') }} is a private image sharing & URL shortener built for personal use. As this project is private and not available to general public you can still request
+                   {{ config('app.name') }} is a private image sharing & URL shortener built for personal use. As this project is private and not available to general public you can still request
                    an invite to be sent to you. Once you receive your invite you can then create an account. Please note that not every invite request will be approved but
                    why not to give it a try.
                </p>

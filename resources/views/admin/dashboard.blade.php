@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', env('APP_NAME') . ' - Administration Dashboard')
+@section('title', config('app.name') . ' - Administration Dashboard')
 
 @section('content_header')
-    <h1>Dashboard</h1>
+    <h1>{{ config('app.name') }} Dashboard</h1>
 @stop
 
 @section('content')

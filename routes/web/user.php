@@ -43,7 +43,7 @@ $userRoutes = function () {
 
 
 // Register routes for imagefy.me domain
-Route::group(['domain' => 'imagefy.me'], $userRoutes);
+Route::group(['domain' => parse_url(config('app.url'))['host']], $userRoutes);
 
 // Register localhost routes when in debug mode
 if (env('APP_DEBUG')) {

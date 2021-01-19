@@ -51,7 +51,7 @@
 
                         <div class="form-group">
                             <label for="last_used">Last Used</label>
-                            <input type="text" name="last_used" id="last_used" value="{{ $apikey->last_used->diffForHumans() }}" disabled class="form-control">
+                            <input type="text" name="last_used" id="last_used" value="{{ $apikey->last_used ? $apikey->last_used->diffForHumans() : 'Not Yet Used' }}" disabled class="form-control">
                         </div>
 
 
@@ -97,8 +97,8 @@
 
 
                         <div class="form-group form-check">
-                            <input type="checkbox" class="form-check-input" value="true" {{ $apikey->can_wite ? 'checked' : '' }} name="can_wite" id="can_wite">
-                            <label class="form-check-label" for="can_wite">Allow write access <small>(Required to upload images & Short URLs)</small></label>
+                            <input type="checkbox" class="form-check-input" value="true" {{ $apikey->can_write ? 'checked' : '' }} name="can_write" id="can_write">
+                            <label class="form-check-label" for="can_write">Allow write access <small>(Required to upload images & Short URLs)</small></label>
                         </div>
 
                         <div class="form-group">

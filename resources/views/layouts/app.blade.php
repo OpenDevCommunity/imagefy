@@ -38,7 +38,7 @@
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
+                    {{ config('app.name') }}
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
@@ -101,9 +101,11 @@
                                         <i class="far fa-images"></i> &ensp; My Images
                                     </a>
 
+                                    @if (config('app.short_url_enabled'))
                                     <a class="dropdown-item" href="{{ route('user.short.urls') }}">
                                         <i class="fas fa-link"></i> &ensp;  URL Shortner <span class="badge badge-success">Beta</span>
                                     </a>
+                                    @endif
 
                                     <div class="dropdown-divider"></div>
                                     @role('administrator|superadministrator')
@@ -131,6 +133,13 @@
         </nav>
 
         <main class="py-4">
+            @if (config('app.debug'))
+            <div class="container mt-2">
+                <div class="alert alert-danger shadow-sm">
+                    <strong>Warning!</strong> {{ config('app.name') }} is currenly running in <strong>DEBUG</strong> mode! Please disable <strong>DEBUG</strong> mode before deployment! You can do so by editing .env file set DEBUG=false
+                </div>
+            </div>
+            @endif
             <div class="container mt-2">
                 @if (session('error'))
                     <div class="alert alert-danger">

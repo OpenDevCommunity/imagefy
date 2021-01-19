@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', env('APP_NAME') . ' - View User')
+@section('title', config('app.name') . ' - View User')
 
 @section('content_header')
     <h1>View User {{ $user->name }}</h1>
@@ -281,10 +281,10 @@
 @section('js')
     <script>
         $(document).ready(function() {
-            $('#user-images, #short-urls, #permissions-list, #roles-list, #user-activity').DataTable({
+            $('#user-images, #short-urls, #permissions-list, #user-activity').DataTable({
                 "searching": true
             });
-        } );
+        });
     </script>
 
     <script>
@@ -295,3 +295,5 @@
             });
         });
     </script>
+
+@endsection

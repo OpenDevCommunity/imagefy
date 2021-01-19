@@ -19,7 +19,7 @@ class AddFieldsToApiKeys extends Migration
             $table->boolean('logs_enabled')->default(true);
             $table->string('allowed_origin')->default('*');
             $table->boolean('can_read')->default(true);
-            $table->boolean('can_wite')->default(true);
+            $table->boolean('can_write')->default(true);
         });
     }
 

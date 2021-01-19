@@ -35,14 +35,14 @@ class Handler extends ExceptionHandler
     public function register()
     {
         $this->reportable(function (Throwable $e) {
-            Error::create([
+           /*  Error::create([
                 'user_id' => \Auth::user() ? \Auth::id() : null,
                 'code' => $e->getCode(),
                 'file' => $e->getFile(),
                 'line' => $e->getLine(),
                 'message' => $e->getMessage(),
                 'trace' => $e->getTraceAsString()
-            ]);
+            ]); */
         });
     }
 }

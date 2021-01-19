@@ -28,10 +28,12 @@ $shortRoutes = function () {
 };
 
 
-Route::group(['domain' => 'imagefy.me'], $publicRoutes);
+Route::group(['domain' => parse_url(config('app.url'))['host']], $publicRoutes);
 
 if (env('APP_DEBUG')) {
     Route::group(['domain' => 'localhost'], $publicRoutes);
 }
 
-Route::group(['domain' => 's-url.app'], $shortRoutes);
+if (config('app.short_url_enabled')) {
+    Route::group(['domain' => parse_url(config('app.short_url'))['host']], $shortRoutes);
+}

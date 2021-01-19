@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', env('APP_NAME') . ' - List Roles')
+@section('title', config('app.name') . ' - List Roles')
 
 @section('content_header')
     <h1>List Roles</h1>

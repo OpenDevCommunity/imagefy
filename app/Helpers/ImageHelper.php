@@ -14,6 +14,7 @@ use App\Models\Image;
 use Carbon\Carbon;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Storage;
+use Config;
 
 class ImageHelper
 {
@@ -25,7 +26,7 @@ class ImageHelper
     {
         $image = Image::find($id);
 
-        return Storage::url('images/' . $image->image_name);
+        return Storage::url(config('filesystems.disks.spaces.path') . $image->image_name);
     }
 
     /**
@@ -36,7 +37,7 @@ class ImageHelper
     {
         $image = Image::find($id);
 
-        return Storage::getVisibility('images/' . $image->image_name);
+        return Storage::getVisibility(config('filesystems.disks.spaces.path') . $image->image_name);
     }
 
     /**
@@ -46,12 +47,12 @@ class ImageHelper
      */
     public static function generateTempLink($name, $time)
     {
-        $tempUrl = Storage::temporaryUrl('images/' . $name, Carbon::now()->addMinutes($time));
+        $tempUrl = Storage::temporaryUrl(config('filesystems.disks.spaces.path') . $name, Carbon::now()->addMinutes($time));
 
         $urlParts = parse_url($tempUrl);
 
-        if (env('DO_SPACES_URL') !== '') {
-            $spaceUrlParts = parse_url(env('DO_SPACES_URL'));
+        if (config('filesystems.disks.spaces.url')  !== '') {
+            $spaceUrlParts = parse_url(config('filesystems.disks.spaces.url'));
 
             return str_replace($urlParts['host'], $spaceUrlParts['host'], $tempUrl);
         }
@@ -66,7 +67,7 @@ class ImageHelper
      */
     public static function getImageFile($name)
     {
-        return Storage::get('images/' . $name);
+        return Storage::get(config('filesystems.disks.spaces.path') . $name);
     }
 
     /**

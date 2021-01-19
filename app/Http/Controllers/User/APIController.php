@@ -69,7 +69,7 @@ class APIController extends Controller
            'logs_enabled' => $request->has('logs_enabled'),
            'allowed_origin' => $request->get('allowed_origin') ,
            'can_read' => $request->has('can_read'),
-           'can_wite' => $request->has('can_wite')
+           'can_write' => $request->has('can_write')
         ]);
 
         toast('API Settings updated successfully!', 'success');

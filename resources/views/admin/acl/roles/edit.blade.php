@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', env('APP_NAME') . ' - Edit Role')
+@section('title', config('app.name') . ' - Edit Role')
 
 @section('content_header')
     <h1>Edit {{ $role->display_name }}</h1>

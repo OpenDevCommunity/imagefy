@@ -42,11 +42,15 @@
                 </div>
             </div>
 
-
             {{-- Main Content --}}
             <div class="content">
                 <div class="{{ config('adminlte.classes_content') ?: $def_container_class }}">
                     <div class="container mt-2 mb-2">
+                        @if (config('app.debug'))
+                            <div class="alert alert-danger shadow-sm">
+                                <strong>Warning!</strong> {{ config('app.name') }} is currenly running in <strong>DEBUG</strong> mode! Please disable <strong>DEBUG</strong> mode before deployment! You can do so by editing .env file set DEBUG=false
+                            </div>
+                        @endif
                         @if (session('error'))
                             <div class="alert alert-danger">
                                 <strong>ERROR!</strong> {{ session('error') }}
