@@ -22,6 +22,7 @@ class AdminController extends Controller
      */
     public function index()
     {
+        // TODO: Refactor this
         $totalUsers = User::count();
         $totalImages = Image::count();
         $totalShortURLs = ShortUrl::count();

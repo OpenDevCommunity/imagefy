@@ -10,7 +10,7 @@
         <div class="col-lg-3">
             <div class="card shadow-sm">
                 <div class="card-body text-center">
-                    <h1>{{ $imagesCount }}</h1>
+                    <h1>{{ auth()->user()->Image()->count() }}</h1>
                     <p class="text-muted">Uploaded Images</p>
                 </div>
             </div>
@@ -22,7 +22,7 @@
         <div class="col-lg-3">
             <div class="card shadow-sm">
                 <div class="card-body text-center">
-                    <h1>{{ $publicImagesCount }}</h1>
+                    <h1>{{ auth()->user()->PublicImage()->count() }}</h1>
                     <p class="text-muted">Public Images</p>
                 </div>
             </div>
@@ -34,7 +34,7 @@
         <div class="col-lg-3">
             <div class="card shadow-sm">
                 <div class="card-body text-center">
-                    <h1>{{ $privateImagesCount }}</h1>
+                    <h1>{{ auth()->user()->PrivateImage()->count() }}</h1>
                     <p class="text-muted">Private Images</p>
                 </div>
             </div>
@@ -46,7 +46,7 @@
         <div class="col-lg-3">
             <div class="card shadow-sm">
                 <div class="card-body text-center">
-                    <h1>{{ $shortUrlCount }}</h1>
+                    <h1>{{ auth()->user()->ShortUrl()->count() }}</h1>
                     <p class="text-muted">Short URLS</p>
                 </div>
             </div>

@@ -37,6 +37,6 @@ class InviteAccepted extends Mailable
         return $this->markdown('emails.inviteAccepted', [
             'email' => $this->email,
             'link' => $this->link
-        ])->subject('MD Share Invite Accepted');
+        ])->subject(config('app.name') . ' - Invite Accepted');
     }
 }

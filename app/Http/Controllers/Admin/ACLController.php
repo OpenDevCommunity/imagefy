@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Permission;
 use App\Models\Role;
+use App\Services\PermissionService;
+use App\Services\RoleService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -27,29 +29,53 @@ class ACLController extends Controller
     }
 
     /**
+     * @param Request $request
      * @return RedirectResponse
      */
-    public function storePermission()
+    public function storePermission(Request $request)
     {
+        // Validate request data
         $validator = Validator::make(request()->all(), [
            'name' => 'required|unique:permissions',
            'pname' => 'required',
            'description' => 'required'
         ]);
 
+        // Check if validator failed
         if ($validator->fails()) {
             toast($validator->errors()->first(), 'error');
             return redirect()->back();
         }
 
-        Permission::create([
-           'name' => request()->get('name'),
-           'display_name' => request()->get('pname'),
-           'description' => request()->get('description')
-        ]);
+        // Store new permission in databse
+        $permission = (new PermissionService())->createPermission($request);
 
+        // Check if permission was created
+        if (!$permission) {
+            toast('Failed to create permission!', 'error');
+            return redirect()->back();
+        }
+
+        // Success
         toast('Permission ' . request()->get('name') . ' has been created', 'success');
         return redirect()->back();
+    }
+
+    /**
+     * @param $id
+     */
+    public function editPermission($id)
+    {
+        // TODO
+    }
+
+
+    /**
+     * @param $id
+     */
+    public function updatePermission($id)
+    {
+        // TODO
     }
 
     /**
@@ -67,10 +93,12 @@ class ACLController extends Controller
     }
 
     /**
+     * @param Request $request
      * @return RedirectResponse
      */
-    public function storeRole()
+    public function storeRole(Request $request)
     {
+        // Validate request data
         $validator = Validator::make(request()->all(), [
             'name' => 'required|unique:permissions',
             'pname' => 'required',
@@ -78,19 +106,25 @@ class ACLController extends Controller
             'permissions' => 'required|array'
         ]);
 
+        // Check if validator failed
         if ($validator->fails()) {
             toast($validator->errors()->first(), 'error');
             return redirect()->back();
         }
 
-        $role = Role::create([
-            'name' => request()->get('name'),
-            'display_name' => request()->get('pname'),
-            'description' => request()->get('description')
-        ]);
+        // Store role to database
+        $role = (new RoleService())->createRole($request);
 
+        // Check if role was created
+        if (!$role) {
+            toast('Failed to create new role!', 'error');
+            return redirect()->back();
+        }
+
+        // Sync role permissions
         $role->syncPermissions(request()->get('permissions'));
 
+        // Success
         toast('Role has successfully been created!', 'success');
         return redirect()->back();
     }
@@ -111,31 +145,38 @@ class ACLController extends Controller
     }
 
     /**
+     * @param Request $request
      * @param $roleId
      * @return RedirectResponse
      */
-    public function updateRole($roleId)
+    public function updateRole(Request $request ,$roleId)
     {
+        // Validate request data
         $validator = Validator::make(request()->all(), [
             'pname' => 'required',
             'description' => 'required',
             'permissions' => 'required|array'
         ]);
 
+        // Check if validator failed
         if ($validator->fails()) {
             toast($validator->errors()->first(), 'error');
             return redirect()->back();
         }
 
-        $role = Role::find($roleId);
+        // Update role information
+        $role = (new RoleService())->updateRole($request, $roleId);
 
-        Role::where('id', $roleId)->update([
-            'display_name' => request()->get('pname'),
-            'description' => request()->get('description')
-        ]);
+        // Check if role was updated
+        if (!$role) {
+            toast('Failed to update role: ' . $request->get('pname'));
+            return redirect()->back();
+        }
 
+        // Sync role permissions
         $role->syncPermissions(request()->get('permissions'));
 
+        // Success
         toast($role->display_name . ' has been updated successfully', 'success');
         return redirect()->back();
     }

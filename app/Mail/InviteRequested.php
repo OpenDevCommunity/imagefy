@@ -30,6 +30,6 @@ class InviteRequested extends Mailable
      */
     public function build()
     {
-        return $this->subject('MD Share ')->markdown('emails.inviteRequested')->with('email', $this->email);
+        return $this->subject(config('app.name') .  ' - Invite Request Sent')->markdown('emails.inviteRequested')->with('email', $this->email);
     }
 }

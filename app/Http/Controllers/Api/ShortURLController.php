@@ -6,6 +6,7 @@ use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\CreateShortUrlRequest;
 use App\Models\ShortUrl;
+use App\Services\ShortURLService;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -13,33 +14,22 @@ use Validator;
 
 class ShortURLController extends Controller
 {
+
+    private $apiKey;
+
+    public function __construct()
+    {
+        $this->apiKey = request()->headers->has('x-api-key') ? request()->headers->get('x-api-key') : null;
+    }
+
     /**
      * Fetch all user short urls
      *
-     * @return JsonResponse
+     * @return void
      */
     public function fetchAllShortUrls()
     {
-        $apiKey = request()->headers->get('x-api-key');
-        $userId = Helper::getUserIdByAPIKey($apiKey);
-
-        // TODO: Add proper filtering
-        if (request()->query->get('active') === 'true') {
-            // Get all active
-            $activeUrls = ShortUrl::where('user_id', $userId)->where('expiries_at', '>=', Carbon::now())->get();
-
-            return response()->json([
-                'error' => false,
-                'urls' => $activeUrls
-            ], 200);
-        }
-
-        $activeUrls = ShortUrl::where('user_id', $userId)->get();
-
-        return response()->json([
-            'error' => false,
-            'urls' => $activeUrls
-        ], 200);
+        // TODO
     }
 
     /**
@@ -48,20 +38,25 @@ class ShortURLController extends Controller
      */
     public function createShortURL(CreateShortUrlRequest $request)
     {
+        // Validate request data
         $data = $request->validated();
 
-        $userId = Helper::getUserIdByAPIKey($request->headers->get('x-api-key'));
+        // Get user ID by API Key
+        $userId = Helper::getUserIdByAPIKey($this->apiKey);
 
+        // Parse original URL submitted
         $originalURLParts = parse_url(request()->get('original_url'));
 
-        $shortUrl = ShortUrl::create([
-           'user_id' => $userId,
-           'original_url' => $data['original_url'],
-           'short_url_hash' => Helper::generateHash(),
-           'name' => $request->has('name') ? $data['name'] : $originalURLParts['host'],
-           'expiries_at' => $request->has('expires') ? Helper::generateCarbonTime($data['length'], $data['time']) : null,
-        ]);
+        // Get HOST name from URL Parts
+        $shortName = $request->has('name') ? $data['name'] : $originalURLParts['host'];
 
+        // Generate expiry time
+        $expiryTime = $request->has('expires') ? Helper::generateCarbonTime($data['length'], $data['time']) : null;
+
+        // Save short URL to databse
+        $shortUrl = (new ShortURLService())->createShortURL($userId, $data, $shortName, $expiryTime);
+
+        // Check if short URL was successfully saved
         if (!$shortUrl) {
             return response()->json([
                 'error' => false,
@@ -69,10 +64,36 @@ class ShortURLController extends Controller
             ], 422);
         }
 
+        // Return response
         return response()->json([
             'error' => false,
             'msg' => 'Short URL has been created successfully!',
             'shortUrl' => route('frontend.shorturl', $shortUrl->short_url_hash)
         ], 200);
+    }
+
+
+    /**
+     * @param $uuid
+     */
+    public function showShortUrl($uuid)
+    {
+        // TODO
+    }
+
+    /**
+     * @param $uuid
+     */
+    public function updateShortURL($uuid)
+    {
+        // TODO
+    }
+
+    /**
+     * @param $uuid
+     */
+    public function deleteShortURL($uuid)
+    {
+        // TODO
     }
 }

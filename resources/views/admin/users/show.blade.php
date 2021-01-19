@@ -281,7 +281,7 @@
 @section('js')
     <script>
         $(document).ready(function() {
-            $('#user-images, #short-urls, #permissions-list, #user-activity').DataTable({
+            $('#user-images, #short-urls, #permissions-list, #user-activity, #roles-list').DataTable({
                 "searching": true
             });
         });

@@ -8,6 +8,7 @@ use App\Http\Requests\SetImageVisibilityRequest;
 use App\Http\Requests\UploadImageRequest;
 use App\Models\Image;
 use App\Models\UserSetting;
+use App\Services\ImageService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Storage;
@@ -50,13 +51,20 @@ class ImageController extends Controller
         $image = Image::find($id);
 
         // No Image
-        if (!$image) return response()
-            ->json(['error' => true, 'msg' => 'Image with ID: ' . $id. ' was not found!'], 404);
-
+        if (!$image) {
+            return response()->json([
+                'error' => true,
+                'msg' => 'Image with ID: ' . $id. ' was not found!'
+            ], 404);
+        }
 
         // Check if user is image owner
-        if ($userId !== $image->user_id) return response()
-            ->json(['error' => true, 'msg' => 'Image with ID: ' . $id . ' was not found!'], 404);
+        if ($userId !== $image->user_id) {
+            return response()->json([
+                'error' => true,
+                'msg' => 'Image with ID: ' . $id . ' was not found!'
+            ], 404);
+        }
 
         // Set Image visibility
         Storage::setVisibility('images/' . $image->image_name, AWSImage::validateVisibility($data['visibility']));
@@ -77,10 +85,10 @@ class ImageController extends Controller
      */
     public function uploadImage(UploadImageRequest $request)
     {
-        //
+        // Validate Request
         $data = $request->validated();
 
-        //
+        // Get user ID by API Key
         $userId = Helper::getUserIdByAPIKey($this->apiKey);
 
         // Fetch user settings
@@ -95,32 +103,32 @@ class ImageController extends Controller
         // Store image in Digital Ocean S3 Space
         Storage::putFileAs('images', $image, $imageName, $request->has('visibility') ? $request->get('visibility') : $settings->default_image_visibility);
 
+        // Get image visibility
+        $visibility = $request->has('visibility') ? $request->get('visibility') : AWSImage::convertVisibility($settings->default_image_visibility);
+
         // Store newly uploaded image meta in database
-        $createdImage = Image::create([
-           'user_id'            => $userId,
-           'image_del_hash'     => uniqid('img_'),
-           'image_share_hash'   => base_convert(time(), 10, 36),
-           'image_name'         => $imageName,
-           'public'             => $request->has('visibility') ? $request->get('visibility') : AWSImage::convertVisibility($settings->default_image_visibility)
-        ]);
+        $imageMeta = (new ImageService())->saveImageMeta($userId, $imageName, $visibility);
 
         // Check if meta was added to databse
-        if (!$createdImage) {
+        if (!$imageMeta) {
             return response()->json([
                 'error' => true,
                 'msg'   => 'Failed to upload image! Please try again!'
             ], 500);
         }
 
+        // Get user from database
         $user = User::find($userId);
 
-        activity()->performedOn($createdImage)->causedBy($user)->log('Uploaded image via API');
+        // Log new activity about user
+        activity('API')->performedOn($imageMeta)->causedBy($user)->log('Uploaded image via API');
+
 
         // Send json response back with image meta
         return response()->json([
             'error'     => false,
             'msg'       => 'Image uploaded successfully',
-            'url'       => route('frontend.show.image', $createdImage->image_share_hash),
+            'url'       => route('frontend.show.image', $imageMeta->image_share_hash),
         ], 200);
     }
 
@@ -141,12 +149,18 @@ class ImageController extends Controller
 
         // Check if image requested exists
         if (!$image) {
-            return response()->json(['error' => true, 'msg' => 'Image does not exist!'], 404);
+            return response()->json([
+                'error' => true,
+                'msg' => 'Image does not exist!'
+            ], 404);
         }
 
         // User is not a image owner
         if ($image->user_id !== $userId) {
-            return response()->json(['error' => true, 'msg' => 'Image does not exist!'], 404);
+            return response()->json([
+                'error' => true,
+                'msg' => 'Image does not exist!'
+            ], 404);
         }
 
         // Delete image from storage
@@ -155,6 +169,7 @@ class ImageController extends Controller
         // Delete image record
         Image::destroy($image->id);
 
+        // Send response back
         return response()->json([
             'error' => false,
             'msg' => 'Image has been removed'

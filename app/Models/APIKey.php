@@ -25,6 +25,20 @@ use Illuminate\Support\Carbon;
  * @method static \Illuminate\Database\Eloquent\Builder|APIKey whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|APIKey whereUserId($value)
  * @mixin \Eloquent
+ * @property int $blocked
+ * @property int $enabled
+ * @property int $logs_enabled
+ * @property string $allowed_origin
+ * @property string|null $name
+ * @property int $can_read
+ * @property int $can_write
+ * @method static \Illuminate\Database\Eloquent\Builder|APIKey whereAllowedOrigin($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|APIKey whereBlocked($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|APIKey whereCanRead($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|APIKey whereCanWrite($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|APIKey whereEnabled($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|APIKey whereLogsEnabled($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|APIKey whereName($value)
  */
 class APIKey extends Model
 {

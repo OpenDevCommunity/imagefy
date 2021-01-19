@@ -25,21 +25,11 @@ class AccountController extends Controller
      */
     public function index()
     {
-        // Get total images count
-        // TODO: Refactor this
-        $imagesCount = Image::where('user_id', Auth::user()->id)->count();
-        $publicImagesCount = Image::where('user_id', Auth::user()->id)->where('public', true)->count();
-        $privateImagesCount = Image::where('user_id', Auth::user()->id)->where('public', false)->count();
-        $shortUrlCount = ShortUrl::where('user_id', Auth::id())->count();
-
-        $recentImages = Image::orderBy('id', 'desc')->where('user_id', Auth::user()->id)->take(5)->get();
+        $recentImages = Image::orderBy('id', 'desc')
+            ->where('user_id', Auth::user()->id)->take(5)->get();
 
         return view('home', [
-            'imagesCount' => $imagesCount,
             'recentImages' => $recentImages,
-            'publicImagesCount' => $publicImagesCount,
-            'privateImagesCount' => $privateImagesCount,
-            'shortUrlCount' => $shortUrlCount
         ]);
     }
 

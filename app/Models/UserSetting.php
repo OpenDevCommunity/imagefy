@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 /**
  * App\Models\UserSetting
@@ -13,8 +14,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $default_image_visibility
  * @property int $upload_to_imgur
  * @property int $send_to_discord
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @method static \Illuminate\Database\Eloquent\Builder|UserSetting newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|UserSetting newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|UserSetting query()

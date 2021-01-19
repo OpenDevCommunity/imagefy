@@ -34,6 +34,6 @@ class NewInviteRequest extends Mailable
             'email' => $this->email,
             'url' => route('admin.invites.pending')
         ])
-            ->subject('New Invite Request');
+            ->subject(config('app.name') . ' - New Invite Request Received');
     }
 }
