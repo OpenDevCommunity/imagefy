@@ -129,6 +129,12 @@ class User extends Authenticatable
             ->where('public', false)->get();
     }
 
+
+    public function RecentImages($limit)
+    {
+        return $this->hasMany(Image::class, 'user_id', 'id')->take($limit);
+    }
+
     /**
      * @return Collection
      */

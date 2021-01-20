@@ -35,6 +35,11 @@
 </head>
 <body>
     <div id="app">
+        <!-- **** Begin Fork-Me-On-Gitlab-Ribbon-HTML. See MIT License at https://gitlab.com/seanwasere/fork-me-on-gitlab **** -->
+        <a href="https://hub.opendevcommunity.com/git/imagefy/imagefy" target="_blank">
+            <span style="font-family: tahoma; font-size: 20px; position:fixed; top:50px; right:-45px; display:block; -webkit-transform: rotate(45deg); -moz-transform: rotate(45deg); background-color:blue; color:white; padding: 4px 30px 4px 30px; z-index:99">Fork Me On GitLab</span>
+        </a>
+        <!-- **** End Fork-Me-On-Gitlab-Ribbon-HTML **** -->
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
@@ -171,5 +176,64 @@
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
     @yield('js')
+
+    <script>
+        const SwalModal = (icon, title, text) => {
+            swal({
+                icon,
+                title,
+                text
+            })
+        }
+
+        const SwalConfirm = (icon, title, text, confirmButtonText, method, params, callback) => {
+            swal({
+                icon: 'warning',
+                title,
+                text,
+                buttons: ["Cancel", "Yes!"],
+            }).then(result => {
+                if (result) {
+                    return livewire.emit(method, params)
+                }
+
+                if (callback) {
+                    return livewire.emit(callback)
+                }
+            })
+        }
+
+        const SwalAlert = (icon, title, timeout = 7000) => {
+            const Toast = swal({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: timeout,
+                onOpen: toast => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            })
+
+            Toast.fire({
+                icon,
+                title
+            })
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            this.livewire.on('swal:modal', data => {
+                SwalModal(data.icon, data.title, data.text)
+            })
+
+            this.livewire.on('swal:confirm', data => {
+                SwalConfirm(data.icon, data.title, data.text, data.confirmText, data.method, data.params, data.callback)
+            })
+
+            this.livewire.on('swal:alert', data => {
+                SwalAlert(data.icon, data.title, data.timeout)
+            })
+        })
+    </script>
 </body>
 </html>
