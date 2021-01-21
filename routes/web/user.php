@@ -8,35 +8,37 @@ $userRoutes = function () {
     Route::prefix('account')->middleware(['auth'])->group(function () {
         Route::get('/', [App\Http\Controllers\User\AccountController::class, 'index'])->name('home');
 
+        // Settings Routes
         Route::prefix('settings')->group(function () {
-            Route::get('/', [\App\Http\Controllers\User\AccountController::class, 'showSettingsPage'])->name('user.account.settings');
+            Route::get('/', [\App\Http\Controllers\User\AccountController::class, 'showSettingsPage'])->name('account.settings');
 
+            // API Routes
             Route::prefix('api')->group(function () {
-                Route::get('/', [\App\Http\Controllers\User\APIController::class, 'index'])->name('user.settings.api');
-                Route::get('/{id}/edit', [\App\Http\Controllers\User\APIController::class, 'showAPISettings'])->name('user.settings.api.edit');
-                Route::post('/{id}/edit', [\App\Http\Controllers\User\APIController::class, 'updateAPISettings'])->name('user.settings.api.update');
-                Route::get('/{id}/{type}/sharex', [\App\Http\Controllers\User\APIController::class, 'generateSharexFile'])->name('user.api.sharex');
+                Route::get('/', [\App\Http\Controllers\User\APIController::class, 'index'])->name('api.settings');
+                Route::get('/{id}/edit', [\App\Http\Controllers\User\APIController::class, 'showAPISettings'])->name('api.configuration');
+                Route::post('/{id}/edit', [\App\Http\Controllers\User\APIController::class, 'updateAPISettings'])->name('api.settings.update');
+                Route::get('/{id}/{type}/sharex', [\App\Http\Controllers\User\APIController::class, 'generateSharexFile'])->name('sharex.config.download');
             });
         });
 
-        // Account library functions
-        Route::prefix('images')->group(function () {
-            Route::get('/', [\App\Http\Controllers\User\ImageController::class, 'index'])->name('user.image.library');
-            Route::get('/{uuid}/delete', [\App\Http\Controllers\User\ImageController::class, 'deleteImage'])->name('user.image.delete');
-            Route::get('/{uuid}/edit', [\App\Http\Controllers\User\ImageController::class, 'imageSettings'])->name('user.image.settings');
-            Route::post('/{id}/tempurl', [\App\Http\Controllers\User\ImageController::class, 'generateTemporaryUrl'])->name('user.images.temp');
-            Route::post('/{id}/visibility', [\App\Http\Controllers\User\ImageController::class, 'setImageVisibility'])->name('user.image.settings.visibility');
+        // Account library routes
+        Route::prefix('library')->group(function () {
+            Route::get('/', [\App\Http\Controllers\User\ImageController::class, 'index'])->name('library');
+            Route::get('/{uuid}/edit', [\App\Http\Controllers\User\ImageController::class, 'imageSettings'])->name('library.image.settings');
+            Route::post('/{id}/tempurl', [\App\Http\Controllers\User\ImageController::class, 'generateTemporaryUrl'])->name('library.image.tempurl');
+            Route::post('/{id}/visibility', [\App\Http\Controllers\User\ImageController::class, 'setImageVisibility'])->name('library.image.setvisibility');
+            Route::get('/{uuid}/delete', [\App\Http\Controllers\User\ImageController::class, 'deleteImage'])->name('library.image.destroy');
         });
 
         // Account upload settings
         Route::prefix('upload-settings')->group(function () {
-            Route::get('/', [\App\Http\Controllers\User\AccountController::class, 'showUploadSettingsPage'])->name('user.upload.settings');
-            Route::post('/{id}/default-visibility', [\App\Http\Controllers\User\SettingController::class, 'setDefaultImageVisibility'])->name('user.upload.settings.visibility');
+            Route::get('/', [\App\Http\Controllers\User\AccountController::class, 'showUploadSettingsPage'])->name('upload.settings');
+            Route::post('/{id}/default-visibility', [\App\Http\Controllers\User\SettingController::class, 'setDefaultImageVisibility'])->name('set.default.visibility');
         });
 
         // Account short URL routes
         Route::prefix('shorturls')->group(function () {
-            Route::get('/', [\App\Http\Controllers\User\ShortUrlController::class, 'index'])->name('user.short.urls');
+            Route::get('/', [\App\Http\Controllers\User\ShortUrlController::class, 'index'])->name('short.urls');
         });
     });
 };

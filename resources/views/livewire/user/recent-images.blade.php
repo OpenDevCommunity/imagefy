@@ -1,7 +1,7 @@
 <div class="container" wire:poll.10000ms="getUserImages">
     <div class="card shadow-sm">
         <div class="card-body">
-            <a href="{{ route('user.image.library') }}" class="btn btn-success btn-sm float-right">View All</a>
+            <a href="{{ route('library') }}" class="btn btn-success btn-sm float-right">View All</a>
             <button wire:click="getUserImages()" style="margin-right: 5px;" class="btn btn-success btn-sm float-right">Refresh</button>
             <h5>Your recently uploaded images &ensp;  <span wire:loading wire:target="getUserImages"><i class="fas fa-sync fa-spin"></i></span></h5>
             <span class="text-muted">Here you can see your recently uploaded images</span>
@@ -35,7 +35,7 @@
                                         <i class="fas fa-cogs"></i>
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a href="{{ route('user.image.settings', $img->image_share_hash) }}" class="dropdown-item" title="Edit Image">
+                                        <a href="{{ route('library.image.settings', $img->image_share_hash) }}" class="dropdown-item" title="Edit Image">
                                             <i class="fas fa-pencil-alt"></i> Edit
                                         </a>
 

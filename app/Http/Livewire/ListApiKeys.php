@@ -22,12 +22,7 @@ class ListApiKeys extends Component
      */
     public $apiKeys = [];
 
-    /**
-     * Errors array
-     *
-     * @var array
-     */
-    public $error = [];
+    protected $listeners = ['api-keys:delete' => 'delete'];
 
     /**
      * Render Blade component template
@@ -78,6 +73,23 @@ class ListApiKeys extends Component
         $this->getApiKeys();
     }
 
+
+    /**
+     * @param $id
+     */
+    public function confirm($id)
+    {
+        $this->emit("swal:confirm", [
+            'type'        => 'warning',
+            'title'       => 'Are you sure?',
+            'text'        => "You won't be able to revert this!",
+            'confirmText' => 'Yes, delete!',
+            'method'      => 'api-keys:delete',
+            'params'      => ['id' => $id], // optional, send params to success confirmation
+            'callback'    => '', // optional, fire event if no confirmed
+        ]);
+    }
+
     /**
      * Delete API Key from database
      *
@@ -88,6 +100,11 @@ class ListApiKeys extends Component
         APIKey::destroy($id);
 
         $this->getApiKeys();
+
+        $this->emit("swal:modal", [
+            'icon' => 'success',
+            'text' => 'API key has successfully been deleted!'
+        ]);
     }
 
     /**

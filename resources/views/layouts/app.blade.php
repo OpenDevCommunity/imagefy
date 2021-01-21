@@ -34,12 +34,12 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
+<!-- **** Begin Fork-Me-On-Gitlab-Ribbon-HTML. See MIT License at https://gitlab.com/seanwasere/fork-me-on-gitlab **** -->
+<a href="https://hub.opendevcommunity.com/git/imagefy/imagefy" target="_blank">
+    <span style="font-family: tahoma; font-size: 20px; position:fixed; top:50px; right:-45px; display:block; -webkit-transform: rotate(45deg); -moz-transform: rotate(45deg); background-color:blue; color:white; padding: 4px 30px 4px 30px; z-index:99">Fork Me On GitLab</span>
+</a>
+<!-- **** End Fork-Me-On-Gitlab-Ribbon-HTML **** -->
     <div id="app">
-        <!-- **** Begin Fork-Me-On-Gitlab-Ribbon-HTML. See MIT License at https://gitlab.com/seanwasere/fork-me-on-gitlab **** -->
-        <a href="https://hub.opendevcommunity.com/git/imagefy/imagefy" target="_blank">
-            <span style="font-family: tahoma; font-size: 20px; position:fixed; top:50px; right:-45px; display:block; -webkit-transform: rotate(45deg); -moz-transform: rotate(45deg); background-color:blue; color:white; padding: 4px 30px 4px 30px; z-index:99">Fork Me On GitLab</span>
-        </a>
-        <!-- **** End Fork-Me-On-Gitlab-Ribbon-HTML **** -->
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
@@ -90,24 +90,24 @@
                                     <a class="dropdown-item" href="{{ route('home') }}">
                                        <i class="fas fa-user"></i> &ensp; Account
                                     </a>
-                                    <a class="dropdown-item" href="{{ route('user.settings.api') }}">
+                                    <a class="dropdown-item" href="{{ route('api.settings') }}">
                                         <i class="fas fa-terminal"></i> &ensp; API Keys
                                     </a>
 
-                                    <!-- <a class="dropdown-item" href="{{ route('user.account.settings') }}">
+                                    <!-- <a class="dropdown-item" href="{{ route('account.settings') }}">
                                         Account Settings
                                     </a> -->
 
-                                    <a class="dropdown-item" href="{{ route('user.upload.settings') }}">
+                                    <a class="dropdown-item" href="{{ route('upload.settings') }}">
                                       <i class="fas fa-upload"></i> &ensp; Upload Settings
                                     </a>
 
-                                    <a class="dropdown-item" href="{{ route('user.image.library') }}">
+                                    <a class="dropdown-item" href="{{ route('library') }}">
                                         <i class="far fa-images"></i> &ensp; My Images
                                     </a>
 
                                     @if (config('app.short_url_enabled'))
-                                    <a class="dropdown-item" href="{{ route('user.short.urls') }}">
+                                    <a class="dropdown-item" href="{{ route('short.urls') }}">
                                         <i class="fas fa-link"></i> &ensp;  URL Shortner <span class="badge badge-success">Beta</span>
                                     </a>
                                     @endif

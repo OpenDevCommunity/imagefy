@@ -3,6 +3,9 @@
 namespace App\Http\Livewire\User;
 
 use App\Models\Image;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Livewire\Component;
 use Auth;
 
@@ -13,11 +16,17 @@ class RecentImages extends Component
 
     protected $listeners = ['recent-images:delete' => 'delete', 'recent-images:update' => 'getUserImages'];
 
+    /**
+     * @return Application|Factory|View
+     */
     public function render()
     {
         return view('livewire.user.recent-images');
     }
 
+    /**
+     * Get recent 5 user images from database
+     */
     public function getUserImages()
     {
         $this->recentImages = Image::orderBy('created_at', 'desc')->where('user_id', Auth::id())->take(5)->get();
@@ -25,11 +34,18 @@ class RecentImages extends Component
         $this->emit('homestats:update');
     }
 
+    /**
+     * Component mounted hook
+     */
     public function mount()
     {
         $this->getUserImages();
     }
 
+    /**
+     * Display Delete Prompt
+     * @param $id
+     */
     public function confirm($id)
     {
         $this->emit("swal:confirm", [
@@ -43,6 +59,10 @@ class RecentImages extends Component
         ]);
     }
 
+    /**
+     * Delete Image
+     * @param $id
+     */
     public function delete($id)
     {
 
