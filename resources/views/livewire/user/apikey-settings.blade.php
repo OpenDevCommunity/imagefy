@@ -1,11 +1,6 @@
 <div class="card shadow-sm">
     <div class="card-body">
-
-        <div wire:loading wire:target="update">
-            <p>Saving Settings... Please wait &ensp; <span wire:loading><i class="fas fa-sync fa-spin"></i></span></p>
-        </div>
-
-        <form wire:submit.prevent="update" method="POST" wire:loading.remove>
+        <form wire:submit.prevent="update" method="POST">
             <div>
                 <h5>Edit API Key Configuration</h5>
                 <span class="text-muted">Here you can configure your API Key settings</span>
@@ -83,7 +78,10 @@
             </div>
 
             <div class="form-group">
-                <button type="submit" class="btn btn-success btn-block" {{ $apiKey->blocked ? 'disabled' : '' }}>Update Information</button>
+                <button type="submit" class="btn btn-success btn-block" {{ $apiKey->blocked ? 'disabled' : '' }}>
+                    <span wire:loading.remove wire:target="update">Save Settings</span>
+                    <span wire:loading wire:target="update"><i class="fas fa-sync fa-spin"></i> &ensp; Saving Settings</span>
+                </button>
             </div>
         </form>
     </div>

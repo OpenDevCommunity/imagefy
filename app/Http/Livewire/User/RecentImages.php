@@ -70,7 +70,7 @@ class RecentImages extends Component
 
        $this->getUserImages();
 
-        $this->emit("swal:modal", [
+        $this->emit("swal:alert", [
             'icon' => 'success',
             'text' => 'Image has successfully been deleted!'
         ]);

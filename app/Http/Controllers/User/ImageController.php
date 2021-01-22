@@ -92,7 +92,7 @@ class ImageController extends Controller
      */
     public function generateCustomTempUrl(Image $image, $length, $time)
     {
-        switch ($length) {
+        /* switch ($length) {
             case 'minutes':
                 return \URL::signedRoute('frontend.show.image', ['uuid' => $image->image_share_hash], Carbon::now()->addMinutes($time));
                 break;
@@ -104,7 +104,7 @@ class ImageController extends Controller
                 break;
             default:
                 return \URL::signedRoute('frontend.show.image', ['uuid' => $image->image_share_hash], Carbon::now()->addMinutes(5));
-        }
+        } */
     }
 
     /**

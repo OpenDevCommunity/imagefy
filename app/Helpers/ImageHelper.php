@@ -60,10 +60,34 @@ class ImageHelper
         return $tempUrl;
     }
 
+
+    /**
+     * @param Image $image
+     * @param $length
+     * @param $time
+     * @return string
+     */
+    public static function generateCustomTempUrl(Image $image, $length, $time)
+    {
+        switch ($length) {
+            case 'minutes':
+                return \URL::signedRoute('frontend.show.image', ['uuid' => $image->image_share_hash], Carbon::now()->addMinutes($time));
+                break;
+            case 'hours':
+                return \URL::signedRoute('frontend.show.image', ['uuid' => $image->image_share_hash], Carbon::now()->addhours($time));
+                break;
+            case 'days':
+                return \URL::signedRoute('frontend.show.image', ['uuid' => $image->image_share_hash], Carbon::now()->addDays($time));
+                break;
+            default:
+                return \URL::signedRoute('frontend.show.image', ['uuid' => $image->image_share_hash], Carbon::now()->addMinutes(5));
+        }
+    }
+
+
     /**
      * @param $name
      * @return string
-     * @throws FileNotFoundException
      */
     public static function getImageFile($name)
     {

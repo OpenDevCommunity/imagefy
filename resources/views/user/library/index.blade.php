@@ -29,10 +29,10 @@
                             <hr>
                             <div class="row">
                                 <div class="col-6">
-                                    <a href="{{ route('user.image.settings', $image->image_share_hash) }}" class="btn btn-success btn-sm btn-block">Edit</a>
+                                    <a href="{{ route('library.image.settings', $image->image_share_hash) }}" class="btn btn-success btn-sm btn-block">Edit</a>
                                 </div>
                                 <div class="col-6">
-                                    <a href="{{ route('user.image.delete', $image->image_del_hash) }}" class="btn btn-danger btn-sm btn-block delete-confirm">Delete</a>
+                                    <a href="#" class="btn btn-danger btn-sm btn-block delete-confirm">Delete</a>
                                 </div>
                             </div>
                         </div>

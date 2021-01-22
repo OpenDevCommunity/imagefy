@@ -43,8 +43,13 @@ class Image extends Model
     use HasFactory;
 
     protected $table = 'images';
+
     protected $fillable = [
       'user_id', 'image_del_hash', 'image_name', 'public', 'image_share_hash'
+    ];
+
+    protected $casts = [
+        'public' => 'boolean'
     ];
 
 
