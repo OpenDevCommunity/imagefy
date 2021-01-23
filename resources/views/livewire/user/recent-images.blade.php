@@ -3,8 +3,8 @@
         <div class="card-body">
             <a href="{{ route('library') }}" class="btn btn-success btn-sm float-right">View All</a>
             <button wire:click="getUserImages()" style="margin-right: 5px;" class="btn btn-success btn-sm float-right">Refresh</button>
-            <h5>Your recently uploaded images &ensp;  <span wire:loading wire:target="getUserImages"><i class="fas fa-sync fa-spin"></i></span></h5>
-            <span class="text-muted">Here you can see your recently uploaded images</span>
+            <h5>Your recently uploaded images</h5>
+            <span class="text-muted"><i class="fas fa-sync fa-spin"></i> &ensp; Waiting for images...</span>
             <hr>
             <div class="table-responsive" wire:loading.remove wire:target="delete">
                 <table class="table">

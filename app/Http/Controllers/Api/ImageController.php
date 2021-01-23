@@ -123,9 +123,6 @@ class ImageController extends Controller
         // Log new activity about user
         activity('API')->performedOn($imageMeta)->causedBy($user)->log('Uploaded image via API');
 
-
-
-
         // Send json response back with image meta
         return response()->json([
             'error'     => false,

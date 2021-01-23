@@ -53,7 +53,7 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="/docs">Documentation</a>
+                            <a class="nav-link" href="https://hub.opendevcommunity.com/docs/display/IMG" target="_blank">Documentation</a>
                         </li>
                     </ul>
 
