@@ -4,10 +4,10 @@
             <a href="{{ route('library') }}" class="btn btn-success btn-sm float-right">View All</a>
             <button wire:click="getUserImages()" style="margin-right: 5px;" class="btn btn-success btn-sm float-right">Refresh</button>
             <h5>Your recently uploaded images</h5>
-            <span class="text-muted"><i class="fas fa-sync fa-spin"></i> &ensp; Waiting for images...</span>
+            <span class="text-muted"><em class="fas fa-sync fa-spin"></em> &ensp; Waiting for images...</span>
             <hr>
             <div class="table-responsive" wire:loading.remove wire:target="delete">
-                <table class="table">
+                <table class="table" aria-describedby="Recent images table">
                     <thead>
                     <tr>
                         <th scope="col">Name</th>
@@ -26,8 +26,8 @@
                             </td>
                             <td>{{ $img->created_at->diffForHumans() }}</td>
                             <td>
-                                <i class="text-success fas fa-{{ AWSImage::getFileVisibility($img->id) === 'public' ? 'globe' : 'lock' }}"
-                                   title="{{ AWSImage::getFileVisibility($img->id) === 'public' ? 'Public' : 'Private' }}"></i>
+                                <em class="text-success fas fa-{{ AWSImage::getFileVisibility($img->id) === 'public' ? 'globe' : 'lock' }}"
+                                   title="{{ AWSImage::getFileVisibility($img->id) === 'public' ? 'Public' : 'Private' }}"></em>
                             </td>
                             <td>
                                 <div class="dropdown">

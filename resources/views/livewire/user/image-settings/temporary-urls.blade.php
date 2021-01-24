@@ -6,7 +6,7 @@
         <span class="text-muted">You can generate temporary URLs to share your image</span>
         <hr>
         <div class="table-responsive">
-            <table class="table">
+            <table class="table" aria-describedby="Templorary URLs table">
                 <thead>
                 <tr>
                     <th scope="col">Share URL</th>
@@ -18,7 +18,7 @@
                 @foreach($image->shorturls as $tmpUrl)
                     <tr>
                         <td><input type="text" class="form-control" value="{{ route('frontend.shorturl', $tmpUrl->short_url_hash)}}" readonly></td>
-                        <td width="350">{{ \Carbon\Carbon::parse($tmpUrl->expiries_at)->isPast() ? 'Expiried' : 'Expiries in ' . \Carbon\Carbon::parse($tmpUrl->expiries_at)->diffForHumans() }}</td>
+                        <td>{{ \Carbon\Carbon::parse($tmpUrl->expiries_at)->isPast() ? 'Expiried' : 'Expiries in ' . \Carbon\Carbon::parse($tmpUrl->expiries_at)->diffForHumans() }}</td>
                         <td>
                             <button class="btn btn-success btn-icon" wire:click="confirmDelete({{ $tmpUrl->id }})"><i class="fas fa-trash"></i></button>
                         </td>
