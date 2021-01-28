@@ -30,6 +30,11 @@ $adminRoutes = function () {
         });
 
 
+        Route::prefix('settings')->group(function () {
+            Route::get('/site', [\App\Http\Controllers\Admin\SiteSettingsController::class, 'index'])->name('admin.general.settings');
+            Route::post('/site/update', [\App\Http\Controllers\Admin\SiteSettingsController::class, 'UpdateSettings'])->name('admin.general.settings.update');
+        });
+
         Route::prefix('acl')->group(function () {
             Route::prefix('permissions')->group(function () {
                 Route::get('/', [\App\Http\Controllers\Admin\ACLController::class, 'listPermissions'])->name('admin.list.permissions');
@@ -53,7 +58,7 @@ $adminRoutes = function () {
 };
 
 
-Route::group(['domain' => 'imagefy.me'], $adminRoutes);
+Route::group(['domain' => parse_url(config('app.url'))['host']], $adminRoutes);
 
 if (env('APP_DEBUG')) {
     Route::group(['domain' => 'localhost'], $adminRoutes);

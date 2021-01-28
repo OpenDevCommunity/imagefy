@@ -34,11 +34,16 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
+<!-- **** Begin Fork-Me-On-Gitlab-Ribbon-HTML. See MIT License at https://gitlab.com/seanwasere/fork-me-on-gitlab **** -->
+<a href="https://hub.opendevcommunity.com/git/imagefy/imagefy" target="_blank">
+    <span style="font-family: tahoma; font-size: 20px; position:fixed; top:50px; right:-45px; display:block; -webkit-transform: rotate(45deg); -moz-transform: rotate(45deg); background-color:blue; color:white; padding: 4px 30px 4px 30px; z-index:99">Fork Me On GitLab</span>
+</a>
+<!-- **** End Fork-Me-On-Gitlab-Ribbon-HTML **** -->
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
+                    {{ config('app.name') }}
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
@@ -83,32 +88,34 @@
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('home') }}">
-                                        Account Home
+                                       <i class="fas fa-user"></i> &ensp; Account
                                     </a>
-                                    <a class="dropdown-item" href="{{ route('user.settings.api') }}">
-                                        API Settings
+                                    <a class="dropdown-item" href="{{ route('api.settings') }}">
+                                        <i class="fas fa-terminal"></i> &ensp; API Keys
                                     </a>
 
-                                    <!-- <a class="dropdown-item" href="{{ route('user.account.settings') }}">
+                                    <!-- <a class="dropdown-item" href="{{ route('account.settings') }}">
                                         Account Settings
                                     </a> -->
 
-                                    <a class="dropdown-item" href="{{ route('user.upload.settings') }}">
-                                        Upload Settings
+                                    <a class="dropdown-item" href="{{ route('upload.settings') }}">
+                                      <i class="fas fa-upload"></i> &ensp; Upload Settings
                                     </a>
 
-                                    <a class="dropdown-item" href="{{ route('user.image.library') }}">
-                                        My Images
+                                    <a class="dropdown-item" href="{{ route('library') }}">
+                                        <i class="far fa-images"></i> &ensp; My Images
                                     </a>
 
-                                    <a class="dropdown-item" href="{{ route('user.short.urls') }}">
-                                        URL Shortner
+                                    @if (config('app.short_url_enabled'))
+                                    <a class="dropdown-item" href="{{ route('short.urls') }}">
+                                        <i class="fas fa-link"></i> &ensp;  URL Shortner <span class="badge badge-success">Beta</span>
                                     </a>
+                                    @endif
 
                                     <div class="dropdown-divider"></div>
                                     @role('administrator|superadministrator')
                                     <a class="dropdown-item" href="{{ route('admin.dashboard') }}">
-                                        Staff Panel
+                                        <i class="fas fa-lock"></i> &ensp; Administration
                                     </a>
                                     @endrole
 
@@ -116,7 +123,7 @@
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
+                                       <i class="fas fa-sign-out-alt"></i> &ensp; {{ __('Logout') }}
                                     </a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
@@ -131,6 +138,13 @@
         </nav>
 
         <main class="py-4">
+            @if (config('app.debug'))
+            <div class="container mt-2">
+                <div class="alert alert-danger shadow-sm">
+                    <strong>Warning!</strong> {{ config('app.name') }} is currenly running in <strong>DEBUG</strong> mode! Please disable <strong>DEBUG</strong> mode before deployment! You can do so by editing .env file set DEBUG=false
+                </div>
+            </div>
+            @endif
             <div class="container mt-2">
                 @if (session('error'))
                     <div class="alert alert-danger">
@@ -162,5 +176,64 @@
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
     @yield('js')
+
+    <script>
+        const SwalModal = (icon, title, text) => {
+            swal({
+                icon,
+                title,
+                text
+            })
+        }
+
+        const SwalConfirm = (icon, title, text, confirmButtonText, method, params, callback) => {
+            swal({
+                icon: 'warning',
+                title,
+                text,
+                buttons: ["Cancel", "Yes!"],
+            }).then(result => {
+                if (result) {
+                    return livewire.emit(method, params)
+                }
+
+                if (callback) {
+                    return livewire.emit(callback)
+                }
+            })
+        }
+
+        const SwalAlert = (icon, title, timeout = 7000) => {
+            const Toast = swal({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: timeout,
+                onOpen: toast => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            })
+
+            Toast.fire({
+                icon,
+                title
+            })
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            this.livewire.on('swal:modal', data => {
+                SwalModal(data.icon, data.title, data.text)
+            })
+
+            this.livewire.on('swal:confirm', data => {
+                SwalConfirm(data.icon, data.title, data.text, data.confirmText, data.method, data.params, data.callback)
+            })
+
+            this.livewire.on('swal:alert', data => {
+                SwalAlert(data.icon, data.title, data.timeout)
+            })
+        })
+    </script>
 </body>
 </html>

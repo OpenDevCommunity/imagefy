@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', env('APP_NAME') . ' - View User')
+@section('title', config('app.name') . ' - View User')
 
 @section('content_header')
     <h1>View User {{ $user->name }}</h1>
@@ -128,7 +128,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($user->images as $img)
+                        @foreach($user->image as $img)
                             <tr>
                                 <td>
                                     <a href="{{ AWSImage::generateTempLink($img->image_name, 5) }}" data-toggle="lightbox" data-title="{{ $img->image_name }}">
@@ -183,7 +183,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($user->shorturls as $url)
+                        @foreach($user->shorturl as $url)
                             <tr>
                                 <td>
                                     <a href="{{ $url->original_url }}" target="_blank">{{ Str::limit($url->original_url, 50) }}</a>
@@ -281,10 +281,10 @@
 @section('js')
     <script>
         $(document).ready(function() {
-            $('#user-images, #short-urls, #permissions-list, #roles-list, #user-activity').DataTable({
+            $('#user-images, #short-urls, #permissions-list, #user-activity, #roles-list').DataTable({
                 "searching": true
             });
-        } );
+        });
     </script>
 
     <script>
@@ -295,3 +295,5 @@
             });
         });
     </script>
+
+@endsection

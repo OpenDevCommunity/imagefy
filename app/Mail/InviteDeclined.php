@@ -32,6 +32,6 @@ class InviteDeclined extends Mailable
     {
         return $this->markdown('emails.inviteDeclined', [
             'email' => $this->email
-        ])->subject('MD Share - Invite Request Rejected');
+        ])->subject(config('app.name') . ' - Invite Request Rejected');
     }
 }

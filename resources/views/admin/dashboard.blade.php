@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', env('APP_NAME') . ' - Administration Dashboard')
+@section('title', config('app.name') . ' - Administration Dashboard')
 
 @section('content_header')
-    <h1>Dashboard</h1>
+    <h1>{{ config('app.name') }} Dashboard</h1>
 @stop
 
 @section('content')
@@ -134,7 +134,9 @@
                                     <tbody>
                                     @foreach($recentEvents as $event)
                                         <tr>
-                                            <td>{{ Helper::getUserById($event->causer_id)->name }}</td>
+                                            <td>
+                                                <a href="{{ route('admin.users.show', Helper::getUserById($event->causer_id)->id) }}">{{ Helper::getUserById($event->causer_id)->name }}</a>
+                                            </td>
                                             <td>{{ $event->description }}</td>
                                             <td>{{ $event->created_at->diffForHumans() }}</td>
                                         </tr>

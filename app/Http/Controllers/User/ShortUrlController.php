@@ -20,6 +20,7 @@ class ShortUrlController extends Controller
      */
     public function index()
     {
+        // TODO: Refactor this
         $shortUrls = ShortUrl::where('user_id', Auth::id())->orderBy('id', 'desc')->paginate(4);
         $shortURLSCount = ShortUrl::where('user_id', Auth::id())->count();
         $expiriedURLS = ShortUrl::where('expiries_at','<', \Illuminate\Support\Carbon::now())->count();

@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\APIKeys;
+use App\Models\APIKey;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -22,12 +22,7 @@ class ListApiKeys extends Component
      */
     public $apiKeys = [];
 
-    /**
-     * Errors array
-     *
-     * @var array
-     */
-    public $error = [];
+    protected $listeners = ['api-keys:delete' => 'delete'];
 
     /**
      * Render Blade component template
@@ -44,7 +39,7 @@ class ListApiKeys extends Component
      */
     public function getApiKeys()
     {
-        $this->apiKeys = APIKeys::where('user_id', Auth::user()->id)->get();
+        $this->apiKeys = APIKey::where('user_id', Auth::user()->id)->get();
     }
 
 
@@ -63,7 +58,7 @@ class ListApiKeys extends Component
     public function storeAPIKey()
     {
         // Store new API key in database
-        $key = APIKeys::create([
+        $key = APIKey::create([
            'user_id' => Auth::user()->id,
            'api_key' => $this->generateAPIKey(),
         ]);
@@ -78,6 +73,23 @@ class ListApiKeys extends Component
         $this->getApiKeys();
     }
 
+
+    /**
+     * @param $id
+     */
+    public function confirm($id)
+    {
+        $this->emit("swal:confirm", [
+            'type'        => 'warning',
+            'title'       => 'Are you sure?',
+            'text'        => "You won't be able to revert this!",
+            'confirmText' => 'Yes, delete!',
+            'method'      => 'api-keys:delete',
+            'params'      => ['id' => $id], // optional, send params to success confirmation
+            'callback'    => '', // optional, fire event if no confirmed
+        ]);
+    }
+
     /**
      * Delete API Key from database
      *
@@ -85,9 +97,14 @@ class ListApiKeys extends Component
      */
     public function delete($id)
     {
-        APIKeys::destroy($id);
+        APIKey::destroy($id);
 
         $this->getApiKeys();
+
+        $this->emit("swal:modal", [
+            'icon' => 'success',
+            'text' => 'API key has successfully been deleted!'
+        ]);
     }
 
     /**

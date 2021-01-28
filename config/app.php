@@ -125,6 +125,10 @@ return [
 
     'cipher' => 'AES-256-CBC',
 
+
+    'short_url_enabled' => env('ENABLE_SHORT_URL', false),
+    'short_url' => env('SHORT_URL'),
+
     /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers

@@ -54,9 +54,18 @@ use Spatie\Activitylog\Models\Activity;
  * @property-read int|null $activity_count
  * @property-read Collection|\App\Models\Image[] $Images
  * @property-read int|null $images_count
- * @property-read \App\Models\UserSettings|null $Settings
+ * @property-read \App\Models\UserSetting|null $Settings
  * @property-read Collection|\App\Models\ShortUrl[] $ShortUrls
  * @property-read int|null $short_urls_count
+ * @property string|null $api_token
+ * @property-read Collection|\App\Models\APIKey[] $ApiKey
+ * @property-read int|null $api_key_count
+ * @property-read Collection|\App\Models\Image[] $Image
+ * @property-read int|null $image_count
+ * @property-read \App\Models\UserSetting|null $Setting
+ * @property-read Collection|\App\Models\ShortUrl[] $ShortUrl
+ * @property-read int|null $short_url_count
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereApiToken($value)
  */
 class User extends Authenticatable
 {
@@ -97,7 +106,7 @@ class User extends Authenticatable
     /**
      * @return HasMany
      */
-    public function Images()
+    public function Image()
     {
         return $this->hasMany(Image::class, 'user_id', 'id');
     }
@@ -106,18 +115,49 @@ class User extends Authenticatable
     /**
      * @return HasMany
      */
-    public function ShortUrls()
+    public function ShortUrl()
     {
         return $this->hasMany(ShortUrl::class, 'user_id', 'id');
     }
 
+    /**
+     * @return Collection
+     */
+    public function PrivateImage()
+    {
+        return $this->hasMany(Image::class, 'user_id', 'id')
+            ->where('public', false)->get();
+    }
+
+
+    public function RecentImages($limit)
+    {
+        return $this->hasMany(Image::class, 'user_id', 'id')->take($limit);
+    }
+
+    /**
+     * @return Collection
+     */
+    public function PublicImage()
+    {
+        return $this->hasMany(Image::class, 'user_id', 'id')
+            ->where('public', true)->get();
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function ApiKey()
+    {
+        return $this->hasMany(APIKey::class, 'user_id', 'id');
+    }
 
     /**
      * @return HasOne
      */
-    public function Settings()
+    public function Setting()
     {
-        return $this->hasOne(UserSettings::class, 'user_id', 'id');
+        return $this->hasOne(UserSetting::class, 'user_id', 'id');
     }
 
 
@@ -130,6 +170,9 @@ class User extends Authenticatable
     }
 
 
+    /**
+     * @return string
+     */
     public function adminlte_profile_url()
     {
         return 'home';

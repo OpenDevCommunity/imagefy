@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', env('APP_NAME') . ' - Administration Errors Index')
+@section('title', config('app.name') . ' - Administration Errors Index')
 
 @section('content_header')
     <h1>Error Log</h1>

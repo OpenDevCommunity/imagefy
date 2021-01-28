@@ -65,12 +65,12 @@
 
                         <div class="form-group">
                             <label for="markdown_link">Markdown Link</label>
-                            <input type="text" id="markdown_link" class="form-control" value="[MD Share]({{ route('frontend.show.image', [$image->image_share_hash, 'full' => 'true']) }})" readonly>
+                            <input type="text" id="markdown_link" class="form-control" value="[{{ config('app.name') }}]({{ route('frontend.show.image', [$image->image_share_hash, 'full' => 'true']) }})" readonly>
                         </div>
 
                         <div class="form-group">
                             <label for="html_link">Markdown Link</label>
-                            <input type="text" id="html_link" class="form-control" value='<a href="{{ route('frontend.show.image', $image->image_share_hash) }}"><img src="{{ route('frontend.show.image', [$image->image_share_hash, 'full' => 'true']) }}" title="source: " /></a>' readonly>
+                            <input type="text" id="html_link" class="form-control" value='<a href="{{ route('frontend.show.image', $image->image_share_hash) }}"><img src="{{ route('frontend.show.image', [$image->image_share_hash, 'full' => 'true']) }}" title="source: {{ config('app.name') }} " /></a>' readonly>
                         </div>
 
                         <div class="form-group">

@@ -3,6 +3,7 @@
 namespace App\Http;
 
 use App\Http\Middleware\APIKeyMiddleware;
+use App\Http\Middleware\HasWriteAccess;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -69,5 +70,7 @@ class Kernel extends HttpKernel
         'permission' => \Laratrust\Middleware\LaratrustPermission::class,
         'ability' => \Laratrust\Middleware\LaratrustAbility::class,
         'check.proxy' => \App\Http\Middleware\DetectProxy::class,
+        'canWrite' => \App\Http\Middleware\HasWriteAccess::class,
+        'canRead' => \App\Http\Middleware\HasReadAccess::class,
     ];
 }

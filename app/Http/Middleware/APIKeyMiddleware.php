@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\APIKeys;
+use App\Models\APIKey;
 use Carbon\Carbon;
 use Closure;
 use Illuminate\Http\Request;
@@ -17,7 +17,7 @@ class APIKeyMiddleware
      */
     private function keyExists($apiKey)
     {
-        $apiKey = APIKeys::where('api_key', $apiKey)->first();
+        $apiKey = APIKey::where('api_key', $apiKey)->first();
 
         return $apiKey ? true : false;
     }
@@ -51,8 +51,27 @@ class APIKeyMiddleware
             ], 401);
         }
 
+
+        $key = APIKey::where('api_key', $apiKey)->first();
+
+        // Check if API Key is enabled
+        if (!$key->enabled || $key->blocked) {
+            return response()->json([
+                'error' => true,
+                'msg' => "API Key is disabled or blocked!"
+            ]);
+        }
+
+        if ($_SERVER['HTTP_HOST'] !== $key->allowed_origin && $key->allowed_origin !== '*') {
+            return response()->json([
+                'error' => true,
+                'msg' => "HTTP_HOST mismach in allowed origin"
+            ]);
+        }
+
+
         // Update API Key last used date
-        APIKeys::where('api_key', $apiKey)->update(['last_used' => Carbon::now()]);
+        APIKey::where('api_key', $apiKey)->update(['last_used' => Carbon::now()]);
 
         return $next($request);
     }

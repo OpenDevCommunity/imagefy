@@ -26,7 +26,6 @@ class ImageController extends Controller
 
     /**
      *
-     *
      * @return Application|Factory|View
      */
     public function index()
@@ -67,7 +66,6 @@ class ImageController extends Controller
 
         toast('Successfully deleted image with UUID: ' . $uuid, 'success');
         return redirect()->back();
-
     }
 
 
@@ -141,7 +139,9 @@ class ImageController extends Controller
         }
 
         activity()->causedBy(Auth::user())->performedOn($shortUrl)->log('Generated temporary URL');
+
         toast('Temporary URL has been generated successfully!', 'success');
+
         return redirect()->back();
     }
 }

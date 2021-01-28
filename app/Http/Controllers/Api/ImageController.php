@@ -7,7 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\SetImageVisibilityRequest;
 use App\Http\Requests\UploadImageRequest;
 use App\Models\Image;
-use App\Models\UserSettings;
+use App\Models\UserSetting;
+use App\Services\ImageService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Storage;
@@ -19,6 +20,18 @@ use App\Models\User;
  */
 class ImageController extends Controller
 {
+    private $apiKey;
+
+    public function __construct()
+    {
+        $this->apiKey = request()->headers->has('x-api-key') ? request()->headers->get('x-api-key') : null;
+    }
+
+    public function getAllImages()
+    {
+        // TODO:
+    }
+
     /**
      * Handle image visibility update
      *
@@ -28,14 +41,16 @@ class ImageController extends Controller
      */
     public function setImageVisibility(SetImageVisibilityRequest $request ,$id)
     {
+        // Validate request
         $data = $request->validated();
-        $apiKey = $request->headers->get('x-api-key');
 
-        $userId = Helper::getUserIdByAPIKey($apiKey);
+        // Get user id via API key
+        $userId = Helper::getUserIdByAPIKey($this->apiKey);
 
         // Get image from database
         $image = Image::find($id);
 
+        // No Image
         if (!$image) {
             return response()->json([
                 'error' => true,
@@ -51,8 +66,10 @@ class ImageController extends Controller
             ], 404);
         }
 
+        // Set Image visibility
         Storage::setVisibility('images/' . $image->image_name, AWSImage::validateVisibility($data['visibility']));
 
+        // Return response
         return response()->json([
             'error' => false,
             'msg' => 'Successfully changed image visibility to: ' . AWSImage::validateVisibility($data['visibility'])
@@ -68,12 +85,14 @@ class ImageController extends Controller
      */
     public function uploadImage(UploadImageRequest $request)
     {
+        // Validate Request
         $data = $request->validated();
-        $apiKey = $request->headers->get('x-api-key');
-        $userId = Helper::getUserIdByAPIKey($apiKey);
+
+        // Get user ID by API Key
+        $userId = Helper::getUserIdByAPIKey($this->apiKey);
 
         // Fetch user settings
-        $settings = UserSettings::where('user_id', $userId)->first();
+        $settings = UserSetting::where('user_id', $userId)->first();
 
         // Get file from request
         $image = $data['image'];
@@ -82,34 +101,36 @@ class ImageController extends Controller
         $imageName = time().'.'.$image->getClientOriginalExtension();
 
         // Store image in Digital Ocean S3 Space
-        Storage::disk('spaces')
-            ->putFileAs('images', $image, $imageName, $request->has('visibility') ? $request->get('visibility') : $settings->default_image_visibility);
+        Storage::putFileAs('images', $image, $imageName, $request->has('visibility') ? $request->get('visibility') : $settings->default_image_visibility);
+
+        // Get image visibility
+        $visibility = $request->has('visibility') ? $request->get('visibility') : AWSImage::convertVisibility($settings->default_image_visibility);
 
         // Store newly uploaded image meta in database
-        $createdImage = Image::create([
-           'user_id'            => $userId,
-           'image_del_hash'     => uniqid('img_'),
-           'image_share_hash'   => base_convert(time(), 10, 36),
-           'image_name'         => $imageName,
-           'public'             => $request->has('visibility') ? $request->get('visibility') : AWSImage::convertVisibility($settings->default_image_visibility)
-        ]);
+        $imageMeta = (new ImageService())->saveImageMeta($userId, $imageName, $visibility);
 
         // Check if meta was added to databse
-        if (!$createdImage) {
+        if (!$imageMeta) {
             return response()->json([
                 'error' => true,
                 'msg'   => 'Failed to upload image! Please try again!'
             ], 500);
         }
 
+        // Get user from database
         $user = User::find($userId);
-        activity()->performedOn($createdImage)->causedBy($user)->log('Uploaded image via API');
+
+        // Log new activity about user
+        activity('API')->performedOn($imageMeta)->causedBy($user)->log('Uploaded image via API');
+
+
+
 
         // Send json response back with image meta
         return response()->json([
             'error'     => false,
             'msg'       => 'Image uploaded successfully',
-            'url'       => route('frontend.show.image', $createdImage->image_share_hash),
+            'url'       => route('frontend.show.image', $imageMeta->image_share_hash),
         ], 200);
     }
 
@@ -122,7 +143,10 @@ class ImageController extends Controller
      */
     public function deleteImage(Request $request, $uuid)
     {
-        $userId = Helper::getUserIdByAPIKey($request->headers->get('x-api-key'));
+        // Get User ID via API Key
+        $userId = Helper::getUserIdByAPIKey($this->apiKey);
+
+        // Get image by delete hash
         $image = Image::where('image_del_hash', $uuid)->first();
 
         // Check if image requested exists
@@ -141,9 +165,13 @@ class ImageController extends Controller
             ], 404);
         }
 
+        // Delete image from storage
         Storage::delete('images/' . $image->image_name);
+
+        // Delete image record
         Image::destroy($image->id);
 
+        // Send response back
         return response()->json([
             'error' => false,
             'msg' => 'Image has been removed'

@@ -3,28 +3,87 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
-use App\Models\APIKeys;
+use App\Http\Requests\ApiSettingsRequest;
+use App\Models\APIKey;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Auth;
 use File;
 use Storage;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class APIController extends Controller
 {
+    /**
+     * @return Application|Factory|View
+     */
     public function index()
     {
-        return view('user.account.api');
+        return view('user.account.api-keys.api');
     }
 
 
-    public function generateSharexFile($apikey, $type)
+    public function showAPISettings($id)
     {
-        $key = APIKeys::where('api_key', $apikey)->first();
+        $apiKey = APIKey::find($id);
 
-        if (!$key || $key->user_id !== Auth::id()) {
-            return redirect()->route('user.settings.api');
+        if (!$apiKey) {
+            return abort(404);
         }
 
+        if ($apiKey->user_id !== Auth::id())
+        {
+            return abort(401);
+        }
+
+        return view('user.account.api-keys.edit', [
+            'apikey' => $apiKey
+        ]);
+    }
+
+
+    public function updateAPISettings(Request $request, $id)
+    {
+
+        $validator = \Validator::make($request->all(), [
+            'name' => 'required|min:3|max:25'
+        ]);
+
+        if ($validator->fails())
+        {
+            return abort(422);
+        }
+
+        $apiKey = APIKey::find($id);
+
+        if (!$apiKey) {
+            return abort(404);
+        }
+
+        APIKey::where('id', $id)->update([
+           'name' => $request->get('name'),
+           'enabled' => $request->has('enabled'),
+           'logs_enabled' => $request->has('logs_enabled'),
+           'allowed_origin' => $request->get('allowed_origin') ,
+           'can_read' => $request->has('can_read'),
+           'can_write' => $request->has('can_write')
+        ]);
+
+        toast('API Settings updated successfully!', 'success');
+        return redirect()->back();
+    }
+
+
+    /**
+     * @param $apikey
+     * @param $type
+     * @return false|string
+     */
+    private function configToJson($apikey, $type)
+    {
         $configArray = [
             'Version' => '13.1.0',
             'Name' => $type === 'upload' ? 'Imagefy.me' : 's-url.app',
@@ -35,16 +94,34 @@ class APIController extends Controller
                 'x-api-key' => $apikey,
             ],
             'Body' => $type === 'upload' ? 'MultipartFormData' : 'JSON',
-            'URL' => '$json:shortUrl$'
+            'URL' => $type === 'upload' ? '$json:url$' : '$json:shortUrl$'
         ];
 
-        $configJson = json_encode($configArray);
+        $type === 'upload' ?  $configArray['FileFormName'] = 'image' : $configArray['Data'] = '{"original_url": "$input$"}';
 
-        $type === 'upload' ?  $configArray['FileFormName'] = 'image' : $configArray['Data'] = '{\n  \"original_url\": \"$input$\"\n}';
+        return json_encode($configArray, JSON_PRETTY_PRINT);
+    }
 
-        $filename = $type === 'upload' ? public_path('/upload/json/imagefy.' . $key->user_id .  '.me.sxcu') : public_path('/upload/json/imagefy.' . $key->user_id .  '.surl.app.sxcu');
 
-        File::put($filename,$configJson);
+    /**
+     * @param $id
+     * @param $type
+     * @return RedirectResponse|BinaryFileResponse
+     */
+    public function generateSharexFile($id, $type)
+    {
+        // Get API Key data from
+        $key = APIKey::find($id);
+
+        // Check if user owns API Key provided
+        if (!$key || $key->user_id !== Auth::id()) {
+            return redirect()->route('user.settings.api');
+        }
+
+        $filename = $type === 'upload' ? public_path('/upload/json/imagefy.' . $key->user_id .  '.me.sxcu')
+            : public_path('/upload/json/imagefy.' . $key->user_id .  '.surl.app.sxcu');
+
+        File::put($filename,$this->configToJson($key->api_key, $type));
 
         return response()->download($filename);
     }

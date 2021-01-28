@@ -99,7 +99,7 @@ class InviteController extends Controller
             return redirect()->back();
         }
 
-        // Send an email
+        // Send an emailgit
         \Mail::to($invite->email)->send(new InviteDeclined($invite->email));
 
         Invitation::destroy($invite->id);

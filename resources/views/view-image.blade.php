@@ -3,7 +3,7 @@
 @section('meta')
     <meta name="twitter:card" content="photo" />
     <meta name="twitter:site" content="" />
-    <meta name="twitter:image" content="{{ route('frontend.show.image', ['uuid' => $image->image_share_hash]) }}" />
+    <meta name="twitter:image" content="{{ route('frontend.show.image', ['uuid' => $image->image_share_hash, 'full' => true]) }}" />
     <meta name="twitter:url" content="{{ route('frontend.show.image', $image->image_share_hash) }}" />
 @endsection
 
@@ -57,4 +57,13 @@
     </div>
 
 
+@endsection
+
+@section('js')
+    <script>
+        $(document).on("click", '[data-toggle="lightbox"]', function(event) {
+            event.preventDefault();
+            $(this).ekkoLightbox();
+        });
+    </script>
 @endsection

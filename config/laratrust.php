@@ -289,7 +289,7 @@ return [
         | These middleware will get attached onto each Laratrust panel route.
         |
         */
-        'middleware' => ['web', 'role:superadministrator'],
+        'middleware' => ['role:administrator|superadministrator'],
 
         /*
         |--------------------------------------------------------------------------

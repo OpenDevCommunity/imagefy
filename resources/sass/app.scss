@@ -1,43 +1,12 @@
 // Fonts
-@import url('https://fonts.googleapis.com/css?family=Lato:400,700,900&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Nunito');
 
 // Variables
 @import 'variables';
 
-@import "admin";
-
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
-/* Main Styles
- _______________________*/
-body {
-    font-family: 'Lato', sans-serif;
-}
-
 .card {
-    border: none !important;
-}
-
-a {
-    text-decoration: none !important;
-}
-
-/* Images Gallery
- _______________________*/
-#image-gallery .modal-footer{
-    display: block;
-}
-
-.thumb{
-    margin-top: 15px;
-    margin-bottom: 15px;
-}
-
-.masonry-column {
-    padding: 0 1px;
-}
-
-.masonry-grid > div .thumbnail {
-    margin: 5px 1px;
+    outline: none !important;
 }

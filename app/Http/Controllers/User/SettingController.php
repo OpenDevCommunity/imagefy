@@ -3,13 +3,18 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
-use App\Models\UserSettings;
+use App\Models\UserSetting;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Validator;
 use Auth;
 
 class SettingController extends Controller
 {
+    /**
+     * @param $id
+     * @return RedirectResponse
+     */
     public function setDefaultImageVisibility($id)
     {
        $validator = Validator::make(request()->all(), [
@@ -21,9 +26,9 @@ class SettingController extends Controller
            return redirect()->back();
        }
 
-       $userSettings = UserSettings::find($id);
+       $userSettings = UserSetting::find($id);
 
-       UserSettings::where('id', $id)->update([
+       UserSetting::where('id', $id)->update([
           'default_image_visibility' => request()->get('visibility')
        ]);
 
