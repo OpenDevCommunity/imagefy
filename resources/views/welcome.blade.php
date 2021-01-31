@@ -27,7 +27,16 @@
                     <a href="https://hub.opendevcommunity.com/git/imagefy/imagefy" class="nav-link">GitLab Repository</a>
                 </li>
             </ul>
-            <a href="{{ route('login') }}" class="btn btn-sm rounded-pill nav-btn ms-lg-3">Authenticate</a>
+            @if (Auth::guest())
+                <a href="{{ route('login') }}" class="btn btn-sm rounded-pill nav-btn ms-lg-3">
+                    Authenticate
+                </a>
+            @else
+                <a href="{{ route('home') }}" class="btn btn-sm rounded-pill nav-btn ms-lg-3">
+                    Account Dashboard
+                </a>
+            @endif
+
         </div>
     </div>
     <!-- end container -->
@@ -52,23 +61,6 @@
                         <a href="{{ route('frontend.auth.request') }}" type="button" class="btn btn-primary rounded-pill me-2">Request Invite</a>
                         <a href="{{ route('login') }}" type="button" class="btn btn-light rounded-pill me-2">Authenticate</a>
                     </div>
-
-                    <!-- Modal -->
-                    <div class="modal fade bd-example-modal-lg" id="watchvideomodal" data-keyboard="false"
-                         tabindex="-1" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered modal-dialog modal-lg">
-                            <div class="modal-content home-modal">
-                                <div class="modal-header border-0">
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
-                                </div>
-                                <video id="VisaChipCardVideo" class="video-box" controls>
-                                    <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
-                                </video>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- end modal -->
                 </div>
             </div>
         </div>

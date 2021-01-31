@@ -43,11 +43,13 @@ class ImageComponent extends Component
 
     /**
      * @param $id
+     * @throws \Exception
      */
     public function delete($id)
     {
-        Image::destroy($id);
-        Storage::delete('images/' . $this->image->image_name);
+        $img = Image::find($id['id']);
+        Storage::delete('images/' . $img->image_name);
+        $img->delete();
 
         $this->emit('library:image:refresh');
 

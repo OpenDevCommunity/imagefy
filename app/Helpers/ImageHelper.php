@@ -30,9 +30,13 @@ class ImageHelper
      */
     public static function getFileUrl($id)
     {
-        $image = Image::find($id);
+        try {
+            $image = Image::find($id);
 
-        return Storage::url(config(self::getDiskConfigPath()) . $image->image_name);
+            return Storage::url(config(self::getDiskConfigPath()) . $image->image_name);
+        } catch (\Exception $e) {
+            return null;
+        }
     }
 
     /**
@@ -41,9 +45,13 @@ class ImageHelper
      */
     public static function getFileVisibility($id)
     {
-        $image = Image::find($id);
+        try {
+            $image = Image::find($id);
 
-        return Storage::getVisibility(config(self::getDiskConfigPath()) . $image->image_name);
+            return Storage::getVisibility(config(self::getDiskConfigPath()) . $image->image_name);
+        } catch (\Exception $e) {
+            return null;
+        }
     }
 
     /**
@@ -53,17 +61,21 @@ class ImageHelper
      */
     public static function generateTempLink($name, $time)
     {
-        $tempUrl = Storage::temporaryUrl(config(self::getDiskConfigPath()) . $name, Carbon::now()->addMinutes($time));
+        try {
+            $tempUrl = Storage::temporaryUrl(config(self::getDiskConfigPath()) . $name, Carbon::now()->addMinutes($time));
 
-        $urlParts = parse_url($tempUrl);
+            $urlParts = parse_url($tempUrl);
 
-        if (config('filesystems.disks.spaces.url')  !== '') {
-            $spaceUrlParts = parse_url(config('filesystems.disks.spaces.url'));
+            if (config('filesystems.disks.spaces.url')  !== '') {
+                $spaceUrlParts = parse_url(config('filesystems.disks.spaces.url'));
 
-            return str_replace($urlParts['host'], $spaceUrlParts['host'], $tempUrl);
+                return str_replace($urlParts['host'], $spaceUrlParts['host'], $tempUrl);
+            }
+
+            return $tempUrl;
+        } catch (\Exception $e) {
+            return null;
         }
-
-        return $tempUrl;
     }
 
 

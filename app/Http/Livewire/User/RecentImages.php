@@ -8,6 +8,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Livewire\Component;
 use Auth;
+use Storage;
 
 class RecentImages extends Component
 {
@@ -62,11 +63,15 @@ class RecentImages extends Component
     /**
      * Delete Image
      * @param $id
+     * @throws \Exception
      */
     public function delete($id)
     {
+        $image = Image::find($id['id']);
 
-        Image::destroy($id);
+       Storage::delete('images/' . $image->image_name);
+
+       $image->delete();
 
        $this->getUserImages();
 
