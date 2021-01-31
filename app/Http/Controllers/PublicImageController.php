@@ -55,11 +55,7 @@ class PublicImageController extends Controller
     {
         $image = Image::where('image_share_hash', $uuid)->with('user')->first();
 
-        if (!$image) {
-            return abort(404);
-        }
-
-        if (!$image->public && Auth::guest() && Auth::id() !== $image->user_id && !request()->get('expires')) {
+        if (!$image || (!$image->public && Auth::guest() && Auth::id() !== $image->user_id && !request()->get('expires'))) {
             return abort(404);
         }
 

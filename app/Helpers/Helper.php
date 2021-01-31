@@ -13,7 +13,9 @@ namespace App\Helpers;
 use App\Models\APIKey;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\HigherOrderBuilderProxy;
+use Illuminate\Database\Eloquent\Model;
 
 class Helper
 {
@@ -23,16 +25,21 @@ class Helper
      */
     public static function getUserIdByAPIKey($apiKey)
     {
-        $key = APIKey::where('api_key', $apiKey)->first();
-
-        return $key->user_id;
+        return APIKey::where('api_key', $apiKey)->first()->user_id;
     }
 
+    /**
+     * @return string
+     */
     public static function generateHash()
     {
         return base_convert(time(), 10, 36);
     }
 
+    /**
+     * @param $id
+     * @return User|User[]|Collection|Model|null
+     */
     public static function getUserById($id)
     {
         return User::find($id);

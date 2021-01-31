@@ -32,15 +32,15 @@
                             <td>
                                 <div class="dropdown">
                                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="fas fa-cogs"></i>
+                                        <em class="fas fa-cogs"></em>
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                         <a href="{{ route('library.image.settings', $img->image_share_hash) }}" class="dropdown-item" title="Edit Image">
-                                            <i class="fas fa-pencil-alt"></i> Edit
+                                            <em class="fas fa-pencil-alt"></em> &ensp; Edit
                                         </a>
 
                                         <button class="dropdown-item" wire:click="confirm({{ $img->id }})" title="Delete Image">
-                                            <i class="fas fa-trash"></i> Delete
+                                            <em class="fas fa-trash"></em> &ensp; Delete
                                         </button>
                                     </div>
                                 </div>

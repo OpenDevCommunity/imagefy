@@ -12,12 +12,18 @@ namespace App\Helpers;
 
 use App\Models\Image;
 use Carbon\Carbon;
-use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Storage;
-use Config;
 
 class ImageHelper
 {
+    /**
+     * @return string
+     */
+    private static function getDiskConfigPath()
+    {
+        return 'filesystems.disks.spaces.path';
+    }
+
     /**
      * @param $id
      * @return string
@@ -26,7 +32,7 @@ class ImageHelper
     {
         $image = Image::find($id);
 
-        return Storage::url(config('filesystems.disks.spaces.path') . $image->image_name);
+        return Storage::url(config(self::getDiskConfigPath()) . $image->image_name);
     }
 
     /**
@@ -37,7 +43,7 @@ class ImageHelper
     {
         $image = Image::find($id);
 
-        return Storage::getVisibility(config('filesystems.disks.spaces.path') . $image->image_name);
+        return Storage::getVisibility(config(self::getDiskConfigPath()) . $image->image_name);
     }
 
     /**
@@ -47,7 +53,7 @@ class ImageHelper
      */
     public static function generateTempLink($name, $time)
     {
-        $tempUrl = Storage::temporaryUrl(config('filesystems.disks.spaces.path') . $name, Carbon::now()->addMinutes($time));
+        $tempUrl = Storage::temporaryUrl(config(self::getDiskConfigPath()) . $name, Carbon::now()->addMinutes($time));
 
         $urlParts = parse_url($tempUrl);
 
@@ -69,18 +75,20 @@ class ImageHelper
      */
     public static function generateCustomTempUrl(Image $image, $length, $time)
     {
+        $route = 'frontend.show.image';
+
         switch ($length) {
             case 'minutes':
-                return \URL::signedRoute('frontend.show.image', ['uuid' => $image->image_share_hash], Carbon::now()->addMinutes($time));
+                return \URL::signedRoute($route, ['uuid' => $image->image_share_hash], Carbon::now()->addMinutes($time));
                 break;
             case 'hours':
-                return \URL::signedRoute('frontend.show.image', ['uuid' => $image->image_share_hash], Carbon::now()->addhours($time));
+                return \URL::signedRoute($route, ['uuid' => $image->image_share_hash], Carbon::now()->addhours($time));
                 break;
             case 'days':
-                return \URL::signedRoute('frontend.show.image', ['uuid' => $image->image_share_hash], Carbon::now()->addDays($time));
+                return \URL::signedRoute($route, ['uuid' => $image->image_share_hash], Carbon::now()->addDays($time));
                 break;
             default:
-                return \URL::signedRoute('frontend.show.image', ['uuid' => $image->image_share_hash], Carbon::now()->addMinutes(5));
+                return \URL::signedRoute($route, ['uuid' => $image->image_share_hash], Carbon::now()->addMinutes(5));
         }
     }
 
@@ -91,7 +99,7 @@ class ImageHelper
      */
     public static function getImageFile($name)
     {
-        return Storage::get(config('filesystems.disks.spaces.path') . $name);
+        return Storage::get(config(self::getDiskConfigPath()) . $name);
     }
 
     /**
@@ -109,7 +117,7 @@ class ImageHelper
      */
     public static function convertVisibility($visibilityStr)
     {
-        return $visibilityStr === 'private' ? false : true;
+        return $visibilityStr !== 'private';
     }
 
 }

@@ -16,8 +16,12 @@ $userRoutes = function () {
             Route::prefix('api')->group(function () {
                 Route::get('/', [\App\Http\Controllers\User\APIController::class, 'index'])->name('api.settings');
                 Route::get('/{id}/edit', [\App\Http\Controllers\User\APIController::class, 'showAPISettings'])->name('api.configuration');
-                Route::post('/{id}/edit', [\App\Http\Controllers\User\APIController::class, 'updateAPISettings'])->name('api.settings.update');
                 Route::get('/{id}/{type}/sharex', [\App\Http\Controllers\User\APIController::class, 'generateSharexFile'])->name('sharex.config.download');
+
+                Route::prefix('logs')->group(function () {
+                     Route::get('/{apiKeyId}', [\App\Http\Controllers\User\APIKeyController::class, 'displayLogs'])->name('user.api.logs');
+                     Route::get('/{logId}/view', [\App\Http\Controllers\User\APIKeyController::class, 'showLogInfo'])->name('user.api.logs.show');
+                });
             });
         });
 
@@ -25,15 +29,11 @@ $userRoutes = function () {
         Route::prefix('library')->group(function () {
             Route::get('/', [\App\Http\Controllers\User\ImageController::class, 'index'])->name('library');
             Route::get('/{uuid}/edit', [\App\Http\Controllers\User\ImageController::class, 'imageSettings'])->name('library.image.settings');
-            Route::post('/{id}/tempurl', [\App\Http\Controllers\User\ImageController::class, 'generateTemporaryUrl'])->name('library.image.tempurl');
-            Route::post('/{id}/visibility', [\App\Http\Controllers\User\ImageController::class, 'setImageVisibility'])->name('library.image.setvisibility');
-            Route::get('/{uuid}/delete', [\App\Http\Controllers\User\ImageController::class, 'deleteImage'])->name('library.image.destroy');
         });
 
         // Account upload settings
         Route::prefix('upload-settings')->group(function () {
             Route::get('/', [\App\Http\Controllers\User\AccountController::class, 'showUploadSettingsPage'])->name('upload.settings');
-            Route::post('/{id}/default-visibility', [\App\Http\Controllers\User\SettingController::class, 'setDefaultImageVisibility'])->name('set.default.visibility');
         });
 
         // Account short URL routes

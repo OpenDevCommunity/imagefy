@@ -26,8 +26,3 @@ Route::prefix('v1')->middleware(['apikey'])->group(function () {
         Route::post('/create', [\App\Http\Controllers\Api\ShortURLController::class, 'createShortURL'])->middleware(['canWrite']);
     });
 });
-
-
-Route::prefix('internal-user')->middleware(['api:auth'])->group(function () {
-    //
-});
