@@ -13,7 +13,7 @@
         @if (AWSImage::getFileVisibility($image->id) === 'private' && $image->user_id === Auth::id())
             <div class="alert alert-warning">
                 <strong>NOTE! </strong> Current image is set to private. You can only see this image when you are logged in and are owner of the image. To make this image public head over to
-                <a href="{{ route('user.image.settings', $image->image_share_hash) }}"><strong>Settings</strong></a> and set visibility to public
+                <a href="{{ route('library.image.settings', $image->image_share_hash) }}"><strong>Settings</strong></a> and set visibility to public
             </div>
 
         @elseif (request()->get('expires'))

@@ -12,21 +12,31 @@ namespace App\Helpers;
 
 use App\Models\Image;
 use Carbon\Carbon;
-use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Storage;
-use Config;
 
 class ImageHelper
 {
+    /**
+     * @return string
+     */
+    private static function getDiskConfigPath()
+    {
+        return 'filesystems.disks.spaces.path';
+    }
+
     /**
      * @param $id
      * @return string
      */
     public static function getFileUrl($id)
     {
-        $image = Image::find($id);
+        try {
+            $image = Image::find($id);
 
-        return Storage::url(config('filesystems.disks.spaces.path') . $image->image_name);
+            return Storage::url(config(self::getDiskConfigPath()) . $image->image_name);
+        } catch (\Exception $e) {
+            return null;
+        }
     }
 
     /**
@@ -35,9 +45,13 @@ class ImageHelper
      */
     public static function getFileVisibility($id)
     {
-        $image = Image::find($id);
+        try {
+            $image = Image::find($id);
 
-        return Storage::getVisibility(config('filesystems.disks.spaces.path') . $image->image_name);
+            return Storage::getVisibility(config(self::getDiskConfigPath()) . $image->image_name);
+        } catch (\Exception $e) {
+            return null;
+        }
     }
 
     /**
@@ -47,27 +61,57 @@ class ImageHelper
      */
     public static function generateTempLink($name, $time)
     {
-        $tempUrl = Storage::temporaryUrl(config('filesystems.disks.spaces.path') . $name, Carbon::now()->addMinutes($time));
+        try {
+            $tempUrl = Storage::temporaryUrl(config(self::getDiskConfigPath()) . $name, Carbon::now()->addMinutes($time));
 
-        $urlParts = parse_url($tempUrl);
+            $urlParts = parse_url($tempUrl);
 
-        if (config('filesystems.disks.spaces.url')  !== '') {
-            $spaceUrlParts = parse_url(config('filesystems.disks.spaces.url'));
+            if (config('filesystems.disks.spaces.url')  !== '') {
+                $spaceUrlParts = parse_url(config('filesystems.disks.spaces.url'));
 
-            return str_replace($urlParts['host'], $spaceUrlParts['host'], $tempUrl);
+                return str_replace($urlParts['host'], $spaceUrlParts['host'], $tempUrl);
+            }
+
+            return $tempUrl;
+        } catch (\Exception $e) {
+            return null;
         }
-
-        return $tempUrl;
     }
+
+
+    /**
+     * @param Image $image
+     * @param $length
+     * @param $time
+     * @return string
+     */
+    public static function generateCustomTempUrl(Image $image, $length, $time)
+    {
+        $route = 'frontend.show.image';
+
+        switch ($length) {
+            case 'minutes':
+                return \URL::signedRoute($route, ['uuid' => $image->image_share_hash], Carbon::now()->addMinutes($time));
+                break;
+            case 'hours':
+                return \URL::signedRoute($route, ['uuid' => $image->image_share_hash], Carbon::now()->addhours($time));
+                break;
+            case 'days':
+                return \URL::signedRoute($route, ['uuid' => $image->image_share_hash], Carbon::now()->addDays($time));
+                break;
+            default:
+                return \URL::signedRoute($route, ['uuid' => $image->image_share_hash], Carbon::now()->addMinutes(5));
+        }
+    }
+
 
     /**
      * @param $name
      * @return string
-     * @throws FileNotFoundException
      */
     public static function getImageFile($name)
     {
-        return Storage::get(config('filesystems.disks.spaces.path') . $name);
+        return Storage::get(config(self::getDiskConfigPath()) . $name);
     }
 
     /**
@@ -85,7 +129,7 @@ class ImageHelper
      */
     public static function convertVisibility($visibilityStr)
     {
-        return $visibilityStr === 'private' ? false : true;
+        return $visibilityStr !== 'private';
     }
 
 }

@@ -64,7 +64,7 @@ class DefaultVisibility extends Component
 
         activity()->causedBy(Auth::user())->performedOn($this->settings)->log('Updated default image visibility to ' .  $this->visibility);
 
-        $this->emit("swal:modal", [
+        $this->emit("swal:alert", [
             'icon' => 'success',
             'text' => 'Default image visibility has been set to ' . $this->visibility
         ]);

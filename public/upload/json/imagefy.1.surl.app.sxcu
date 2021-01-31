@@ -1,0 +1,13 @@
+{
+    "Version": "13.1.0",
+    "Name": "s-url.app",
+    "DestinationType": "URLShortener",
+    "RequestMethod": "POST",
+    "RequestURL": "https:\/\/s-url.app\/api\/v1\/shorturl\/create",
+    "Headers": {
+        "x-api-key": "e01e8a-f3c791-9e3796-3f5a85-fb048f"
+    },
+    "Body": "JSON",
+    "URL": "$json:shortUrl$",
+    "Data": "{\"original_url\": \"$input$\"}"
+}

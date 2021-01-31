@@ -1,6 +1,8 @@
 // Fonts
 @import url('https://fonts.googleapis.com/css?family=Nunito');
 
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700&display=swap');
+
 // Variables
 @import 'variables';
 
@@ -9,4 +11,21 @@
 
 .card {
     outline: none !important;
+    border: none !important;
+}
+
+
+body, html {
+    font-family: 'Lato', sans-serif;
+}
+
+.trace {
+    white-space: pre-line;
+    background-color: #f6f6f6;
+    color: #ae0e0e; font-family:
+    consolas, Menlo, Courier, monospace;
+    overflow-y: auto;
+    line-height: 1.8;
+    padding: 10px;
+    font-size: 12px;
 }

@@ -26,13 +26,14 @@
                         <td>
                             <div class="dropdown">
                                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fas fa-cogs"></i>
+                                    <em class="fas fa-cogs"></em>
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item" href="{{ route('api.configuration', ['id' => $key->id]) }}"><i class="fas fa-cog"></i>Settings</a>
-                                    <a class="dropdown-item" href="{{ route('sharex.config.download',  ['id' => $key->id, 'type' => 'upload']) }}"><i class="fas fa-download"></i> Sharex Config</a>
-                                    <a class="dropdown-item" href="{{ route('sharex.config.download', ['id' => $key->id, 'type' => 'surl']) }}"><i class="fas fa-download"></i> Sharex s-url Config</a>
-                                    <a class="dropdown-item" href="javascript:void(0)" wire:click.prevent="confirm({{ $key->id }})"><i class="fas fa-trash"></i> Delete</a>
+                                    <a class="dropdown-item" href="{{ route('api.configuration', ['id' => $key->id]) }}"><em class="fas fa-cog"></em> &ensp; API Key Settings</a>
+                                    <a class="dropdown-item" href="{{ route('sharex.config.download',  ['id' => $key->id, 'type' => 'upload']) }}"><em class="fas fa-download"></em> &ensp; Sharex Config</a>
+                                    <a class="dropdown-item" href="{{ route('sharex.config.download', ['id' => $key->id, 'type' => 'surl']) }}"><em class="fas fa-download"></em> &ensp; Sharex s-url Config</a>
+                                    <a class="dropdown-item" href="{{ route('user.api.logs', $key->id) }}"><em class="fas fa-list"></em> &ensp; Logs</a>
+                                    <a class="dropdown-item" href="javascript:void(0)" wire:click.prevent="confirm({{ $key->id }})"><em class="fas fa-trash"></em> &ensp; Delete</a>
                                 </div>
                             </div>
                         </td>

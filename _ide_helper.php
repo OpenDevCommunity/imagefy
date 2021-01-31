@@ -3596,50 +3596,6 @@
                         return $instance->macroCall($method, $parameters);
         }
                     /**
-         * Remove all items from the cache.
-         *
-         * @return bool 
-         * @static 
-         */ 
-        public static function flush()
-        {
-                        /** @var \Illuminate\Cache\FileStore $instance */
-                        return $instance->flush();
-        }
-                    /**
-         * Get the Filesystem instance.
-         *
-         * @return \Illuminate\Filesystem\Filesystem 
-         * @static 
-         */ 
-        public static function getFilesystem()
-        {
-                        /** @var \Illuminate\Cache\FileStore $instance */
-                        return $instance->getFilesystem();
-        }
-                    /**
-         * Get the working directory of the cache.
-         *
-         * @return string 
-         * @static 
-         */ 
-        public static function getDirectory()
-        {
-                        /** @var \Illuminate\Cache\FileStore $instance */
-                        return $instance->getDirectory();
-        }
-                    /**
-         * Get the cache key prefix.
-         *
-         * @return string 
-         * @static 
-         */ 
-        public static function getPrefix()
-        {
-                        /** @var \Illuminate\Cache\FileStore $instance */
-                        return $instance->getPrefix();
-        }
-                    /**
          * Get a lock instance.
          *
          * @param string $name
@@ -3650,7 +3606,7 @@
          */ 
         public static function lock($name, $seconds = 0, $owner = null)
         {
-                        /** @var \Illuminate\Cache\FileStore $instance */
+                        /** @var \Illuminate\Cache\RedisStore $instance */
                         return $instance->lock($name, $seconds, $owner);
         }
                     /**
@@ -3663,8 +3619,99 @@
          */ 
         public static function restoreLock($name, $owner)
         {
-                        /** @var \Illuminate\Cache\FileStore $instance */
+                        /** @var \Illuminate\Cache\RedisStore $instance */
                         return $instance->restoreLock($name, $owner);
+        }
+                    /**
+         * Remove all items from the cache.
+         *
+         * @return bool 
+         * @static 
+         */ 
+        public static function flush()
+        {
+                        /** @var \Illuminate\Cache\RedisStore $instance */
+                        return $instance->flush();
+        }
+                    /**
+         * Get the Redis connection instance.
+         *
+         * @return \Illuminate\Redis\Connections\Connection 
+         * @static 
+         */ 
+        public static function connection()
+        {
+                        /** @var \Illuminate\Cache\RedisStore $instance */
+                        return $instance->connection();
+        }
+                    /**
+         * Get the Redis connection instance that should be used to manage locks.
+         *
+         * @return \Illuminate\Redis\Connections\Connection 
+         * @static 
+         */ 
+        public static function lockConnection()
+        {
+                        /** @var \Illuminate\Cache\RedisStore $instance */
+                        return $instance->lockConnection();
+        }
+                    /**
+         * Specify the name of the connection that should be used to store data.
+         *
+         * @param string $connection
+         * @return void 
+         * @static 
+         */ 
+        public static function setConnection($connection)
+        {
+                        /** @var \Illuminate\Cache\RedisStore $instance */
+                        $instance->setConnection($connection);
+        }
+                    /**
+         * Specify the name of the connection that should be used to manage locks.
+         *
+         * @param string $connection
+         * @return \Illuminate\Cache\RedisStore 
+         * @static 
+         */ 
+        public static function setLockConnection($connection)
+        {
+                        /** @var \Illuminate\Cache\RedisStore $instance */
+                        return $instance->setLockConnection($connection);
+        }
+                    /**
+         * Get the Redis database instance.
+         *
+         * @return \Illuminate\Contracts\Redis\Factory 
+         * @static 
+         */ 
+        public static function getRedis()
+        {
+                        /** @var \Illuminate\Cache\RedisStore $instance */
+                        return $instance->getRedis();
+        }
+                    /**
+         * Get the cache key prefix.
+         *
+         * @return string 
+         * @static 
+         */ 
+        public static function getPrefix()
+        {
+                        /** @var \Illuminate\Cache\RedisStore $instance */
+                        return $instance->getPrefix();
+        }
+                    /**
+         * Set the cache key prefix.
+         *
+         * @param string $prefix
+         * @return void 
+         * @static 
+         */ 
+        public static function setPrefix($prefix)
+        {
+                        /** @var \Illuminate\Cache\RedisStore $instance */
+                        $instance->setPrefix($prefix);
         }
          
     }
@@ -14597,17 +14644,6 @@
      
 }
 
-    namespace BinaryTorch\LaRecipe { 
-            /**
-     * 
-     *
-     */ 
-        class LaRecipe {
-         
-    }
-     
-}
-
     namespace Facade\Ignition\Facades { 
             /**
      * Class Flare.
@@ -14849,6 +14885,104 @@
      
 }
 
+    namespace Laravel\Socialite\Facades { 
+            /**
+     * 
+     *
+     * @see \Laravel\Socialite\SocialiteManager
+     */ 
+        class Socialite {
+                    /**
+         * Get a driver instance.
+         *
+         * @param string $driver
+         * @return mixed 
+         * @static 
+         */ 
+        public static function with($driver)
+        {
+                        /** @var \Laravel\Socialite\SocialiteManager $instance */
+                        return $instance->with($driver);
+        }
+                    /**
+         * Build an OAuth 2 provider instance.
+         *
+         * @param string $provider
+         * @param array $config
+         * @return \Laravel\Socialite\Two\AbstractProvider 
+         * @static 
+         */ 
+        public static function buildProvider($provider, $config)
+        {
+                        /** @var \Laravel\Socialite\SocialiteManager $instance */
+                        return $instance->buildProvider($provider, $config);
+        }
+                    /**
+         * Format the server configuration.
+         *
+         * @param array $config
+         * @return array 
+         * @static 
+         */ 
+        public static function formatConfig($config)
+        {
+                        /** @var \Laravel\Socialite\SocialiteManager $instance */
+                        return $instance->formatConfig($config);
+        }
+                    /**
+         * Get the default driver name.
+         *
+         * @return string 
+         * @throws \InvalidArgumentException
+         * @static 
+         */ 
+        public static function getDefaultDriver()
+        {
+                        /** @var \Laravel\Socialite\SocialiteManager $instance */
+                        return $instance->getDefaultDriver();
+        }
+                    /**
+         * Get a driver instance.
+         *
+         * @param string|null $driver
+         * @return mixed 
+         * @throws \InvalidArgumentException
+         * @static 
+         */ 
+        public static function driver($driver = null)
+        {            //Method inherited from \Illuminate\Support\Manager         
+                        /** @var \Laravel\Socialite\SocialiteManager $instance */
+                        return $instance->driver($driver);
+        }
+                    /**
+         * Register a custom driver creator Closure.
+         *
+         * @param string $driver
+         * @param \Closure $callback
+         * @return \Laravel\Socialite\SocialiteManager 
+         * @static 
+         */ 
+        public static function extend($driver, $callback)
+        {            //Method inherited from \Illuminate\Support\Manager         
+                        /** @var \Laravel\Socialite\SocialiteManager $instance */
+                        return $instance->extend($driver, $callback);
+        }
+                    /**
+         * Get all of the created "drivers".
+         *
+         * @return array 
+         * @static 
+         */ 
+        public static function getDrivers()
+        {            //Method inherited from \Illuminate\Support\Manager         
+                        /** @var \Laravel\Socialite\SocialiteManager $instance */
+                        return $instance->getDrivers();
+        }
+         
+    }
+     
+}
+
     namespace Livewire { 
             /**
      * 
@@ -15025,6 +15159,193 @@
         {
                         /** @var \Livewire\LivewireManager $instance */
                         return $instance->withQueryParams($queryParams);
+        }
+         
+    }
+     
+}
+
+    namespace PragmaRX\Version\Package { 
+            /**
+     * 
+     *
+     */ 
+        class Facade {
+                    /**
+         * Get a version.
+         *
+         * @param $type
+         * @return string 
+         * @static 
+         */ 
+        public static function getGit()
+        {
+                        /** @var \PragmaRX\Version\Package\Version $instance */
+                        return $instance->getGit();
+        }
+                    /**
+         * Get the current version.
+         *
+         * @return string 
+         * @static 
+         */ 
+        public static function current()
+        {
+                        /** @var \PragmaRX\Version\Package\Version $instance */
+                        return $instance->current();
+        }
+                    /**
+         * Get the current object instance.
+         *
+         * @return \PragmaRX\Version\Package\Version 
+         * @static 
+         */ 
+        public static function instance()
+        {
+                        /** @var \PragmaRX\Version\Package\Version $instance */
+                        return $instance->instance();
+        }
+                    /**
+         * Get a properly formatted version.
+         *
+         * @param $type
+         * @return mixed|null 
+         * @static 
+         */ 
+        public static function format($type = null)
+        {
+                        /** @var \PragmaRX\Version\Package\Version $instance */
+                        return $instance->format($type);
+        }
+                    /**
+         * Is it in absorb mode?
+         *
+         * @param $type
+         * @return bool 
+         * @static 
+         */ 
+        public static function isInAbsorbMode()
+        {
+                        /** @var \PragmaRX\Version\Package\Version $instance */
+                        return $instance->isInAbsorbMode();
+        }
+                    /**
+         * Is version in absorb mode?
+         *
+         * @param $type
+         * @return bool 
+         * @static 
+         */ 
+        public static function isVersionInAbsorbMode()
+        {
+                        /** @var \PragmaRX\Version\Package\Version $instance */
+                        return $instance->isVersionInAbsorbMode();
+        }
+                    /**
+         * Is build in absorb mode?
+         *
+         * @param $type
+         * @return bool 
+         * @static 
+         */ 
+        public static function isBuildInAbsorbMode()
+        {
+                        /** @var \PragmaRX\Version\Package\Version $instance */
+                        return $instance->isBuildInAbsorbMode();
+        }
+                    /**
+         * Is timestamp in absorb mode?
+         *
+         * @param $type
+         * @return bool 
+         * @static 
+         */ 
+        public static function isTimestampInAbsorbMode()
+        {
+                        /** @var \PragmaRX\Version\Package\Version $instance */
+                        return $instance->isTimestampInAbsorbMode();
+        }
+                    /**
+         * Set the config file stub.
+         *
+         * @param string $configFileStub
+         * @static 
+         */ 
+        public static function setConfigFileStub($configFileStub)
+        {
+                        /** @var \PragmaRX\Version\Package\Version $instance */
+                        return $instance->setConfigFileStub($configFileStub);
+        }
+                    /**
+         * Load package YAML configuration.
+         *
+         * @param $path
+         * @return \Illuminate\Support\Collection 
+         * @static 
+         */ 
+        public static function loadConfig($path = null)
+        {
+                        /** @var \PragmaRX\Version\Package\Version $instance */
+                        return $instance->loadConfig($path);
+        }
+         
+    }
+     
+}
+
+    namespace PragmaRX\Yaml\Package { 
+            /**
+     * 
+     *
+     */ 
+        class Facade {
+                    /**
+         * Load yaml files from directory and add to Laravel config.
+         *
+         * @param string $path
+         * @param string $configKey
+         * @return \PragmaRX\Yaml\Package\Collection 
+         * @static 
+         */ 
+        public static function loadToConfig($path, $configKey)
+        {
+                        /** @var \PragmaRX\Yaml\Package\Yaml $instance */
+                        return $instance->loadToConfig($path, $configKey);
+        }
+                    /**
+         * Load all yaml files from a directory.
+         *
+         * @param $path
+         * @return \Illuminate\Support\Collection 
+         * @static 
+         */ 
+        public static function loadFromDirectory($path)
+        {
+                        /** @var \PragmaRX\Yaml\Package\Yaml $instance */
+                        return $instance->loadFromDirectory($path);
+        }
+                    /**
+         * Load yaml file.
+         *
+         * @param $file
+         * @return mixed|string 
+         * @static 
+         */ 
+        public static function loadFile($file)
+        {
+                        /** @var \PragmaRX\Yaml\Package\Yaml $instance */
+                        return $instance->loadFile($file);
+        }
+                    /**
+         * Get this object instance.
+         *
+         * @return \PragmaRX\Yaml\Package\Yaml 
+         * @static 
+         */ 
+        public static function instance()
+        {
+                        /** @var \PragmaRX\Yaml\Package\Yaml $instance */
+                        return $instance->instance();
         }
          
     }
@@ -18905,9 +19226,11 @@ namespace  {
             class View extends \Illuminate\Support\Facades\View {}
             class AWSImage extends \App\Helpers\ImageHelper {}
             class Helper extends \App\Helpers\Helper {}
-            class LaRecipe extends \BinaryTorch\LaRecipe\LaRecipe {}
             class Flare extends \Facade\Ignition\Facades\Flare {}
+            class Socialite extends \Laravel\Socialite\Facades\Socialite {}
             class Livewire extends \Livewire\Livewire {}
+            class Version extends \PragmaRX\Version\Package\Facade {}
+            class Yaml extends \PragmaRX\Yaml\Package\Facade {}
             class Alert extends \RealRashid\SweetAlert\Facades\Alert {}
             class Laratrust extends \Laratrust\LaratrustFacade {}
      
