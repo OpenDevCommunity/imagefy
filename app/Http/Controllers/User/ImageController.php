@@ -38,38 +38,6 @@ class ImageController extends Controller
     }
 
     /**
-     * Handle image removal
-     *
-     * @param $uuid
-     * @return RedirectResponse
-     */
-    public function deleteImage($uuid)
-    {
-        $image = Image::where('image_del_hash', $uuid)->first();
-
-        // Check if image exists
-        if (!$image) {
-            toast('Failed to find image with UUID: ' . $uuid, 'error');
-            return redirect()->route('home');
-        }
-
-        // Check if user is an owner of image
-        if ($image->user_id !== Auth::id()) {
-            toast('Failed to find image with UUID: ' . $uuid, 'error');
-            return redirect()->route('home');
-        }
-
-        Storage::delete('images/' . $image->image_name);
-        Image::destroy($image->id);
-
-        activity()->performedOn($image)->causedBy(Auth::user())->log('Deleted image with UUID: ' . $image->image_share_hash);
-
-        toast('Successfully deleted image with UUID: ' . $uuid, 'success');
-        return redirect()->back();
-    }
-
-
-    /**
      * Display image settings view
      *
      * @param $uuid
@@ -84,64 +52,4 @@ class ImageController extends Controller
         ]);
     }
 
-    /**
-     * @param Image $image
-     * @param $length
-     * @param $time
-     * @return string
-     */
-    public function generateCustomTempUrl(Image $image, $length, $time)
-    {
-        switch ($length) {
-            case 'minutes':
-                return \URL::signedRoute('frontend.show.image', ['uuid' => $image->image_share_hash], Carbon::now()->addMinutes($time));
-                break;
-            case 'hours':
-                return \URL::signedRoute('frontend.show.image', ['uuid' => $image->image_share_hash], Carbon::now()->addhours($time));
-                break;
-            case 'days':
-                return \URL::signedRoute('frontend.show.image', ['uuid' => $image->image_share_hash], Carbon::now()->addDays($time));
-                break;
-            default:
-                return \URL::signedRoute('frontend.show.image', ['uuid' => $image->image_share_hash], Carbon::now()->addMinutes(5));
-        }
-    }
-
-    /**
-     * @param $id
-     * @return RedirectResponse
-     */
-    public function generateTemporaryUrl($id)
-    {
-        $image = Image::find($id);
-
-        if (!$image) {
-            alert()->error('Not Found', 'Requested image was not found!');
-            return redirect()->back();
-        }
-
-        $signedURL = $this->generateCustomTempUrl($image, request()->get('length'), request()->get('time'));
-
-        $originalURLParts = parse_url($signedURL);
-
-        $shortUrl = ShortUrl::create([
-           'name' => $originalURLParts['host'],
-           'user_id' => Auth::id(),
-           'image_id' => $image->id,
-           'original_url' => $signedURL,
-           'short_url_hash' => base_convert(time(), 10, 36),
-           'expiries_at' => Helper::generateCarbonTime(request()->get('length'), request()->get('time')),
-        ]);
-
-        if (!$shortUrl) {
-            toast('Failed to generate temporary URL!', 'error');
-            return redirect()->back();
-        }
-
-        activity()->causedBy(Auth::user())->performedOn($shortUrl)->log('Generated temporary URL');
-
-        toast('Temporary URL has been generated successfully!', 'success');
-
-        return redirect()->back();
-    }
 }

@@ -32,6 +32,7 @@ Route::group(['domain' => parse_url(config('app.url'))['host']], $publicRoutes);
 
 if (env('APP_DEBUG')) {
     Route::group(['domain' => 'localhost'], $publicRoutes);
+    Route::group(['domain' => 'short.localhost'], $shortRoutes);
 }
 
 if (config('app.short_url_enabled')) {

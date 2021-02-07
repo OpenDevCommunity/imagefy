@@ -126,8 +126,31 @@ return [
     'cipher' => 'AES-256-CBC',
 
 
+    /*
+    |--------------------------------------------------------------------------
+    | Short URLS
+    |--------------------------------------------------------------------------
+    |
+    | You can Enable/Disable short URL service for this application. Please note
+    | that to enable short URL servce you need to have separate domain or you can
+    | use single domain which will look like this: https://your-domain.tld/surl/<random_id>
+    |
+    */
     'short_url_enabled' => env('ENABLE_SHORT_URL', false),
-    'short_url' => env('SHORT_URL'),
+    'short_url' => env('SHORT_URL', null),
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Virus Total
+    |--------------------------------------------------------------------------
+    |
+    | You can Enable/Disable virustotal scanning. Virustotal scanning is used
+    | when new image is being uploaded.
+    |
+    */
+    'enable_upload_scan' => env('ENABLE_UPLOAD_SCAN', false),
+    'virus_total_api' => env('VIRUS_TOTAL_API', null),
 
     /*
     |--------------------------------------------------------------------------
@@ -180,6 +203,9 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+
+        MisterPhilip\MaintenanceMode\MaintenanceModeServiceProvider::class,
+        MisterPhilip\MaintenanceMode\MaintenanceCommandServiceProvider::class,
 
     ],
 

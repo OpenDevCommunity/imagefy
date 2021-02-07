@@ -5,15 +5,18 @@ namespace App\Http\Controllers\Api;
 use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SetImageVisibilityRequest;
-use App\Http\Requests\UploadImageRequest;
+use App\Models\APIKey;
 use App\Models\Image;
 use App\Models\UserSetting;
+use App\Services\APILogService;
 use App\Services\ImageService;
+use App\Services\VirusTotalService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Storage;
 use AWSImage;
 use App\Models\User;
+use Validator;
 /**
  * Class ImageController
  * @package App\Http\Controllers\Api
@@ -22,14 +25,12 @@ class ImageController extends Controller
 {
     private $apiKey;
 
-    public function __construct()
-    {
-        $this->apiKey = request()->headers->has('x-api-key') ? request()->headers->get('x-api-key') : null;
-    }
+    private $apiLogService;
 
-    public function getAllImages()
+    public function __construct(APILogService $apiLogService)
     {
-        // TODO:
+        $this->apiLogService = $apiLogService;
+        $this->apiKey = request()->headers->has('x-api-key') ? request()->headers->get('x-api-key') : null;
     }
 
     /**
@@ -76,17 +77,29 @@ class ImageController extends Controller
         ], 200);
     }
 
-
     /**
      * Handle image upload
      *
-     * @param UploadImageRequest $request
+     * @param Request $request
      * @return JsonResponse
      */
-    public function uploadImage(UploadImageRequest $request)
+    public function uploadImage(Request $request)
     {
+        $apiKeyData = APIKey::where('api_key', $this->apiKey)->first();
+
         // Validate Request
-        $data = $request->validated();
+        $validator = Validator::make($request->all(), [
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg'
+        ]);
+
+        if ($validator->fails()) {
+            $this->apiLogService->log($request, $apiKeyData->id, '422');
+
+            return response()->json([
+                'error' => true,
+                'msg' => $validator->errors()->first()
+            ], 422);
+        }
 
         // Get user ID by API Key
         $userId = Helper::getUserIdByAPIKey($this->apiKey);
@@ -95,7 +108,7 @@ class ImageController extends Controller
         $settings = UserSetting::where('user_id', $userId)->first();
 
         // Get file from request
-        $image = $data['image'];
+        $image = $request->file('image');
 
         // Give file a name
         $imageName = time().'.'.$image->getClientOriginalExtension();
@@ -111,20 +124,20 @@ class ImageController extends Controller
 
         // Check if meta was added to databse
         if (!$imageMeta) {
+            $this->apiLogService->log($request, $apiKeyData->id, '422');
             return response()->json([
                 'error' => true,
                 'msg'   => 'Failed to upload image! Please try again!'
-            ], 500);
+            ], 422);
         }
 
         // Get user from database
         $user = User::find($userId);
 
         // Log new activity about user
+
         activity('API')->performedOn($imageMeta)->causedBy($user)->log('Uploaded image via API');
-
-
-
+        $this->apiLogService->log($request, $apiKeyData->id, '200');
 
         // Send json response back with image meta
         return response()->json([

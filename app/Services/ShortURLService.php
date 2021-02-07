@@ -19,17 +19,19 @@ class ShortURLService
 
     /**
      * @param $userId
-     * @param $data
+     * @param $originalUrl
      * @param $name
      * @param $expiry
+     * @param null $imageId
      * @return ShortUrl|Model
      */
-    public function createShortURL($userId, $data, $name, $expiry)
+    public function createShortURL($userId, $originalUrl, $name, $expiry, $imageId = null)
     {
         return ShortUrl::create([
             'user_id' => $userId,
-            'original_url' => $data['original_url'],
+            'original_url' => $originalUrl,
             'short_url_hash' => Helper::generateHash(),
+            'image_id' => $imageId,
             'name' => $name,
             'expiries_at' => $expiry
         ]);

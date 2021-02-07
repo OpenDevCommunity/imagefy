@@ -26,7 +26,7 @@ class ImageService
     {
         return Image::create([
             'user_id'            => $userId,
-            'image_del_hash'     => uniqid('img_'),
+            'image_del_hash'     => uniqid('img_', false),
             'image_share_hash'   => base_convert(time(), 10, 36),
             'image_name'         => $imageName,
             'public'             => $visibility

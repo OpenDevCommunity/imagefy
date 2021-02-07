@@ -45,38 +45,6 @@ class APIController extends Controller
     }
 
 
-    public function updateAPISettings(Request $request, $id)
-    {
-
-        $validator = \Validator::make($request->all(), [
-            'name' => 'required|min:3|max:25'
-        ]);
-
-        if ($validator->fails())
-        {
-            return abort(422);
-        }
-
-        $apiKey = APIKey::find($id);
-
-        if (!$apiKey) {
-            return abort(404);
-        }
-
-        APIKey::where('id', $id)->update([
-           'name' => $request->get('name'),
-           'enabled' => $request->has('enabled'),
-           'logs_enabled' => $request->has('logs_enabled'),
-           'allowed_origin' => $request->get('allowed_origin') ,
-           'can_read' => $request->has('can_read'),
-           'can_write' => $request->has('can_write')
-        ]);
-
-        toast('API Settings updated successfully!', 'success');
-        return redirect()->back();
-    }
-
-
     /**
      * @param $apikey
      * @param $type
